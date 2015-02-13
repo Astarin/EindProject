@@ -14,5 +14,11 @@ namespace EindProjectMVC.Controllers
         {
             return View("StartPagina");
         }
+
+
+        public ActionResult ActionHR()
+        {
+            return View("HrView");
+        }
 	}
 }

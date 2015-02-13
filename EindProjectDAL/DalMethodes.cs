@@ -20,7 +20,7 @@ namespace EindProjectDAL
         //2.3.5 afkeuren van verlofaanvragen
 
         //1.1.1 Toevoegen van een werknemer
-        public void VoegWerkenerToeAanDb
+        public void VoegWerkenerToeAanDb()
         {
 
         }
