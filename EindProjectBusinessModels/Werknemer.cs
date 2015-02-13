@@ -9,6 +9,10 @@ namespace EindProjectBusinessModels
     class Werknemer
     {
         //test test2 test3
+        public Werknemer()
+        {
+
+        }
         private void dummy()
         {
 
