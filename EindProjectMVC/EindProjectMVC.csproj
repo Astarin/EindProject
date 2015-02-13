@@ -220,7 +220,10 @@
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Verlof\StartPagina.cshtml" />
+    <Content Include="Views\Verlof\HrAction.cshtml" />
+    <Content Include="Views\Verlof\Index.cshtml" />
+    <Content Include="Views\Verlof\TeamLeaderAction.cshtml" />
+    <Content Include="Views\Verlof\WerknemerAction.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

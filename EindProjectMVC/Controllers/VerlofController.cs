@@ -10,9 +10,24 @@ namespace EindProjectMVC.Controllers
     {
         //
         // GET: /Verlof/
-        public ActionResult Index()
+        public ActionResult Index(String Actie)
         {
-            return View("StartPagina");
+            return View();
+        }
+
+        public ActionResult HrAction()
+        {
+            return View();
+        }
+
+        public ActionResult TeamLeaderAction()
+        {
+            return View();
+        }
+
+        public ActionResult WerknemerAction()
+        {
+            return View();
         }
 	}
 }

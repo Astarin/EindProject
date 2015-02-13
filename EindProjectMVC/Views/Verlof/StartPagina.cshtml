@@ -1,15 +1,15 @@
 ﻿
-    ViewBag.Title = "StartPagina";
 
 @{
+    ViewBag.Title = "StartPagina";
 }
 
 <h2>StartPagina</h2>
-<form>
-    <input type="submit" value="HR Tools">
-    <input type="submit" value="TeamLeader Tools">
-    <input type="submit" value="Werknemer Tools">
-    <br/>
+<form action="/Verlof/HrAction">
+    <input name="Actie" type="submit" value="HR Tools">
+    <input name="Actie" type="submit" value="TeamLeader Tools">
+    <input name="Actie" type="submit" value="Werknemer Tools">
+    <br />
     <p>Hier komen links naar de verschillende pagina's voor verschillende acties</p>
 
     <p>De links worden enabled/disabled afhankelijk van de rechten van de ingelogde gebruiker.</p>
