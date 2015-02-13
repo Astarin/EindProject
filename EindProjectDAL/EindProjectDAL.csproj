@@ -53,6 +53,12 @@
     <None Include="ClassDiagramDAL.cd" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EindProjectBusinessModels\EindProjectBusinessModels.csproj">
+      <Project>{b4d71838-90b1-437e-a5be-81f7a3a1d31e}</Project>
+      <Name>EindProjectBusinessModels</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
