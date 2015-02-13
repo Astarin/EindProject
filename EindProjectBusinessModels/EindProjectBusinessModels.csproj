@@ -50,6 +50,7 @@
     <Compile Include="JaarlijksVerlof.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Team.cs" />
+    <Compile Include="VerlofAanvraag.cs" />
     <Compile Include="Werknemer.cs" />
   </ItemGroup>
   <ItemGroup>
