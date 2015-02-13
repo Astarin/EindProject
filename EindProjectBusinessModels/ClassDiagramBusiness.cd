@@ -29,7 +29,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="EindProjectBusinessModels.Werknemer">
-    <Position X="3" Y="0.75" Width="2" />
+    <Position X="4.75" Y="1" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAgADAAAAAAIAAAhAAAAAgAEAAAkAgAAAAACAA=</HashCode>
       <FileName>Werknemer.cs</FileName>
