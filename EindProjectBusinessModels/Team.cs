@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppModel
+namespace EindProjectBusinessModels
 {
     public class Team
     {
         public string Naam { get; set; }
-        public string Code { get; set; }
-        public int TeamLeider { get; set; }
-        public List<Werknemer> Werknemers { get; set; }
+        public int Code { get; set; }
+        public Werknemer  TeamLeider { get; set; }
+     
     }
 }

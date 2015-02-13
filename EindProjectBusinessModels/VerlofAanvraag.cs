@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace EindProjectBusinessModels
 {
+    public enum Aanvraagstatus {Ingediend, Goedgekeurd, Afgekeurd, Geannuleerd }
     public class VerlofAanvraag
     {
         public DateTime StartDatum { get; set; }
         public DateTime EindDatum { get; set; }
         public DateTime AanvraagDatum { get; set; }
-        public string Toestand { get; set; }
-        public int Personeelsnr { get; set; }
+        public Aanvraagstatus Toestand { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppModel
+namespace EindProjectBusinessModels
 {
     public abstract class CollectieveSluiting
     {
@@ -18,7 +18,7 @@ namespace AppModel
 
     }
 
-    public class CollectiefVerlof: CollectieveSluiting
+    public class CollectiefVerlof : CollectieveSluiting
     {
         public DateTime EindDatum { get; set; }
     }

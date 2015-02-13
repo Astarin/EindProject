@@ -9,7 +9,7 @@ namespace EindProjectBusinessModels
     public class Werknemer
     {
         public string Naam { get; set; }
-        public string Vooornaam { get; set; }
+        public string Voornaam { get; set; }
         public string Email { get; set; }
         public DateTime Geboortedatum { get; set; }
         public int PersoneelsNr { get; set; }
@@ -17,6 +17,8 @@ namespace EindProjectBusinessModels
         public string Postcode { get; set; }
         public string Gemeente { get; set; }
         public string Paswoord { get; set; }
-        public Dictionary<string, int> VerlofDagenPerJaar { get; set; }
+        public Dictionary<int, int> VerlofDagenPerJaar { get; set; }
+        public Team Team { get; set; }
+        public List<VerlofAanvraag> Verlofaanvragen { get; set; }
     }
 }
