@@ -8,6 +8,8 @@ namespace EindProjectBusinessModels
 {
     public abstract class CollectieveSluiting
     {
+        public int Id { get; set; }
+
         public DateTime StartDatum { get; set; }
         public string Omschrijving { get; set; }
         public bool Terugkerend { get; set; }

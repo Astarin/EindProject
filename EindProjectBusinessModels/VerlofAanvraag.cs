@@ -9,6 +9,8 @@ namespace EindProjectBusinessModels
     public enum Aanvraagstatus {Ingediend, Goedgekeurd, Afgekeurd, Geannuleerd }
     public class VerlofAanvraag
     {
+        public int Id { get; set; }
+
         public DateTime StartDatum { get; set; }
         public DateTime EindDatum { get; set; }
         public DateTime AanvraagDatum { get; set; }

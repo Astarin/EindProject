@@ -1,21 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="EindProjectBusinessModels.CollectieveSluiting">
-    <Position X="9.25" Y="0.5" Width="1.75" />
+    <Position X="3.5" Y="4.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAIBAAAAA=</HashCode>
       <FileName>CollectieveSluiting.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EindProjectBusinessModels.Feestdag">
-    <Position X="10.5" Y="2.5" Width="1.5" />
+    <Position X="4.75" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>CollectieveSluiting.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="EindProjectBusinessModels.CollectiefVerlof">
-    <Position X="8" Y="2.5" Width="2" />
+    <Position X="2" Y="6.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
       <FileName>CollectieveSluiting.cs</FileName>
