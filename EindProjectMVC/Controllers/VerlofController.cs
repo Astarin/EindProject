@@ -29,5 +29,11 @@ namespace EindProjectMVC.Controllers
         {
             return View();
         }
+
+
+        public ActionResult ActionHR()
+        {
+            return View("HrView");
+        }
 	}
 }
