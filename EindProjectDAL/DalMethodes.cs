@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EindProjectBusinessModels;
 using System.Reflection;
+using System.Data.Entity;
 
 namespace EindProjectDAL
 {
@@ -62,7 +63,7 @@ namespace EindProjectDAL
         {
             using (DbEindproject db = new DbEindproject())
             {
-                List<Werknemer> wnLijst = (from w in db.Werknemers
+                List<Werknemer> wnLijst = (from w in db.Werknemers.Include( w => w.Team).Include(w => w.Verlofaanvragen)
                                            where w.Naam.Contains(naam)
                                            && w.Voornaam.Contains(voornaam)
                                            && w.PersoneelsNr.ToString().Contains(personeelsNr)
@@ -172,13 +173,53 @@ namespace EindProjectDAL
 
         /*****************************
          * 1.2.3. Opvragen van teams *
-         *****************************/
+         *****************************
+         * David 15/02/15            *
+         *****************************/ 
+        public List<Team> OpvragenTeams(string code, string teamnaam, string teamleader)
+        {
+            //  De medewerker geeft 0, 1 of meer van volgende criteria op:
+            //   - Gedeelte van teamnaam
+            //   - Gedeelte van naam van teamverantwoordelijke
+            //   - Code
+            // Het systeem toont de gegevens (code; naam; nummer, naam en voornaam teamverantwoordelijke;
+            // nummer naam en voornaam van alle werknemers die tot het team behoren ) van de teams die aan
+            // alle opgegeven criteria voldoen.  De gegevens zijn gesorteerd op teamnaam.  Binnen een team
+            // zijn de gegevens van de werknemers gesorteerd op naam en voornaam van de werknemers.
+            return null;
+        }
+
+
 
 
         /**********************************
          * 1.2.4 Verwijderen van een team *
          **********************************/
-
+        public void VerwijderTeam(Team team)
+        {
+            using (DbEindproject db = new DbEindproject())
+            {
+                var wn = from w in db.Werknemers
+                         where w.Team.Code == team.Code
+                         select w;
+                if (wn != null)
+                {
+                    throw new Exception("Er bestaan nog werknemers in dit team.");
+                }
+                else
+                {
+                    try
+                    {
+                        db.Teams.Remove(team);
+                        db.SaveChanges();
+                    }
+                    catch
+                    {
+                        throw new Exception("Het verwijderen van het team is niet succesvol verlopen.");
+                    }
+                }
+            }
+        }
 
         /*********************************
          * 1.2.5. Opvragen van Teamleden *
