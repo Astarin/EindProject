@@ -21,7 +21,7 @@ namespace EindProjectMVC.Controllers
             return View();
         }
 
-        public ActionResult HrHrWijzigWerknemer()
+        public ActionResult HrWijzigWerknemer()
         {
             return View();
         }
