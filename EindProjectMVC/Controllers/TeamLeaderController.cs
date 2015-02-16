@@ -14,16 +14,11 @@ namespace EindProjectMVC.Controllers
         // GET: /TeamLeader/
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult TeamLeaderAction()
-        {
             DalMethodes Dal = new DalMethodes();
             Team team = new Team();
-            ViewBag.Teamleden = Dal.GeefTeamleden(team);
-
+            //ViewBag.Teamleden = Dal.GeefTeamleden(team);
             return View();
         }
+
 	}
 }

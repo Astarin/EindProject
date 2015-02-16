@@ -238,7 +238,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\HR\HrAction.cshtml" />
     <Content Include="Views\Verlof\Index.cshtml" />
-    <Content Include="Views\TeamLeader\TeamLeaderAction.cshtml" />
     <Content Include="Views\Verlof\WerknemerAction.cshtml" />
     <Content Include="Views\TeamLeader\Index.cshtml" />
   </ItemGroup>
