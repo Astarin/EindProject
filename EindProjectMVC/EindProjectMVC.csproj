@@ -240,6 +240,7 @@
     <Content Include="Views\Verlof\Index.cshtml" />
     <Content Include="Views\Verlof\WerknemerAction.cshtml" />
     <Content Include="Views\TeamLeader\Index.cshtml" />
+    <Content Include="Views\TeamLeader\InfoForWerknemer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
