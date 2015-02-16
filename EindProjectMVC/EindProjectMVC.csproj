@@ -173,6 +173,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TeamLeaderController.cs" />
+    <Compile Include="Controllers\HRController.cs" />
     <Compile Include="Controllers\VerlofController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -235,7 +236,7 @@
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Verlof\HrAction.cshtml" />
+    <Content Include="Views\HR\HrAction.cshtml" />
     <Content Include="Views\Verlof\Index.cshtml" />
     <Content Include="Views\TeamLeader\TeamLeaderAction.cshtml" />
     <Content Include="Views\Verlof\WerknemerAction.cshtml" />

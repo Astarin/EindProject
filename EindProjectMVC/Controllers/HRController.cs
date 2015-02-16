@@ -3,26 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using EindProjectBusinessModels;
-using EindProjectDAL;
 
 namespace EindProjectMVC.Controllers
 {
-    public class VerlofController : Controller
+    public class HRController : Controller
     {
         //
-        // GET: /Verlof/
-        public ActionResult Index(String Actie)
+        // GET: /HR/
+        public ActionResult Index()
         {
             return View();
         }
 
-        
-
-        public ActionResult WerknemerAction()
+        public ActionResult HrAction()
         {
+
             return View();
         }
-                        
 	}
 }
