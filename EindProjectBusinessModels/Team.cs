@@ -12,7 +12,13 @@ namespace EindProjectBusinessModels
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [ScaffoldColumn(false)]
         public int Code { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
         public string Naam { get; set; }
+
+
     }
 }
