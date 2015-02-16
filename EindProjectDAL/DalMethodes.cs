@@ -63,7 +63,7 @@ namespace EindProjectDAL
         {
             using (DbEindproject db = new DbEindproject())
             {
-                List<Werknemer> wnLijst = (from w in db.Werknemers.Include( w => w.Team)
+                List<Werknemer> wnLijst = (from w in db.Werknemers.Include( w => w.Team).Include(w => w.Verlofaanvragen)
                                            where w.Naam.Contains(naam)
                                            && w.Voornaam.Contains(voornaam)
                                            && w.PersoneelsNr.ToString().Contains(personeelsNr)
