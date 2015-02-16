@@ -42,16 +42,33 @@
                     @foreach (EindProjectBusinessModels.Werknemer werkn in Model)
                     {
                         <tr>
-                            <td>werkn.PersoneelsNr</td>
-                            <td>werkn.Naam</td>
-                            <td>werkn.Voornaam</td>
-                            <td>werkn.GeboorteDatum</td>
-                            <td>werkn.Team</td>
-                            <td>werkn.Adres</td>
-                            <td>werkn.Postcode</td>
-                            <td>werkn.Verlofaanvragen</td>
-                            <td>werkn.VerlofdagenPerJaar</td>
-                            
+                            <td>
+                                @Html.DisplayFor(modelItem => werkn.PersoneelsNr)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => werkn.Naam)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => werkn.Voornaam)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => werkn.Geboortedatum)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => werkn.Team.Naam)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem =>werkn.Adres)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => werkn.Postcode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem =>werkn.Verlofaanvragen.Count)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => werkn.VerlofDagenPerJaar.Count)
+                            </td>
                         </tr>
                     }
                     
