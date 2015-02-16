@@ -25,7 +25,7 @@ namespace EindProjectDAL
          * 1.1.1. Toevoegen van een werknemer *
          **************************************
          * David 16/02/15                     *
-         **************************************/ 
+         **************************************/
         public void VoegWerknemerToeAanDb(Werknemer werknemer)
         {
             /*
@@ -98,18 +98,10 @@ namespace EindProjectDAL
                 Werknemer wn = (from w in db.Werknemers
                                 where w.PersoneelsNr == werknemer.PersoneelsNr
                                 select w).FirstOrDefault();
-
-                // wn = werknemer;
-                wn.Voornaam = werknemer.Voornaam;
-                // todo: dit werkt nog niet
-
-                db.Entry(wn).State = System.Data.Entity.EntityState.Modified;
-
+                wn = werknemer;
                 db.SaveChanges();
             }
         }
-
-
 
         /***************************
          *                         *
@@ -181,13 +173,56 @@ namespace EindProjectDAL
 
         /*****************************
          * 1.2.3. Opvragen van teams *
-         *****************************/
+         *****************************
+         * David 15/02/15            *
+         *****************************/ 
+        public List<Team> OpvragenTeams(string code, string teamnaam, string teamleader)
+        {
+            //  De medewerker geeft 0, 1 of meer van volgende criteria op:
+            //   - Gedeelte van teamnaam
+            //   - Gedeelte van naam van teamverantwoordelijke
+            //   - Code
+            // Het systeem toont de gegevens (code; naam; nummer, naam en voornaam teamverantwoordelijke;
+            // nummer naam en voornaam van alle werknemers die tot het team behoren ) van de teams die aan
+            // alle opgegeven criteria voldoen.  De gegevens zijn gesorteerd op teamnaam.  Binnen een team
+            // zijn de gegevens van de werknemers gesorteerd op naam en voornaam van de werknemers.
+            return null;
+        }
+
+
 
 
         /**********************************
          * 1.2.4 Verwijderen van een team *
          **********************************/
-
+        public void VerwijderTeam(Team team)
+        {
+            using (DbEindproject db = new DbEindproject())
+            {
+                var wn = from w in db.Werknemers
+                         where w.Team.Code == team.Code
+                         select w;
+                // Zijn er nog werknemers die tot dit team behoren?
+                // Zo ja, team blijft bestaan
+                if (wn != null)
+                {
+                    throw new Exception("Er bestaan nog werknemers in dit team.");
+                }
+                else
+                {
+                    try
+                    {
+                        // Als er geen werknermers meer tot het team behoren, kan het gerust verwijdert worden
+                        db.Teams.Remove(team);
+                        db.SaveChanges();
+                    }
+                    catch
+                    {
+                        throw new Exception("Het verwijderen van het team is niet succesvol verlopen.");
+                    }
+                }
+            }
+        }
 
         /*********************************
          * 1.2.5. Opvragen van Teamleden *
@@ -217,7 +252,6 @@ namespace EindProjectDAL
          ******************************************/
         public void SetVerlofWerkNemer(Werknemer werknemer, int verlofDagen, int jaar)
         {
-            // nog niet getest
             using (DbEindproject db = new DbEindproject())
             {
                 Werknemer wn = (from w in db.Werknemers
@@ -233,7 +267,7 @@ namespace EindProjectDAL
          * 2.2. Beheren feestdagen & verplichte verlofdagen *
          *                                                  *
          ****************************************************/
-         
+
         /************************************
          *                                  *
          * 2.3. Beheren van verlofaanvragen *
@@ -242,8 +276,8 @@ namespace EindProjectDAL
 
         /***************************************
          * 2.3.1. Indienen van verlofaanvragen *
-         ***************************************/ 
-         
+         ***************************************/
+
         /***************************************************************************************
          * 2.3.1.1. Indienen van verlofaanvragen met geldige gegevens en voldoende verlofdagen *
          ***************************************************************************************
@@ -287,7 +321,7 @@ namespace EindProjectDAL
 
         /***************************************
          * 2.3.5. Afkeuren van verlofaanvragen *
-         ***************************************/ 
+         ***************************************/
         public void WijzigStatusVerlofaanvraag(VerlofAanvraag verlofaanvraag, Aanvraagstatus status)
         {
             // nog niet getest
