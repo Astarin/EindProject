@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using EindProjectBusinessModels;
 
 namespace EindProjectMVC.Controllers
 {
@@ -17,6 +18,7 @@ namespace EindProjectMVC.Controllers
 
         public ActionResult HrAction()
         {
+
             return View();
         }
 
@@ -29,11 +31,6 @@ namespace EindProjectMVC.Controllers
         {
             return View();
         }
-
-
-        public ActionResult ActionHR()
-        {
-            return View("HrView");
-        }
+                        
 	}
 }
