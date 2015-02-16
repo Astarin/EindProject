@@ -236,10 +236,13 @@
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\HR\HrAction.cshtml" />
+    <Content Include="Views\HR\HrNieuweWerknemer.cshtml" />
     <Content Include="Views\Verlof\Index.cshtml" />
     <Content Include="Views\Verlof\WerknemerAction.cshtml" />
+    <Content Include="Views\HR\Index.cshtml" />
     <Content Include="Views\TeamLeader\Index.cshtml" />
+    <Content Include="Views\HR\HrWijzigWerknemer.cshtml" />
+    <Content Include="Views\HR\HrWVerlofToevoegen.cshtml" />
     <Content Include="Views\TeamLeader\InfoForWerknemer.cshtml" />
   </ItemGroup>
   <ItemGroup>

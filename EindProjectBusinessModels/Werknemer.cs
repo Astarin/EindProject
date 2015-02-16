@@ -10,6 +10,7 @@ namespace EindProjectBusinessModels
 {
     public class Werknemer
     {
+        private DateTime geboortedatum;
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [ScaffoldColumn(false)] // word niet opgevraagd in auto generated creates.
@@ -33,16 +34,16 @@ namespace EindProjectBusinessModels
         {
             get
             {
-                return Geboortedatum;
+                return geboortedatum;
             }
             set
             {
                 // werknemers moeten minstens 16 jaar oud zijn!
-                var minDate = DateTime.Now.AddYears(-16);
+                DateTime minDate = DateTime.Now.AddYears(-16);
                 if (value <= minDate)
                 {
                     // geboortedatum is ok en werknemer kan/mag opgeslagen worden
-                    Geboortedatum = value;
+                    geboortedatum = value;
                 }
                 else
                 {
