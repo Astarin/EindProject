@@ -239,6 +239,7 @@
     <Content Include="Views\Verlof\Index.cshtml" />
     <Content Include="Views\Verlof\TeamLeaderAction.cshtml" />
     <Content Include="Views\Verlof\WerknemerAction.cshtml" />
+    <Content Include="Views\HR\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
