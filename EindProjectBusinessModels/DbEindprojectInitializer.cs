@@ -17,7 +17,12 @@ namespace EindProjectBusinessModels
 
             db.Teams.Add(smurfTeam);
             db.SaveChanges();
+
             List<JaarlijksVerlof> standaardVerlofDagen = new List<JaarlijksVerlof>();
+            standaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2015, AantalDagen = 20 });
+            standaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2016, AantalDagen = 21 });
+
+            List<JaarlijksVerlof> standaardVerlofDagen2 = new List<JaarlijksVerlof>();
             standaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2015, AantalDagen = 20 });
             standaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2016, AantalDagen = 21 });
 
@@ -50,11 +55,15 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "SmurfenDorp",
                 Paswoord = "Hash",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = standaardVerlofDagen2,
                 Team = smurfTeam,
             });
 
             List<JaarlijksVerlof> nietStandaardVerlofDagen = new List<JaarlijksVerlof>();
+            nietStandaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2015, AantalDagen = 3 });
+            nietStandaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2016, AantalDagen = 11 });
+
+            List<JaarlijksVerlof> nietStandaardVerlofDagen2 = new List<JaarlijksVerlof>();
             nietStandaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2015, AantalDagen = 3 });
             nietStandaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2016, AantalDagen = 11 });
 
@@ -83,11 +92,15 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "SmurfenDorp",
                 Paswoord = "Hash",
-                JaarlijksVerlof = nietStandaardVerlofDagen,
+                JaarlijksVerlof = nietStandaardVerlofDagen2,
                 Team = anderSmurfTeam,
             };
 
             db.Werknemers.Add(tmpSmurf);
+
+            List<JaarlijksVerlof> standaardVerlofDagen3 = new List<JaarlijksVerlof>();
+            standaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2015, AantalDagen = 20 });
+            standaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2016, AantalDagen = 21 });
 
             db.Werknemers.Add(new Werknemer
             {
@@ -99,7 +112,7 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "SmurfenDorp",
                 Paswoord = "Hash",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = standaardVerlofDagen3,
                 Team = anderSmurfTeam,
             });
 
