@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EindProjectBusinessModels;
 using System.Reflection;
+using System.Data.Entity;
 
 namespace EindProjectDAL
 {
@@ -62,7 +63,7 @@ namespace EindProjectDAL
         {
             using (DbEindproject db = new DbEindproject())
             {
-                List<Werknemer> wnLijst = (from w in db.Werknemers
+                List<Werknemer> wnLijst = (from w in db.Werknemers.Include( w => w.Team).Include(w => w.Verlofaanvragen)
                                            where w.Naam.Contains(naam)
                                            && w.Voornaam.Contains(voornaam)
                                            && w.PersoneelsNr.ToString().Contains(personeelsNr)

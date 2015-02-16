@@ -26,7 +26,8 @@ namespace EindProjectMVC.Controllers
         public ActionResult HrWijzigWerknemer()
         {
             DalMethodes methode = new DalMethodes();
-            return View(methode.VraagAlleWerknemersOp());
+            List<Werknemer> werknemers = methode.VraagAlleWerknemersOp();
+            return View(werknemers);
         }
 
         public ActionResult HrWVerlofToevoegen()
