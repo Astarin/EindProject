@@ -100,6 +100,7 @@ namespace EindProjectDAL
 
                 // wn = werknemer;
                 wn.Voornaam = werknemer.Voornaam;
+                // todo: dit werkt nog niet
 
                 db.Entry(wn).State = System.Data.Entity.EntityState.Modified;
 
@@ -215,12 +216,13 @@ namespace EindProjectDAL
          ******************************************/
         public void SetVerlofWerkNemer(Werknemer werknemer, int verlofDagen, int jaar)
         {
+            // nog niet getest
             using (DbEindproject db = new DbEindproject())
             {
                 Werknemer wn = (from w in db.Werknemers
                                 where w.PersoneelsNr == werknemer.PersoneelsNr
                                 select w).FirstOrDefault();
-                wn.VerlofDagenPerJaar.Add(jaar, verlofDagen);
+                wn.JaarlijksVerlof.Add(new JaarlijksVerlof { Jaar = jaar, AantalDagen = verlofDagen });
                 db.SaveChanges();
             }
         }
@@ -287,7 +289,15 @@ namespace EindProjectDAL
          ***************************************/ 
         public void WijzigStatusVerlofaanvraag(VerlofAanvraag verlofaanvraag, Aanvraagstatus status)
         {
-
+            // nog niet getest
+            using (DbEindproject db = new DbEindproject())
+            {
+                VerlofAanvraag aanvraag = (from v in db.Verlofaanvragen
+                                           where v.Id == verlofaanvraag.Id
+                                           select v).FirstOrDefault();
+                aanvraag.Toestand = status;
+                db.SaveChanges();
+            }
         }
 
         /*********************************************

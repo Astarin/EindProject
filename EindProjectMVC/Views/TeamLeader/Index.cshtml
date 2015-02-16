@@ -5,7 +5,10 @@
 
 <h2>TeamLeader Tools</h2>
 <h3>Behandelen verlofaanvragen</h3>
-@using (@Html.BeginForm())
+<br />
+Selecteer werknemer:
+@using (@Html.BeginForm("InfoForWerknemer", "TeamLeader"))
 {
-    
+    @Html.DropDownList("ddlTeamLeden");
+    <input type="submit" name="Bevestig" value="Bevestig" />
 }
