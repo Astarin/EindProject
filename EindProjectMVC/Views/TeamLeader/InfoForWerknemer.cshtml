@@ -4,5 +4,47 @@
     ViewBag.Title = "InfoForWerknemer";
 }
 
-<h2>InfoForWerknemer</h2>
+<h2>Verlofaanvragen voor @Model.Voornaam @Model.Naam</h2>
+
+<table class="table">
+    <tr>
+         <th>
+            @Html.Label("kolom 1")
+        </th>
+        <th>
+            @Html.Label("kolom 2")
+        </th>
+        <th>
+            @Html.Label("kolom 3")
+        </th>
+        <th>
+            @Html.Label("kolom 4")
+        </th>
+        <th>
+            @Html.Label("kolom 5")
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Verlofaanvragen)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDatum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EindDatum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AanvraagDatum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Toestand)
+            </td>
+         </tr>
+    }
+
+</table>
 
