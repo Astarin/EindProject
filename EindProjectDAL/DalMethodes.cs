@@ -34,6 +34,7 @@ namespace EindProjectDAL
                  try
                  {
                      db.Werknemers.Add(werknemer);
+                     db.SaveChanges();
                  }
                  catch
                  {
@@ -44,12 +45,63 @@ namespace EindProjectDAL
 
         public List<Werknemer> VraagAlleWerknemersOp()
         {
-            return new List<Werknemer>();   // todo
+            using (DbEindproject db = new DbEindproject())
+            {
+                try
+                {
+                    var tl = from wn in db.Werknemers
+                             select wn;
+                    return tl.ToList();
+                }
+                catch
+                {
+                    throw new Exception("Opvragen alle werknemers niet gelukt.");
+                }
+            }
         }
 
-        public List<Werknemer> VraagWerknemerOp(string naam, string voornaam, int personeelsNr)
+        public List<Werknemer> VraagWerknemerOp(int persnr, string naam, string voornaam)
         {
-            //op naam sorteren.
+            /*
+             * David 16/02/15
+             * Opvragen werknemer op basis van 3 mogelijke criteria 
+             *   - personeelsnummer
+             *   - naam
+             *   - voornaam
+            */
+            using (DbEindproject db = new DbEindproject())
+            {
+                // alle werknemers
+                var tmplijstWN = from wn in db.Werknemers
+                                 select wn;
+
+                if (persnr.ToString() != string.Empty)
+                {
+                    tmplijstWN = from wn in tmplijstWN
+                                 where wn.PersoneelsNr == persnr
+                                 select wn;
+
+                // tmplijstWN = tmplijstWN.Where(wn => wn.PersoneelsNr == persnr);
+                }
+                if (naam != string.Empty)
+                {
+                    tmplijstWN = from wn in tmplijstWN
+                                 where wn.Naam.Contains(naam)
+                                 select wn;
+                }
+                if (voornaam != string.Empty)
+                {
+                    tmplijstWN = from wn in tmplijstWN
+                                 where wn.Voornaam.Contains(voornaam)
+                                 select wn;
+                }
+
+                return tmplijstWN.ToList();
+            }
+            
+
+
+            //op naam sorteren
             return new List<Werknemer>(); // todo
         }
 
@@ -72,6 +124,7 @@ namespace EindProjectDAL
                 try
                 {
                     db.Teams.Add(team);
+                    db.SaveChanges();
                 }
                 catch
                 {
@@ -82,14 +135,57 @@ namespace EindProjectDAL
 
 
         //1.2.2 Beheren teamverantwoordelijken
-        public void BeheerTeamVerantwoordelijke(Team team)
+        public void BeheerTeamVerantwoordelijke(Werknemer werknemer)
         {
-
+            /*
+             * David 16/02/15
+             * Huidige teamleader teamleader af maken en
+             * geselecteerde werknemer teamleader maken
+            */
+            var theTeam = werknemer.Team;
+            using (DbEindproject db = new DbEindproject())
+            {
+                var huidigTL = (from wn in db.Werknemers
+                                where wn.Team == theTeam
+                                   && wn.TeamLeader == true
+                                select wn).FirstOrDefault();
+                if (huidigTL != null)
+                {
+                    huidigTL.TeamLeader = false;
+                }
+                try
+                {
+                    werknemer.TeamLeader = true;
+                    db.SaveChanges();
+                }
+                catch
+                {
+                    throw new Exception("Nieuwe teamleader kon niet worden aangesteld.");
+                }
+            }
+            
         }
         
         public List<Werknemer> GeefTeamleden(Team team)
         {
-            return new List<Werknemer>();
+            /*
+             * David 16/02/15
+             * Geef een lijst van werknemers binnen één bepaald team
+            */
+            using (DbEindproject db = new DbEindproject())
+            {
+                try
+                {
+                    var tl = from wn in db.Werknemers
+                             where wn.Team == team
+                             select wn;
+                    return tl.ToList();
+                }
+                catch
+                {
+                    throw new Exception("Opvragen teamleden niet gelukt.");
+                }
+            }
         }
 
         //2.1 Toevoegen van jaarlijkse verloven *
