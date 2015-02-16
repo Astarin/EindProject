@@ -44,8 +44,7 @@ namespace EindProjectDAL
 
                 return wnLijst;
             }
-
-            throw new Exception("Er liep iets fout tijdens het opvragen van 0, 1 of meerdere werknemers");
+            // throw new Exception("Er liep iets fout tijdens het opvragen van 0, 1 of meerdere werknemers");
         }
 
         public void WijzigWerknemerProperty(Werknemer werknemer)
