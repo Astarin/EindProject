@@ -17,10 +17,9 @@ namespace EindProjectBusinessModels
 
             db.Teams.Add(smurfTeam);
             db.SaveChanges();
-
-            Dictionary<int, int> standaardVerlofDagen = new Dictionary<int, int>();
-            standaardVerlofDagen.Add(2015, 20);
-            standaardVerlofDagen.Add(2016, 21);
+            List<JaarlijksVerlof> standaardVerlofDagen = new List<JaarlijksVerlof>();
+            standaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2015, AantalDagen = 20 });
+            standaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2016, AantalDagen = 21 });
 
             Team anderSmurfTeam = new Team { Naam = "Nog Smurfen" };
 
@@ -35,8 +34,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "SmurfenDorp",
                 Paswoord = "Hash",
-                VerlofDagenPerJaar = standaardVerlofDagen,
-                Team = smurfTeam,
+                JaarlijksVerlof = standaardVerlofDagen,
+                Team = smurfTeam
             };
 
             db.Werknemers.Add(smurf1);
@@ -51,13 +50,13 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "SmurfenDorp",
                 Paswoord = "Hash",
-                VerlofDagenPerJaar = standaardVerlofDagen,
+                JaarlijksVerlof = standaardVerlofDagen,
                 Team = smurfTeam,
             });
 
-            Dictionary<int, int> nietStandaardVerlofDagen = new Dictionary<int, int>();
-            nietStandaardVerlofDagen.Add(2015, 3);
-            nietStandaardVerlofDagen.Add(2016, 11);
+            List<JaarlijksVerlof> nietStandaardVerlofDagen = new List<JaarlijksVerlof>();
+            nietStandaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2015, AantalDagen = 3 });
+            nietStandaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2016, AantalDagen = 11 });
 
             db.Werknemers.Add(new Werknemer
             {
@@ -69,7 +68,7 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "SmurfenDorp",
                 Paswoord = "Hash",
-                VerlofDagenPerJaar = nietStandaardVerlofDagen,
+                JaarlijksVerlof = nietStandaardVerlofDagen,
                 Team = smurfTeam,
             });
 
@@ -84,7 +83,7 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "SmurfenDorp",
                 Paswoord = "Hash",
-                VerlofDagenPerJaar = nietStandaardVerlofDagen,
+                JaarlijksVerlof = nietStandaardVerlofDagen,
                 Team = anderSmurfTeam,
             };
 
@@ -100,7 +99,7 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "SmurfenDorp",
                 Paswoord = "Hash",
-                VerlofDagenPerJaar = standaardVerlofDagen,
+                JaarlijksVerlof = standaardVerlofDagen,
                 Team = anderSmurfTeam,
             });
 
