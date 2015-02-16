@@ -241,7 +241,7 @@
     <Content Include="Views\Verlof\WerknemerAction.cshtml" />
     <Content Include="Views\HR\Index.cshtml" />
     <Content Include="Views\TeamLeader\Index.cshtml" />
-    <Content Include="Views\HR\HrWijzigWerknemer.cshtml" />
+    <Content Include="Views\HR\HrSelecteerWerknemer.cshtml" />
     <Content Include="Views\HR\HrWVerlofToevoegen.cshtml" />
     <Content Include="Views\TeamLeader\InfoForWerknemer.cshtml" />
   </ItemGroup>

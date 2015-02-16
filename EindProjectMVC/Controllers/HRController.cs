@@ -10,6 +10,7 @@ namespace EindProjectMVC.Controllers
 {
     public class HRController : Controller
     {
+        DalMethodes methode = new DalMethodes();
         //
         // GET: /HR/
         public ActionResult Index()
@@ -19,15 +20,24 @@ namespace EindProjectMVC.Controllers
 
         public ActionResult HrNieuweWerknemer()
         {
-            
+            if (ModelState.IsValid)
+            {
+                //TODO
+            }
             return View();
         }
 
-        public ActionResult HrWijzigWerknemer()
+        public ActionResult HrSelecteerWerknemer()
         {
-            DalMethodes methode = new DalMethodes();
+            
             List<Werknemer> werknemers = methode.VraagAlleWerknemersOp();
             return View(werknemers);
+        }
+        [HttpPost]
+        public ActionResult HrWijzigWerknemer(string werknemerId)
+        {
+            Werknemer werknemer = methode.VraagWerknemerOp(werknemerId, "", "")[0]; // geef de 0 en normaal enige terug
+            return View(werknemer);
         }
 
         public ActionResult HrWVerlofToevoegen()

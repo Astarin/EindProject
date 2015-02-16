@@ -10,7 +10,7 @@
             <form action="/HR/HrNieuweWerknemer" class="label label-primary">
                 <input name="Actie" type="submit" value="Nieuwe WerkNemer" class="button-invis">
             </form>
-            <form action="/HR/HrWijzigWerknemer" class="label label-success">
+            <form action="/HR/HrSelecteerWerknemer" class="label label-success">
                 <input name="Actie" type="submit" value="Wijzig Werknemer" class="button-invis">
             </form>
             <form action="/HR/HrWVerlofToevoegen" class="label label-default">
@@ -43,38 +43,38 @@
             @foreach (EindProjectBusinessModels.Werknemer werkn in Model)
             {
 
-                <tr>
-                    <td>
-                        @Html.ActionLink("Wijzig", "Create", new { id = werkn.PersoneelsNr })
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => werkn.PersoneelsNr)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => werkn.Naam)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => werkn.Voornaam)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => werkn.Geboortedatum)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => werkn.Team.Naam)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => werkn.Adres)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => werkn.Postcode)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => werkn.Verlofaanvragen.Count)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => werkn.JaarlijksVerlof.Count)
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @Html.ActionLink("Wijzig", "HrWijzigWerknemer", new { id = werkn.PersoneelsNr })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => werkn.PersoneelsNr)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => werkn.Naam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => werkn.Voornaam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => werkn.Geboortedatum)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => werkn.Team.Naam)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => werkn.Adres)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => werkn.Postcode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => werkn.Verlofaanvragen.Count)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => werkn.JaarlijksVerlof.Count)
+                </td>
+            </tr>
             }
 
 
@@ -83,4 +83,21 @@
         </table>
     </div>
 
+    @using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" role="form">
+        <h4>Zoek Werknemer op nummer</h4>
+        <hr />
+        @*@Html.ValidationSummary(true)*@
+
+        <div class="form-group">
+            <span class="label label-info">Personeels Nummer</span>
+            <div class="col-sm-10">
+            @*TODO*@
+            </div>
+        </div>
+    </div>
+    }
 
