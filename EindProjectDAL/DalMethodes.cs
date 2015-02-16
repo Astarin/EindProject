@@ -202,6 +202,8 @@ namespace EindProjectDAL
                 var wn = from w in db.Werknemers
                          where w.Team.Code == team.Code
                          select w;
+                // Zijn er nog werknemers die tot dit team behoren?
+                // Zo ja, team blijft bestaan
                 if (wn != null)
                 {
                     throw new Exception("Er bestaan nog werknemers in dit team.");
@@ -210,6 +212,7 @@ namespace EindProjectDAL
                 {
                     try
                     {
+                        // Als er geen werknermers meer tot het team behoren, kan het gerust verwijdert worden
                         db.Teams.Remove(team);
                         db.SaveChanges();
                     }
