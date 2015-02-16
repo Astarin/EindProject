@@ -172,6 +172,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TeamLeaderController.cs" />
+    <Compile Include="Controllers\HRController.cs" />
     <Compile Include="Controllers\VerlofController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -234,10 +236,14 @@
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Verlof\HrAction.cshtml" />
+    <Content Include="Views\HR\HrNieuweWerknemer.cshtml" />
     <Content Include="Views\Verlof\Index.cshtml" />
-    <Content Include="Views\Verlof\TeamLeaderAction.cshtml" />
     <Content Include="Views\Verlof\WerknemerAction.cshtml" />
+    <Content Include="Views\HR\Index.cshtml" />
+    <Content Include="Views\TeamLeader\Index.cshtml" />
+    <Content Include="Views\HR\HrWijzigWerknemer.cshtml" />
+    <Content Include="Views\HR\HrWVerlofToevoegen.cshtml" />
+    <Content Include="Views\TeamLeader\InfoForWerknemer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -253,6 +259,10 @@
     <ProjectReference Include="..\EindProjectBusinessModels\EindProjectBusinessModels.csproj">
       <Project>{b4d71838-90b1-437e-a5be-81f7a3a1d31e}</Project>
       <Name>EindProjectBusinessModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EindProjectDAL\EindProjectDAL.csproj">
+      <Project>{e5c9c1be-7f1b-40f4-8086-f15c83aa6504}</Project>
+      <Name>EindProjectDAL</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
