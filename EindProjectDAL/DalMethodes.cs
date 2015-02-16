@@ -29,18 +29,18 @@ namespace EindProjectDAL
              * annotations vangen het meeste op.
              * controle of geboortedatum realistisch is => setter 
             */
-             using (DbEindproject db = new DbEindproject())
-             {
-                 try
-                 {
-                     db.Werknemers.Add(werknemer);
-                     db.SaveChanges();
-                 }
-                 catch
-                 {
-                     throw new Exception("Probleempje met het toevoegen van een werknemer.");
-                 }
-             }
+            using (DbEindproject db = new DbEindproject())
+            {
+                try
+                {
+                    db.Werknemers.Add(werknemer);
+                    db.SaveChanges();
+                }
+                catch
+                {
+                    throw new Exception("Probleempje met het toevoegen van een werknemer.");
+                }
+            }
         }
 
         public List<Werknemer> VraagAlleWerknemersOp()
@@ -52,7 +52,7 @@ namespace EindProjectDAL
                     var tl = from wn in db.Werknemers
                              select wn;
                     return tl.ToList();
-        }
+                }
                 catch
                 {
                     throw new Exception("Opvragen alle werknemers niet gelukt.");
@@ -60,7 +60,7 @@ namespace EindProjectDAL
             }
         }
 
-        public List<Werknemer> VraagWerknemerOp(int persnr, string naam, string voornaam)
+        public List<Werknemer> VraagWerknemerOp(string personeelsNr, string naam, string voornaam)
         {
             using (DbEindproject db = new DbEindproject())
             {
@@ -72,7 +72,7 @@ namespace EindProjectDAL
                                            select w).ToList<Werknemer>();
 
                 return wnLijst;
-        }
+            }
             // throw new Exception("Er liep iets fout tijdens het opvragen van 0, 1 of meerdere werknemers");
         }
 
@@ -141,13 +141,13 @@ namespace EindProjectDAL
                     db.SaveChanges();
                 }
                 catch
-        {
+                {
                     throw new Exception("Nieuwe teamleader kon niet worden aangesteld.");
                 }
             }
 
         }
-        
+
         public List<Werknemer> GeefTeamleden(Team team)
         {
             using (DbEindproject db = new DbEindproject())
@@ -156,7 +156,7 @@ namespace EindProjectDAL
                                            where w.Team.Code == team.Code
                                            select w).ToList<Werknemer>();
                 return wnLijst;
-        }
+            }
             throw new Exception("Opvragen Teamleden mislukt.");
         }
 
