@@ -10,7 +10,7 @@ namespace EindProjectDAL
 {
     public class DalMethodes
     {
-        // Verijsten
+        // Vereisten
         //1.1.1 Toevoegen van een werknemer     *
         //1.2.1. Toevoegen van een team         *
         //1.2.2 Beheren teamverantwoordelijken  *
@@ -29,17 +29,17 @@ namespace EindProjectDAL
              * annotations vangen het meeste op.
              * controle of geboortedatum realistisch is => setter 
             */
-            using (DbEindproject db = new DbEindproject())
-            {
-                try
-                {
-                    db.Werknemers.Add(werknemer);
-                }
-                catch
-                {
-                    throw new Exception("Probleempje met het toevoegen van een werknemer.");
-                }
-            }
+             using (DbEindproject db = new DbEindproject())
+             {
+                 try
+                 {
+                     db.Werknemers.Add(werknemer);
+                 }
+                 catch
+                 {
+                     throw new Exception("Probleempje met het toevoegen van een werknemer.");
+                 }
+             }
         }
 
         public List<Werknemer> VraagAlleWerknemersOp()
@@ -107,7 +107,7 @@ namespace EindProjectDAL
         {
 
         }
-
+        
         public List<Werknemer> GeefTeamleden(Team team)
         {
             using (DbEindproject db = new DbEindproject())
@@ -116,7 +116,7 @@ namespace EindProjectDAL
                                            where w.Team.Code == team.Code
                                            select w).ToList<Werknemer>();
                 return wnLijst;
-            }
+        }
             throw new Exception("Opvragen Teamleden mislukt.");
         }
 

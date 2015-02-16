@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using EindProjectBusinessModels;
+using EindProjectDAL;
 
 namespace EindProjectMVC.Controllers
 {
@@ -17,11 +18,6 @@ namespace EindProjectMVC.Controllers
         }
 
         
-
-        public ActionResult TeamLeaderAction()
-        {
-            return View();
-        }
 
         public ActionResult WerknemerAction()
         {

@@ -15,9 +15,19 @@ namespace EindProjectMVC.Controllers
             return View();
         }
 
-        public ActionResult HrAction()
+        public ActionResult HrNieuweWerknemer()
         {
 
+            return View();
+        }
+
+        public ActionResult HrHrWijzigWerknemer()
+        {
+            return View();
+        }
+
+        public ActionResult HrWVerlofToevoegen()
+        {
             return View();
         }
 	}
