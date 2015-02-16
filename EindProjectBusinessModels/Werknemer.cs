@@ -31,6 +31,7 @@ namespace EindProjectBusinessModels
         [DataType(DataType.Date)]
         public DateTime Geboortedatum { get; set; }
 
+        [Required(ErrorMessage = "Je moet een adres opgegeven")]
         [DataType(DataType.Text)]
         public string Adres { get; set; }
 
