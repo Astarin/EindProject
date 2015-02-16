@@ -17,7 +17,8 @@ namespace EindProjectMVC.Controllers
 
         public ActionResult HrAction()
         {
-            return View();
+
+            return View(new Werknermer());
         }
 
         public ActionResult TeamLeaderAction()
