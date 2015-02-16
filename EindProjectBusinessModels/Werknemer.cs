@@ -58,7 +58,7 @@ namespace EindProjectBusinessModels
         public List<VerlofAanvraag> Verlofaanvragen { get; set; }
 
         [Required]
-        [Range(typeof (bool),"Teamleader","Geen Teamleader",ErrorMessage = "Het teamleader veld moet ingevuld worden." )]
+        [Range(typeof (bool),"true","false",ErrorMessage = "Het teamleader veld moet ingevuld worden." )]
         public bool TeamLeader { get; set; }
 
         public Werknemer()

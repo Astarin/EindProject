@@ -21,7 +21,7 @@ namespace EindProjectBusinessModels
         public string Omschrijving { get; set; }
 
          [Required]
-        [Range(typeof (bool),"Terugkerend","Niet terugkerend",ErrorMessage = "Duid aan of de sluiting al dan niet terugkerend is." )]
+        [Range(typeof (bool),"true","false",ErrorMessage = "Duid aan of de sluiting al dan niet terugkerend is." )]
         public bool Terugkerend { get; set; }
     }
 
