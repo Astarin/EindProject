@@ -18,27 +18,6 @@ namespace EindProjectMVC.Controllers
             Team team = new Team { Naam = "Smurfen", Code = 1 };
             List<Werknemer> wnList = Dal.GeefTeamleden(team);
 
-            // Provide Test Data for View
-            //List<Werknemer> wnList = new List<Werknemer>();
-            //wnList.Add(new Werknemer
-            //{
-            //    Naam = "Jansen",
-            //    Voornaam = "Jan",
-            //    PersoneelsNr = 1,
-            //    Adres = "AdresJansen",
-            //    Gemeente = "GemeenteJansen",
-            //    Postcode = "1000"
-            //});
-            //wnList.Add(new Werknemer
-            //{
-            //    Naam = "Peeters",
-            //    Voornaam = "Peter",
-            //    PersoneelsNr = 2,
-            //    Adres = "AdresPeeters",
-            //    Gemeente = "GemeentePeeters",
-            //    Postcode = "2000"
-            //});
-
             var qry = from w in wnList
                       select new SelectListItem { 
                           Text = String.Format ("{0} {1} {2}",w.PersoneelsNr.ToString(),w.Naam,w.Voornaam), 
