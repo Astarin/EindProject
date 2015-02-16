@@ -23,8 +23,8 @@ namespace EindProjectBusinessModels
             standaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2016, AantalDagen = 21 });
 
             List<JaarlijksVerlof> standaardVerlofDagen2 = new List<JaarlijksVerlof>();
-            standaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2015, AantalDagen = 20 });
-            standaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2016, AantalDagen = 21 });
+            standaardVerlofDagen2.Add(new JaarlijksVerlof { Jaar = 2015, AantalDagen = 20 });
+            standaardVerlofDagen2.Add(new JaarlijksVerlof { Jaar = 2016, AantalDagen = 21 });
 
             Team anderSmurfTeam = new Team { Naam = "Nog Smurfen" };
 
@@ -64,8 +64,8 @@ namespace EindProjectBusinessModels
             nietStandaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2016, AantalDagen = 11 });
 
             List<JaarlijksVerlof> nietStandaardVerlofDagen2 = new List<JaarlijksVerlof>();
-            nietStandaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2015, AantalDagen = 3 });
-            nietStandaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2016, AantalDagen = 11 });
+            nietStandaardVerlofDagen2.Add(new JaarlijksVerlof { Jaar = 2015, AantalDagen = 3 });
+            nietStandaardVerlofDagen2.Add(new JaarlijksVerlof { Jaar = 2016, AantalDagen = 11 });
 
             db.Werknemers.Add(new Werknemer
             {
@@ -99,8 +99,8 @@ namespace EindProjectBusinessModels
             db.Werknemers.Add(tmpSmurf);
 
             List<JaarlijksVerlof> standaardVerlofDagen3 = new List<JaarlijksVerlof>();
-            standaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2015, AantalDagen = 20 });
-            standaardVerlofDagen.Add(new JaarlijksVerlof { Jaar = 2016, AantalDagen = 21 });
+            standaardVerlofDagen3.Add(new JaarlijksVerlof { Jaar = 2015, AantalDagen = 20 });
+            standaardVerlofDagen3.Add(new JaarlijksVerlof { Jaar = 2016, AantalDagen = 21 });
 
             db.Werknemers.Add(new Werknemer
             {

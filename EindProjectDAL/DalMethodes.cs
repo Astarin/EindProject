@@ -24,7 +24,7 @@ namespace EindProjectDAL
          * 1.1.1. Toevoegen van een werknemer *
          **************************************
          * David 16/02/15                     *
-         **************************************/ 
+         **************************************/
         public void VoegWerknemerToeAanDb(Werknemer werknemer)
         {
             /*
@@ -97,18 +97,10 @@ namespace EindProjectDAL
                 Werknemer wn = (from w in db.Werknemers
                                 where w.PersoneelsNr == werknemer.PersoneelsNr
                                 select w).FirstOrDefault();
-
-                // wn = werknemer;
-                wn.Voornaam = werknemer.Voornaam;
-                // todo: dit werkt nog niet
-
-                db.Entry(wn).State = System.Data.Entity.EntityState.Modified;
-
+                wn = werknemer;
                 db.SaveChanges();
             }
         }
-
-
 
         /***************************
          *                         *
@@ -216,7 +208,6 @@ namespace EindProjectDAL
          ******************************************/
         public void SetVerlofWerkNemer(Werknemer werknemer, int verlofDagen, int jaar)
         {
-            // nog niet getest
             using (DbEindproject db = new DbEindproject())
             {
                 Werknemer wn = (from w in db.Werknemers
@@ -232,7 +223,7 @@ namespace EindProjectDAL
          * 2.2. Beheren feestdagen & verplichte verlofdagen *
          *                                                  *
          ****************************************************/
-         
+
         /************************************
          *                                  *
          * 2.3. Beheren van verlofaanvragen *
@@ -241,8 +232,8 @@ namespace EindProjectDAL
 
         /***************************************
          * 2.3.1. Indienen van verlofaanvragen *
-         ***************************************/ 
-         
+         ***************************************/
+
         /***************************************************************************************
          * 2.3.1.1. Indienen van verlofaanvragen met geldige gegevens en voldoende verlofdagen *
          ***************************************************************************************
@@ -286,7 +277,7 @@ namespace EindProjectDAL
 
         /***************************************
          * 2.3.5. Afkeuren van verlofaanvragen *
-         ***************************************/ 
+         ***************************************/
         public void WijzigStatusVerlofaanvraag(VerlofAanvraag verlofaanvraag, Aanvraagstatus status)
         {
             // nog niet getest
