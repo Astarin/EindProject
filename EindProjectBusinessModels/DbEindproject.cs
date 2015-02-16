@@ -13,11 +13,13 @@ namespace EindProjectBusinessModels
         {
             Database.Log = Console.Write;
             Database.SetInitializer<DbEindproject>(new DbEindprojectInitializer());
+          //  Database.SetInitializer<DbEindproject>(new DropCreateDatabaseAlways<DbEindproject>());
         }
 
         public DbSet<Werknemer> Werknemers { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<VerlofAanvraag> Verlofaanvragen { get; set; }
         public DbSet<CollectieveSluiting> Sluitingsdagen { get; set; }
+        public DbSet<JaarlijksVerlof> JaarlijkseVerloven { get; set; }
     }
 }

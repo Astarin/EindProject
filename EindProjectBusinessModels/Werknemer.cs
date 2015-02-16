@@ -69,7 +69,8 @@ namespace EindProjectBusinessModels
         public string Paswoord { get; set; }
 
         [ScaffoldColumn(false)] // word niet opgevraagd in auto generated creates.
-        public Dictionary<int, int> VerlofDagenPerJaar { get; set; }
+        //  public Dictionary<int, int> VerlofDagenPerJaar { get; set; }
+        public List<JaarlijksVerlof> JaarlijksVerlof { get; set; }
         [Required]
 
         [ScaffoldColumn(false)] // word niet opgevraagd in auto generated creates.
@@ -86,7 +87,8 @@ namespace EindProjectBusinessModels
         public Werknemer()
         {
             Verlofaanvragen = new List<VerlofAanvraag>();
-            VerlofDagenPerJaar = new Dictionary<int, int>();
+            // VerlofDagenPerJaar = new Dictionary<int, int>();
+            JaarlijksVerlof = new List<JaarlijksVerlof>();
         }
     }
 }
