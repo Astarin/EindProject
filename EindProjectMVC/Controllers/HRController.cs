@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EindProjectBusinessModels;
+using EindProjectDAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,18 +19,20 @@ namespace EindProjectMVC.Controllers
 
         public ActionResult HrNieuweWerknemer()
         {
-
+            
             return View();
         }
 
         public ActionResult HrWijzigWerknemer()
         {
-            return View();
+            DalMethodes methode = new DalMethodes();
+            return View(methode.VraagWerkenmerOp("","",""));
         }
 
         public ActionResult HrWVerlofToevoegen()
         {
             return View();
         }
+
 	}
 }

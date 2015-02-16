@@ -1,25 +1,64 @@
-﻿
-@{
-    ViewBag.Title = "HrHrWijzigWerknemer";
-}
+﻿@model System.Collections.Generic.IEnumerable<EindProjectBusinessModels.Werknemer>
 
-<div class="jumbotron">
-    <h2>Hr Wijzig Werknemer</h2>
-    <nav class="navbar navbar-inverse">
-        <form action="/HR/HrNieuweWerknemer" class="label label-primary">
-            <input name="Actie" type="submit" value="Nieuwe WerkNemer" class="button-invis">
-        </form>
-        <form action="/HR/HrWijzigWerknemer" class="label label-success">
-            <input name="Actie" type="submit" value="Wijzig Werknemer" class="button-invis">
-        </form>
-        <form action="/HR/HrWVerlofToevoegen" class="label label-default">
-            <input name="Actie" type="submit" value="Verlof Toevoegen" class="button-invis">
-        </form>
-        @*<span class="label label-default"> </span>
-            <span class="label label-primary">Wijzig Werknemer</span>
-            <span class="label label-success">Verlof Toevoegen</span>*@
-        @*<span class="label label-info">Info</span>*@
-        @*<span class="label label-warning">Warning</span>
-            <span class="label label-danger">Danger</span>*@
-    </nav>
-</div>
+    @{
+        ViewBag.Title = "HrWijzigWerknemer";
+    }
+
+    <div class="jumbotron">
+        <h2>Hr Wijzig Werknemer</h2>
+        <nav class="navbar navbar-inverse">
+            <form action="/HR/HrNieuweWerknemer" class="label label-primary">
+                <input name="Actie" type="submit" value="Nieuwe WerkNemer" class="button-invis">
+            </form>
+            <form action="/HR/HrWijzigWerknemer" class="label label-success">
+                <input name="Actie" type="submit" value="Wijzig Werknemer" class="button-invis">
+            </form>
+            <form action="/HR/HrWVerlofToevoegen" class="label label-default">
+                <input name="Actie" type="submit" value="Verlof Toevoegen" class="button-invis">
+            </form>
+            @*<span class="label label-default"> </span>
+                <span class="label label-primary">Wijzig Werknemer</span>
+                <span class="label label-success">Verlof Toevoegen</span>*@
+            @*<span class="label label-info">Info</span>*@
+            @*<span class="label label-warning">Warning</span>
+                <span class="label label-danger">Danger</span>*@
+        </nav>
+
+        <div class="table-hover">
+            <table class="table table-striped ">
+                <thead>
+                    <tr>
+                        <th>PersoneelsNr</th>
+                        <th>Naam</th>
+                        <th>Voornaam</th>
+                        <th>GeboorteDatum</th>
+                        <th>Team</th>
+                        <th>Adres</th>
+                        <th>Postcode</th>
+                        <th>Verlofaanvragen</th>
+                        <th>Verlofdagen per jaar</th>
+                    </tr>
+                </thead>
+                    @foreach (EindProjectBusinessModels.Werknemer werkn in Model)
+                    {
+                        <tr>
+                            <td>werkn.PersoneelsNr</td>
+                            <td>werkn.Naam</td>
+                            <td>werkn.Voornaam</td>
+                            <td>werkn.GeboorteDatum</td>
+                            <td>werkn.Team</td>
+                            <td>werkn.Adres</td>
+                            <td>werkn.Postcode</td>
+                            <td>werkn.Verlofaanvragen</td>
+                            <td>werkn.VerlofdagenPerJaar</td>
+                            
+                        </tr>
+                    }
+                    
+                        
+                   
+               
+            </table>
+        </div>
+
+    </div>
