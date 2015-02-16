@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewBag.Title = "TeamLeader Index";
+}
+
+<h2>TeamLeader Tools</h2>
+<h3>Behandelen verlofaanvragen</h3>
+@using (@Html.BeginForm())
+{
+    @Html.DropDownList("ddlTeamLeden", @ViewBag.Teamleden)
+}

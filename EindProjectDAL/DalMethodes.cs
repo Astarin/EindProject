@@ -8,9 +8,9 @@ using System.Reflection;
 
 namespace EindProjectDAL
 {
-    class DalMethodes
+    public class DalMethodes
     {
-        // Verijsten
+        // Vereisten
         //1.1.1 Toevoegen van een werknemer     *
         //1.2.1. Toevoegen van een team         *
         //1.2.2 Beheren teamverantwoordelijken  *
