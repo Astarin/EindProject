@@ -31,7 +31,14 @@ namespace EindProjectDAL
             */
              using (DbEindproject db = new DbEindproject())
              {
-                 db.Werknemers.Add(werknemer);
+                 try
+                 {
+                     db.Werknemers.Add(werknemer);
+                 }
+                 catch
+                 {
+                     throw new Exception("Probleempje met het toevoegen van een werknemer.");
+                 }
              }
         }
 
@@ -62,7 +69,14 @@ namespace EindProjectDAL
             */
             using (DbEindproject db = new DbEindproject())
             {
+                try
+                {
                     db.Teams.Add(team);
+                }
+                catch
+                {
+                    throw new Exception("Het toevoegen van een team is niet gelukt.");
+                }
             }
         }
 
@@ -72,6 +86,7 @@ namespace EindProjectDAL
         {
 
         }
+        
         public List<Werknemer> GeefTeamleden(Team team)
         {
             return new List<Werknemer>();

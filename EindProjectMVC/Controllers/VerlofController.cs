@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EindProjectBusinessModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,7 +19,7 @@ namespace EindProjectMVC.Controllers
         public ActionResult HrAction()
         {
 
-            return View(new Werknermer());
+            return View(new Werknemer());
         }
 
         public ActionResult TeamLeaderAction()
