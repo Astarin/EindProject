@@ -85,6 +85,7 @@ namespace EindProjectBusinessModels
         public Werknemer()
         {
             Verlofaanvragen = new List<VerlofAanvraag>();
+            VerlofDagenPerJaar = new Dictionary<int, int>();
         }
     }
 }
