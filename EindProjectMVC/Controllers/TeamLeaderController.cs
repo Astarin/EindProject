@@ -15,29 +15,8 @@ namespace EindProjectMVC.Controllers
         public ActionResult Index()
         {
             DalMethodes Dal = new DalMethodes();
-            Team team = new Team();
-            //ViewBag.Teamleden = Dal.GeefTeamleden(team);
-
-            // Provide Test Data for View
-            List<Werknemer> wnList = new List<Werknemer>();
-            wnList.Add(new Werknemer
-            {
-                Naam = "Jansen",
-                Voornaam = "Jan",
-                PersoneelsNr = 1,
-                Adres = "AdresJansen",
-                Gemeente = "GemeenteJansen",
-                Postcode = "1000"
-            });
-            wnList.Add(new Werknemer
-            {
-                Naam = "Peeters",
-                Voornaam = "Peter",
-                PersoneelsNr = 2,
-                Adres = "AdresPeeters",
-                Gemeente = "GemeentePeeters",
-                Postcode = "2000"
-            });
+            Team team = new Team { Naam = "Smurfen", Code = 1 };
+            List<Werknemer> wnList = Dal.GeefTeamleden(team);
 
             var qry = from w in wnList
                       select new SelectListItem { 
@@ -49,9 +28,12 @@ namespace EindProjectMVC.Controllers
 
         }
 
-        public ActionResult InfoForWerknemer(Werknemer werknemer)
+        public ActionResult InfoForWerknemer(int ddlTeamLeden)
         {
-            return View();
+            DalMethodes dal = new DalMethodes();
+            Werknemer werknemer = (dal.VraagWerknemerOp(ddlTeamLeden.ToString(), "", "")).FirstOrDefault();
+
+            return View(werknemer);
         }
 
     }
