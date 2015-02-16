@@ -15,7 +15,7 @@ namespace EindProjectBusinessModels
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Je moet een startdatum opgegeven")]
-        [DataType(DataType.Date)
+        [DataType(DataType.Date)]
         public DateTime StartDatum { get; set; }
 
         [Required(ErrorMessage = "Je moet een Einddatum opgegeven")]
