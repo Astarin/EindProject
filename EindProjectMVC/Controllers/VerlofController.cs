@@ -17,12 +17,33 @@ namespace EindProjectMVC.Controllers
             return View();
         }
 
-        
-
-        public ActionResult WerknemerAction()
+        public ActionResult WerknemerAction(string PersoneelsNr)
         {
-            return View();
+            if (PersoneelsNr == String.Empty || PersoneelsNr == null)
+            {
+                return View();
+            }
+            else
+            {
+                DalMethodes methode = new DalMethodes();
+
+                Werknemer wn = methode.VraagWerknemerOp(PersoneelsNr, "", "").FirstOrDefault();
+
+                return View("WerknemerIngelogd", wn);
+            }
         }
-                        
-	}
+
+        public ActionResult VerlofIndienen(VerlofAanvraag aanvraag, string PersoneelsNr)
+        {
+            DalMethodes methode = new DalMethodes();
+
+            Werknemer wn = methode.VraagWerknemerOp(PersoneelsNr, "", "").FirstOrDefault();
+
+            methode.IndienenVerlofaanvraag(wn, aanvraag);
+
+            wn = methode.VraagWerknemerOp(PersoneelsNr, "", "").FirstOrDefault();
+
+            return View("WerknemerIngelogd", wn);
+        }
+    }
 }
