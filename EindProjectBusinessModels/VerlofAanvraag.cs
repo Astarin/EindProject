@@ -28,6 +28,12 @@ namespace EindProjectBusinessModels
         [ScaffoldColumn(false)]  // niet opvragen de aanvraagstatus moet in code aangemaakt worden
         public Aanvraagstatus Toestand { get; set; }
 
+        [ScaffoldColumn(false)]
+        public DateTime BehandelDatum { get; set; }
+
+        [ScaffoldColumn(false)]
+        public Werknemer BehandeldDoor { get; set; }
+
         // De aanvraagdatum word bij creatie aangemaakt.
         public VerlofAanvraag()
         {
