@@ -18,10 +18,10 @@ namespace EindProjectMVC.Controllers
             return View();
         }
 
-        public ActionResult HrNieuweWerknemer(Werknemer werknemer)
+        public ActionResult HrNieuweWerknemer(Werknemer werknemer, string team)
         {
             //dropdownlijst opvullen
-            List<Team>TeamsNieuweWerknemer = methode.OpvragenTeams("", "", "");
+            List<Team> TeamsNieuweWerknemer = methode.OpvragenAlleTeams();
             var qry = from w in TeamsNieuweWerknemer
                       select new SelectListItem
                       {
@@ -38,7 +38,10 @@ namespace EindProjectMVC.Controllers
             {
                 //if (ModelState.IsValid)
                 //{
-               
+                    // opzoeken van team in de TeamsnieuweWernemer lijst.
+                Team inTeSchrijvenTeam = TeamsNieuweWerknemer.Find(x => x.Code == int.Parse(team));
+                werknemer.Team = inTeSchrijvenTeam;
+                    
                     //TODO
                     methode.VoegWerknemerToeAanDb(werknemer);
                 //}

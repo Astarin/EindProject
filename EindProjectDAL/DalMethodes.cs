@@ -174,8 +174,8 @@ namespace EindProjectDAL
         {
             using (DbEindproject db = new DbEindproject())
             {
-                List<Werknemer> teamLijst = (from w in db.Teams
-                                             select w).ToList<Werknemer>();
+                List<Team> teamLijst = (from w in db.Teams
+                                        select w).ToList<Team>();
 
                 return teamLijst;
             }

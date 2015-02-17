@@ -1,7 +1,11 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Werknemers";
 }
 
 <h2>Werknemer Tools</h2>
 
+@using (Html.BeginForm())
+{
+    @Html.Label("PersoneelNr: "); @Html.TextBox("PersoneelsNr");
+    <input type="submit" value="Log In met dit PersoneelsNr" class="btn btn-default" />
+}
