@@ -69,7 +69,7 @@ namespace EindProjectDAL
             {
                 try
                 {
-                    werknemer.Team = HaalTeamvoorWerknemerUitDb(werknemer, teamCode, db);
+                    werknemer.Team = HaalTeamVoorWerknemerUitDb(werknemer, teamCode, db);
                     db.Werknemers.Add(werknemer);
                     db.SaveChanges();
                 }
@@ -131,7 +131,7 @@ namespace EindProjectDAL
                                 where w.PersoneelsNr == werknemer.PersoneelsNr
                                 select w).FirstOrDefault();
 
-                werknemer.Team = HaalTeamvoorWerknemerUitDb(werknemer, teamCode, db);
+                werknemer.Team = HaalTeamVoorWerknemerUitDb(werknemer, teamCode, db);
                 wn = werknemer;
                 db.SaveChanges();
             }
