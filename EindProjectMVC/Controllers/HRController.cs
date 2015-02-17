@@ -11,6 +11,7 @@ namespace EindProjectMVC.Controllers
     public class HRController : Controller
     {
         DalMethodes methode = new DalMethodes();
+        List<Team> TeamsNieuweWerknemer;
         //
         // GET: /HR/
         public ActionResult Index()
@@ -21,14 +22,7 @@ namespace EindProjectMVC.Controllers
         public ActionResult HrNieuweWerknemer(Werknemer werknemer, string team)
         {
             //dropdownlijst opvullen
-            List<Team> TeamsNieuweWerknemer = methode.OpvragenAlleTeams();
-            var qry = from w in TeamsNieuweWerknemer
-                      select new SelectListItem
-                      {
-                          Text = String.Format("{0} {1} ", w.Code.ToString(), w.Naam),
-                          Value = w.Code.ToString()
-                      };
-            ViewBag.TeamsNieuweWerknemerDL = qry.ToList();
+                NieuweTeamslijstAanmaken();
 
             if (werknemer.Naam == null)
             {
@@ -37,7 +31,6 @@ namespace EindProjectMVC.Controllers
             else
             {
                 methode.VoegWerknemerToeAanDb(werknemer, int.Parse(team));
-
             }
 
             return View();
@@ -52,6 +45,7 @@ namespace EindProjectMVC.Controllers
 
         public ActionResult HrWijzigWerknemer(int? werknemerId)
         {
+            NieuweTeamslijstAanmaken();
             if (werknemerId == null)
             {
                 //TODO ERROR
@@ -62,12 +56,29 @@ namespace EindProjectMVC.Controllers
         [HttpPost]
         public ActionResult HrWijzigWerknemer(Werknemer werknemer)
         {
+            NieuweTeamslijstAanmaken();
             return View(werknemer);
         }
 
-        public ActionResult HrWVerlofToevoegen()
+        public ActionResult HrWJaarlijksVerlofToevoegen()
         {
+
             return View();
+        }
+
+        private void NieuweTeamslijstAanmaken()
+        {
+            if (TeamsNieuweWerknemer == null)
+            {
+                TeamsNieuweWerknemer = methode.OpvragenAlleTeams();
+                var qry = from w in TeamsNieuweWerknemer
+                          select new SelectListItem
+                          {
+                              Text = String.Format("{0} {1} ", w.Code.ToString(), w.Naam),
+                              Value = w.Code.ToString()
+                          };
+                ViewBag.TeamsNieuweWerknemerDL = qry.ToList();
+            }
         }
 
     }
