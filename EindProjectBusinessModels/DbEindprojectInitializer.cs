@@ -474,7 +474,7 @@ namespace EindProjectBusinessModels
             db.Werknemers.Add(smurf8);
             db.Werknemers.Add(smurf9);
             db.Werknemers.Add(smurf10);
-            db.Werknemers.Add(smurf11;
+            db.Werknemers.Add(smurf11);
             db.Werknemers.Add(smurf12);
             db.Werknemers.Add(smurf13);
             db.Werknemers.Add(smurf14);
