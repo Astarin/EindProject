@@ -26,7 +26,7 @@ namespace EindProjectDAL
          **************************************
          * David 16/02/15                     *
          **************************************/
-        public void VoegWerknemerToeAanDb(Werknemer werknemer)
+        public void VoegWerknemerToeAanDb(Werknemer werknemer) // nog nodig?
         {
             /*
              * David 16/02/15
@@ -39,6 +39,27 @@ namespace EindProjectDAL
             {
                 try
                 {
+                    db.Werknemers.Add(werknemer);
+                    db.SaveChanges();
+                }
+                catch
+                {
+                    throw new Exception("Probleempje met het toevoegen van een werknemer.");
+                }
+            }
+        }
+        public void VoegWerknemerToeAanDb(Werknemer werknemer, int teamCode)
+        {
+            // nodig om duplicatie van team te voorkomen
+            using (DbEindproject db = new DbEindproject())
+            {
+                try
+                {
+                    Team team = (from t in db.Teams
+                                where t.Code == teamCode
+                                select t).First<Team>()
+                               ;
+                    werknemer.Team = team;
                     db.Werknemers.Add(werknemer);
                     db.SaveChanges();
                 }
