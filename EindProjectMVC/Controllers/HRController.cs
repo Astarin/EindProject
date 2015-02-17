@@ -36,15 +36,8 @@ namespace EindProjectMVC.Controllers
             }
             else
             {
-                //if (ModelState.IsValid)
-                //{
-                    // opzoeken van team in de TeamsnieuweWernemer lijst.
-                Team inTeSchrijvenTeam = TeamsNieuweWerknemer.Find(x => x.Code == int.Parse(team));
-                werknemer.Team = inTeSchrijvenTeam;
-                    
-                    //TODO
-                    methode.VoegWerknemerToeAanDb(werknemer);
-                //}
+                methode.VoegWerknemerToeAanDb(werknemer, int.Parse(team));
+
             }
 
             return View();
@@ -52,14 +45,14 @@ namespace EindProjectMVC.Controllers
 
         public ActionResult HrSelecteerWerknemer()
         {
-            
+
             List<Werknemer> werknemers = methode.VraagAlleWerknemersOp();
             return View(werknemers);
         }
-       
+
         public ActionResult HrWijzigWerknemer(int? werknemerId)
         {
-            if(werknemerId == null)
+            if (werknemerId == null)
             {
                 //TODO ERROR
             }
@@ -77,5 +70,5 @@ namespace EindProjectMVC.Controllers
             return View();
         }
 
-	}
+    }
 }
