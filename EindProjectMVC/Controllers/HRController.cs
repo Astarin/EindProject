@@ -60,7 +60,7 @@ namespace EindProjectMVC.Controllers
             return View(werknemer);
         }
 
-        public ActionResult HrWVerlofToevoegen()
+        public ActionResult HrWJaarlijksVerlofToevoegen()
         {
 
             return View();
