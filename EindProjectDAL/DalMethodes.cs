@@ -170,12 +170,22 @@ namespace EindProjectDAL
 
         }
 
+        public List<Team> OpvragenAlleTeams()
+        {
+            using (DbEindproject db = new DbEindproject())
+            {
+                List<Team> teamLijst = (from w in db.Teams
+                                        select w).ToList<Team>();
+
+                return teamLijst;
+            }
+        }
 
         /*****************************
          * 1.2.3. Opvragen van teams *
          *****************************
          * David 15/02/15            *
-         *****************************/ 
+        *****************************/ 
         public List<Team> OpvragenTeams(string code, string teamnaam, string teamleader)
         {
             //  De medewerker geeft 0, 1 of meer van volgende criteria op:

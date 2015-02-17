@@ -18,12 +18,35 @@ namespace EindProjectMVC.Controllers
             return View();
         }
 
-        public ActionResult HrNieuweWerknemer()
+        public ActionResult HrNieuweWerknemer(Werknemer werknemer, string team)
         {
-            if (ModelState.IsValid)
+            //dropdownlijst opvullen
+            List<Team> TeamsNieuweWerknemer = methode.OpvragenAlleTeams();
+            var qry = from w in TeamsNieuweWerknemer
+                      select new SelectListItem
+                      {
+                          Text = String.Format("{0} {1} ", w.Code.ToString(), w.Naam),
+                          Value = w.Code.ToString()
+                      };
+            ViewBag.TeamsNieuweWerknemerDL = qry.ToList();
+
+            if (werknemer.Naam == null)
             {
-                //TODO
+                // TODO wss niets
             }
+            else
+            {
+                //if (ModelState.IsValid)
+                //{
+                    // opzoeken van team in de TeamsnieuweWernemer lijst.
+                Team inTeSchrijvenTeam = TeamsNieuweWerknemer.Find(x => x.Code == int.Parse(team));
+                werknemer.Team = inTeSchrijvenTeam;
+                    
+                    //TODO
+                    methode.VoegWerknemerToeAanDb(werknemer);
+                //}
+            }
+
             return View();
         }
 
@@ -33,10 +56,19 @@ namespace EindProjectMVC.Controllers
             List<Werknemer> werknemers = methode.VraagAlleWerknemersOp();
             return View(werknemers);
         }
-        [HttpPost]
-        public ActionResult HrWijzigWerknemer(string werknemerId)
+       
+        public ActionResult HrWijzigWerknemer(int? werknemerId)
         {
-            Werknemer werknemer = methode.VraagWerknemerOp(werknemerId, "", "")[0]; // geef de 0 en normaal enige terug
+            if(werknemerId == null)
+            {
+                //TODO ERROR
+            }
+            Werknemer werknemer = methode.VraagWerknemerOp(werknemerId.ToString(), "", "")[0]; // geef de 0 en normaal enige terug
+            return View(werknemer);
+        }
+        [HttpPost]
+        public ActionResult HrWijzigWerknemer(Werknemer werknemer)
+        {
             return View(werknemer);
         }
 
