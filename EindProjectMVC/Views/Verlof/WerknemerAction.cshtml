@@ -6,6 +6,8 @@
 
 @using (Html.BeginForm())
 {
-    @Html.Label("PersoneelNr: "); @Html.TextBox("PersoneelsNr");
+    <p>
+        @Html.Label("PersoneelNr:") @Html.TextBox("PersoneelsNr")
+    </p>
     <input type="submit" value="Log In met dit PersoneelsNr" class="btn btn-default" />
 }
