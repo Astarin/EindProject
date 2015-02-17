@@ -40,6 +40,19 @@ namespace EindProjectMVC.Controllers
             DalMethodes dal = new DalMethodes();
             Werknemer werknemer = (dal.VraagWerknemerOp(ddlTeamLeden.ToString(), "", "")).FirstOrDefault();
             Session["werknemer"] = werknemer;
+            //TO DO: opvragen Teamleader + in Session variabele steken
+            Session["teamleader"] = new Werknemer
+            {
+                TeamLeader = true,
+                Naam = "",
+                Voornaam = "",
+                Email = "lelijke@smurf.com",
+                Geboortedatum = new DateTime(1892, 09, 22),
+                Adres = "",
+                Postcode = "",
+                Gemeente = "",
+                Paswoord = "Hash",
+            };
             return View(werknemer);
         }
 
@@ -47,15 +60,25 @@ namespace EindProjectMVC.Controllers
         {
             // Id is de id van de verlofaanvraag.
             Werknemer werknemer;
+            Werknemer teamLeader;
             DalMethodes dal = new DalMethodes();
-            dal.WijzigStatusVerlofaanvraag(v, Aanvraagstatus.Goedgekeurd);
-
-            if (Session["werknemer"] != null) 
+            if (Session["teamleader"] == null)
+            {
+                teamLeader = new Werknemer { Naam = "", Voornaam = "" };
+            }
+            else
+            {
+                teamLeader = (Werknemer)Session["teamleader"];
+            }
+            if (Session["werknemer"] != null)
             {
                 werknemer = (Werknemer)Session["werknemer"];
+                dal.WijzigStatusVerlofaanvraag(v, Aanvraagstatus.Goedgekeurd);
+                dal.WijzigBehandelDatumVerlofaanvraag(v);
+                //dal.WijzigBehandeldDoorVerlofaanvraag(v, teamLeader);
                 werknemer = (dal.VraagWerknemerOp(werknemer.PersoneelsNr.ToString(), "", "")).FirstOrDefault();
             }
-            else { werknemer = null; }
+            else { throw new NullReferenceException("Session[werknemer] is null."); }
 
             return View("InfoForWerknemer", werknemer);
         }
