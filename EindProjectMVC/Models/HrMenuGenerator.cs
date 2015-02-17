@@ -13,7 +13,7 @@ namespace EindProjectMVC.Models
            @"    <div class='jumbotron'>
         <h2>Hr Selecteer Werknemer</h2>
         <nav class='navbar navbar-inverse'>
-            <form action='/HR/HrNieuweWerknemer' class='label label-primary'>
+            <form action='/HR/HrNieuweWerknemer' class='label label-primary' >
                 <input name='Actie' type='submit' value='Nieuwe WerkNemer' class='button-invis'>
             </form>
             <form action='/HR/HrSelecteerWerknemer' class='label label-success'>

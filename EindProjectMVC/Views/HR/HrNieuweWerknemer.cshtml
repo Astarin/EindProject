@@ -76,6 +76,14 @@
                 @Html.ValidationMessageFor(model => model.TeamLeader)
             </div>
         </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Team, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.DropDownList("TeamsNieuweWerknemerDL");
+                @*@Html.EditorFor(model => model.Team)*@
+                @Html.ValidationMessageFor(model => model.Team)
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

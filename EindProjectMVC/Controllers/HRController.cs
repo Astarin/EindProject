@@ -18,25 +18,34 @@ namespace EindProjectMVC.Controllers
             return View();
         }
 
-        public ActionResult HrNieuweWerknemer()
-        {
-            if (ModelState.IsValid)
-            {
-                //TODO
-            }
-            return View();
-        }
         public ActionResult HrNieuweWerknemer(Werknemer werknemer)
         {
-            if (ModelState.IsValid)
+            //dropdownlijst opvullen
+            List<Team>TeamsNieuweWerknemer = methode.OpvragenTeams("", "", "");
+            var qry = from w in TeamsNieuweWerknemer
+                      select new SelectListItem
+                      {
+                          Text = String.Format("{0} {1} ", w.Code.ToString(), w.Naam),
+                          Value = w.Code.ToString()
+                      };
+            ViewBag.TeamsNieuweWerknemerDL = qry.ToList();
+
+            if (werknemer.Naam == null)
             {
-                //TODO
-                methode.VoegWerknemerToeAanDb(werknemer);
+                // TODO wss niets
+            }
+            else
+            {
+                //if (ModelState.IsValid)
+                //{
+               
+                    //TODO
+                    methode.VoegWerknemerToeAanDb(werknemer);
+                //}
             }
 
             return View();
         }
-
 
         public ActionResult HrSelecteerWerknemer()
         {
