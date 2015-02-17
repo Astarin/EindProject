@@ -26,6 +26,17 @@ namespace EindProjectMVC.Controllers
             }
             return View();
         }
+        public ActionResult HrNieuweWerknemer(Werknemer werknemer)
+        {
+            if (ModelState.IsValid)
+            {
+                //TODO
+                methode.VoegWerknemerToeAanDb(werknemer);
+            }
+
+            return View();
+        }
+
 
         public ActionResult HrSelecteerWerknemer()
         {
@@ -33,10 +44,19 @@ namespace EindProjectMVC.Controllers
             List<Werknemer> werknemers = methode.VraagAlleWerknemersOp();
             return View(werknemers);
         }
-        [HttpPost]
-        public ActionResult HrWijzigWerknemer(string werknemerId)
+       
+        public ActionResult HrWijzigWerknemer(int? werknemerId)
         {
-            Werknemer werknemer = methode.VraagWerknemerOp(werknemerId, "", "")[0]; // geef de 0 en normaal enige terug
+            if(werknemerId == null)
+            {
+                //TODO ERROR
+            }
+            Werknemer werknemer = methode.VraagWerknemerOp(werknemerId.ToString(), "", "")[0]; // geef de 0 en normaal enige terug
+            return View(werknemer);
+        }
+        [HttpPost]
+        public ActionResult HrWijzigWerknemer(Werknemer werknemer)
+        {
             return View(werknemer);
         }
 
