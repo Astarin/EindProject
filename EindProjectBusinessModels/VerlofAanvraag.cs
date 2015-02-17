@@ -29,7 +29,6 @@ namespace EindProjectBusinessModels
         public Aanvraagstatus Toestand { get; set; }
 
         [ScaffoldColumn(false)]
-        [DataType(DataType.Date)]
         public DateTime? BehandelDatum { get; set; }
 
         [ScaffoldColumn(false)]
