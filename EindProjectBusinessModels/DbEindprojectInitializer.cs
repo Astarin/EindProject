@@ -49,8 +49,8 @@ namespace EindProjectBusinessModels
             db.Sluitingsdagen.Add(new CollectiefVerlof { Omschrijving = "zomerverlof", StartDatum = new DateTime(2015, 07, 06), EindDatum = new DateTime(2015, 07, 26), Terugkerend = false });
             db.Sluitingsdagen.Add(new CollectiefVerlof { Omschrijving = "winterverlof", StartDatum = new DateTime(2015, 12, 26), EindDatum = new DateTime(2015, 12, 31), Terugkerend = false });
             // collectief verlof 2016
-            db.Sluitingsdagen.Add(new CollectiefVerlof { Omschrijving = "zomerverlof", StartDatum = new DateTime(2016, 07, 04), EindDatum = new DateTime(2015, 07, 24), Terugkerend = false });
-            db.Sluitingsdagen.Add(new CollectiefVerlof { Omschrijving = "winterverlof", StartDatum = new DateTime(201, 12, 26), EindDatum = new DateTime(2015, 12, 31), Terugkerend = false });
+            db.Sluitingsdagen.Add(new CollectiefVerlof { Omschrijving = "zomerverlof", StartDatum = new DateTime(2016, 07, 04), EindDatum = new DateTime(2016, 07, 24), Terugkerend = false });
+            db.Sluitingsdagen.Add(new CollectiefVerlof { Omschrijving = "winterverlof", StartDatum = new DateTime(2016, 12, 26), EindDatum = new DateTime(2016, 12, 31), Terugkerend = false });
 
 
             //Teams
@@ -62,7 +62,7 @@ namespace EindProjectBusinessModels
             db.Teams.Add(smurfTeam3);
             Team smurfTeam4 = new Team { Naam = "Mopper smurfen" };
             db.Teams.Add(smurfTeam4);
-            Team smurfTeam5 = new Team { Naam = "Potige smurgen" };
+            Team smurfTeam5 = new Team { Naam = "Potige smurfen" };
             db.Teams.Add(smurfTeam5);
 
             db.SaveChanges();   // Teams worden opgeslagen, zodat ze kunnen gebruikt worden bij aanmaak van werknemers
@@ -94,7 +94,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=30},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam1
             };
 
@@ -109,7 +110,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=30},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam1
             };
 
@@ -124,7 +126,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=30},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam1
             };
 
@@ -139,7 +142,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=30},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam1
             };
 
@@ -154,7 +158,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = nietStandaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=20},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam1
             };
 
@@ -171,7 +176,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=30},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam2
             };
 
@@ -186,7 +192,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=30},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam2
             };
 
@@ -201,7 +208,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=30},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam2
             };
 
@@ -216,7 +224,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=30},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam2
             };
 
@@ -231,7 +240,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = nietStandaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=20},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam2
             };
 
@@ -247,7 +257,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=30},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam3
             };
 
@@ -262,7 +273,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=30},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam3
             };
 
@@ -277,7 +289,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=30},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam3
             };
 
@@ -292,7 +305,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=30},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam3
             };
 
@@ -307,7 +321,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = nietStandaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=20},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam3
             };
 
@@ -323,7 +338,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=30},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam4
             };
 
@@ -338,7 +354,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=30},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam4
             };
 
@@ -353,7 +370,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=30},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam4
             };
 
@@ -368,7 +386,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=30},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam4
             };
 
@@ -383,7 +402,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = nietStandaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=20},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam4
             };
 
@@ -399,7 +419,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=30},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam5
             };
 
@@ -414,7 +435,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=30},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam5
             };
 
@@ -429,7 +451,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=30},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam5
             };
 
@@ -444,7 +467,8 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = standaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=30},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam5
             };
 
@@ -459,10 +483,13 @@ namespace EindProjectBusinessModels
                 Postcode = "2340",
                 Gemeente = "Smurfstad",
                 Paswoord = "Passwoord",
-                JaarlijksVerlof = nietStandaardVerlofDagen,
+                JaarlijksVerlof = new List<JaarlijksVerlof> { new JaarlijksVerlof{Jaar = 2015, AantalDagen=20},
+                new JaarlijksVerlof{Jaar = 2016, AantalDagen=30}},
                 Team = smurfTeam5
             };
 
+
+            // db.SaveChanges();
             // 25 smurfen gelijk verdeeld over 5 teams //
             db.Werknemers.Add(smurf1);
             db.Werknemers.Add(smurf2);
@@ -508,17 +535,17 @@ namespace EindProjectBusinessModels
             };
 
             smurf2.Verlofaanvragen.Add(verlofAanvraag1);
-            smurf4.Verlofaanvragen.Add(verlofAanvraag1);
-            smurf6.Verlofaanvragen.Add(verlofAanvraag1);
-            smurf8.Verlofaanvragen.Add(verlofAanvraag1);
-            smurf10.Verlofaanvragen.Add(verlofAanvraag1);
-            smurf12.Verlofaanvragen.Add(verlofAanvraag1);
-            smurf14.Verlofaanvragen.Add(verlofAanvraag1);
-            smurf16.Verlofaanvragen.Add(verlofAanvraag1);
-            smurf18.Verlofaanvragen.Add(verlofAanvraag1);
-            smurf20.Verlofaanvragen.Add(verlofAanvraag1);
-            smurf22.Verlofaanvragen.Add(verlofAanvraag1);
-            smurf24.Verlofaanvragen.Add(verlofAanvraag1);
+            //smurf4.Verlofaanvragen.Add(verlofAanvraag1);
+            //smurf6.Verlofaanvragen.Add(verlofAanvraag1);
+            //smurf8.Verlofaanvragen.Add(verlofAanvraag1);
+            //smurf10.Verlofaanvragen.Add(verlofAanvraag1);
+            //smurf12.Verlofaanvragen.Add(verlofAanvraag1);
+            //smurf14.Verlofaanvragen.Add(verlofAanvraag1);
+            //smurf16.Verlofaanvragen.Add(verlofAanvraag1);
+            //smurf18.Verlofaanvragen.Add(verlofAanvraag1);
+            //smurf20.Verlofaanvragen.Add(verlofAanvraag1);
+            //smurf22.Verlofaanvragen.Add(verlofAanvraag1);
+            //smurf24.Verlofaanvragen.Add(verlofAanvraag1);
 
             VerlofAanvraag verlofAanvraag2 = new VerlofAanvraag
             {
@@ -528,10 +555,10 @@ namespace EindProjectBusinessModels
                 Toestand = Aanvraagstatus.Goedgekeurd
             };
 
-            smurf2.Verlofaanvragen.Add(verlofAanvraag2);
-            smurf6.Verlofaanvragen.Add(verlofAanvraag2);
-            smurf14.Verlofaanvragen.Add(verlofAanvraag2);
-            smurf18.Verlofaanvragen.Add(verlofAanvraag2);
+            //smurf2.Verlofaanvragen.Add(verlofAanvraag2);
+            //smurf6.Verlofaanvragen.Add(verlofAanvraag2);
+            //smurf14.Verlofaanvragen.Add(verlofAanvraag2);
+            //smurf18.Verlofaanvragen.Add(verlofAanvraag2);
             smurf22.Verlofaanvragen.Add(verlofAanvraag2);
 
 
@@ -544,7 +571,7 @@ namespace EindProjectBusinessModels
             };
 
             smurf10.Verlofaanvragen.Add(verlofAanvraag3);
-            smurf20.Verlofaanvragen.Add(verlofAanvraag3);
+            //smurf20.Verlofaanvragen.Add(verlofAanvraag3);
 
             VerlofAanvraag verlofAanvraag4 = new VerlofAanvraag
             {
@@ -555,21 +582,21 @@ namespace EindProjectBusinessModels
             };
 
             smurf4.Verlofaanvragen.Add(verlofAanvraag4);
-            smurf14.Verlofaanvragen.Add(verlofAanvraag4);
-            smurf24.Verlofaanvragen.Add(verlofAanvraag4);
+            //smurf14.Verlofaanvragen.Add(verlofAanvraag4);
+            //smurf24.Verlofaanvragen.Add(verlofAanvraag4);
 
 
             VerlofAanvraag verlofAanvraag5 = new VerlofAanvraag
             {
                 AanvraagDatum = new DateTime(2015, 02, 28),
                 StartDatum = new DateTime(2015, 08, 12),
-                EindDatum = new DateTime(2015, 08, 19),
+                EindDatum = new DateTime(2015, 08, 13),
                 Toestand = Aanvraagstatus.Afgekeurd
             };
 
-            smurf2.Verlofaanvragen.Add(verlofAanvraag5);
+            //smurf2.Verlofaanvragen.Add(verlofAanvraag5);
             smurf12.Verlofaanvragen.Add(verlofAanvraag5);
-            smurf22.Verlofaanvragen.Add(verlofAanvraag5);
+            //smurf22.Verlofaanvragen.Add(verlofAanvraag5);
 
 
             VerlofAanvraag verlofAanvraag6 = new VerlofAanvraag
@@ -580,7 +607,7 @@ namespace EindProjectBusinessModels
                 Toestand = Aanvraagstatus.Ingediend
             };
 
-            smurf8.Verlofaanvragen.Add(verlofAanvraag6);
+            //smurf8.Verlofaanvragen.Add(verlofAanvraag6);
             smurf16.Verlofaanvragen.Add(verlofAanvraag6);
             
             db.SaveChanges();
