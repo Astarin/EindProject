@@ -170,12 +170,22 @@ namespace EindProjectDAL
 
         }
 
+        public List<Team> OpvragenAlleTeams()
+        {
+            using (DbEindproject db = new DbEindproject())
+            {
+                List<Team> teamLijst = (from w in db.Teams
+                                        select w).ToList<Team>();
+
+                return teamLijst;
+            }
+        }
 
         /*****************************
          * 1.2.3. Opvragen van teams *
          *****************************
          * David 15/02/15            *
-         *****************************/ 
+        *****************************/ 
         public List<Team> OpvragenTeams(string code, string teamnaam, string teamleader)
         {
             //  De medewerker geeft 0, 1 of meer van volgende criteria op:
@@ -318,7 +328,30 @@ namespace EindProjectDAL
         /**********************************************************
          * 2.3.4. Goedkeuren van verlofaanvragen door het systeem *
          **********************************************************/
-
+        public void WijzigBehandelDatumVerlofaanvraag(VerlofAanvraag verlofaanvraag)
+        {
+            // nog niet getest
+            using (DbEindproject db = new DbEindproject())
+            {
+                VerlofAanvraag aanvraag = (from v in db.Verlofaanvragen
+                                           where v.Id == verlofaanvraag.Id
+                                           select v).FirstOrDefault();
+                aanvraag.BehandelDatum = DateTime.Now;
+                db.SaveChanges();
+            }
+        }
+        public void WijzigBehandeldDoorVerlofaanvraag(VerlofAanvraag verlofaanvraag, Werknemer werknemer)
+        {
+            // nog niet getest
+            using (DbEindproject db = new DbEindproject())
+            {
+                VerlofAanvraag aanvraag = (from v in db.Verlofaanvragen
+                                           where v.Id == verlofaanvraag.Id
+                                           select v).FirstOrDefault();
+                aanvraag.BehandeldDoor= werknemer;
+                db.SaveChanges();
+            }
+        }
         /***************************************
          * 2.3.5. Afkeuren van verlofaanvragen *
          ***************************************/
