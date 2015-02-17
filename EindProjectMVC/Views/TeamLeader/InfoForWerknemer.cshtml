@@ -9,6 +9,9 @@
 <table class="table">
     <tr>
         <th>
+
+        </th>
+        <th>
             @Html.Label("Nr")
         </th>
         <th>
@@ -23,13 +26,19 @@
         <th>
             @Html.Label("Toestand")
         </th>
+        <th>
+            @Html.Label("Behandeld op")
+        </th>
+        <th>
+            @Html.Label("Behandeld door")
+        </th>
     </tr>
 
     @foreach (var item in Model.Verlofaanvragen)
     {
         <tr>
             <td>
-                @Html.ActionLink("Goedkeuren", "UpdateStatusVerlofAanvraag", new { Id = item.Id })
+                @Html.ActionLink("Goedkeuren", "UpdateStatusVerlofAanvraag", item)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Id)
@@ -45,6 +54,12 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Toestand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BehandelDatum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BehandeldDoor.Naam)
             </td>
         </tr>
     }

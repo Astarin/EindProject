@@ -11,6 +11,7 @@ namespace EindProjectMVC.Controllers
     public class HRController : Controller
     {
         DalMethodes methode = new DalMethodes();
+        List<Team> TeamsNieuweWerknemer;
         //
         // GET: /HR/
         public ActionResult Index()
@@ -18,32 +19,67 @@ namespace EindProjectMVC.Controllers
             return View();
         }
 
-        public ActionResult HrNieuweWerknemer()
+        public ActionResult HrNieuweWerknemer(Werknemer werknemer, string team)
         {
-            if (ModelState.IsValid)
+            //dropdownlijst opvullen
+                NieuweTeamslijstAanmaken();
+
+            if (werknemer.Naam == null)
             {
-                //TODO
+                // TODO wss niets
             }
+            else
+            {
+                methode.VoegWerknemerToeAanDb(werknemer, int.Parse(team));
+            }
+
             return View();
         }
 
         public ActionResult HrSelecteerWerknemer()
         {
-            
+
             List<Werknemer> werknemers = methode.VraagAlleWerknemersOp();
             return View(werknemers);
         }
-        [HttpPost]
-        public ActionResult HrWijzigWerknemer(string werknemerId)
+
+        public ActionResult HrWijzigWerknemer(int? werknemerId)
         {
-            Werknemer werknemer = methode.VraagWerknemerOp(werknemerId, "", "")[0]; // geef de 0 en normaal enige terug
+            NieuweTeamslijstAanmaken();
+            if (werknemerId == null)
+            {
+                //TODO ERROR
+            }
+            Werknemer werknemer = methode.VraagWerknemerOp(werknemerId.ToString(), "", "")[0]; // geef de 0 en normaal enige terug
+            return View(werknemer);
+        }
+        [HttpPost]
+        public ActionResult HrWijzigWerknemer(Werknemer werknemer)
+        {
+            NieuweTeamslijstAanmaken();
             return View(werknemer);
         }
 
-        public ActionResult HrWVerlofToevoegen()
+        public ActionResult HrWJaarlijksVerlofToevoegen()
         {
+
             return View();
         }
 
-	}
+        private void NieuweTeamslijstAanmaken()
+        {
+            if (TeamsNieuweWerknemer == null)
+            {
+                TeamsNieuweWerknemer = methode.OpvragenAlleTeams();
+                var qry = from w in TeamsNieuweWerknemer
+                          select new SelectListItem
+                          {
+                              Text = String.Format("{0} {1} ", w.Code.ToString(), w.Naam),
+                              Value = w.Code.ToString()
+                          };
+                ViewBag.TeamsNieuweWerknemerDL = qry.ToList();
+            }
+        }
+
+    }
 }
