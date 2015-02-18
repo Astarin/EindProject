@@ -19,7 +19,7 @@ namespace EindProjectMVC.Models
             <form action='/HR/HrSelecteerWerknemer' class='label label-success'>
                 <input name='Actie' type='submit' value='Wijzig Werknemer' class='button-invis'>
             </form>
-            <form action='/HR/HrWVerlofToevoegen' class='label label-default'>
+            <form action='/HR/HrWJaarlijksVerlofToevoegen' class='label label-default'>
                 <input name='Actie' type='submit' value='Verlof Toevoegen' class='button-invis'>
             </form>
             <form action='/HR/HrTeamToevoegen' class='label label-danger'>

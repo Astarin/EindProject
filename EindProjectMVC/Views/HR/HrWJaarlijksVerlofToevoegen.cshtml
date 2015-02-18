@@ -5,7 +5,7 @@
 
 @Html.Raw(EindProjectMVC.Models.HrMenuGenerator.CreeerHrMenu())
 
-  @using (Html.BeginForm("HrWVerlofToevoegen","HR"))
+  @using (Html.BeginForm("HrWJaarlijksVerlofToevoegen","HR"))
 {
     @Html.AntiForgeryToken()
 
@@ -29,8 +29,8 @@
                 @Html.ValidationMessageFor(model => model.AantalDagen)
             </div>
         </div>
+    </div>
 
-        
 }
 
 @section Scripts{

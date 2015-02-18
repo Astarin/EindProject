@@ -84,7 +84,7 @@ namespace EindProjectMVC.Controllers
             return View(werknemer);
         }
 
-             public ActionResult HrTeamToevoegen(Team team)
+        public ActionResult HrTeamToevoegen(Team team)
         {
             if (team.Naam != String.Empty && team.Naam != null)
             {
@@ -94,7 +94,7 @@ namespace EindProjectMVC.Controllers
             return View();
         }
 
-             public ActionResult HrWJaarlijksVerlofToevoegen()
+        public ActionResult HrWJaarlijksVerlofToevoegen()
              {
                  return View();
              }
