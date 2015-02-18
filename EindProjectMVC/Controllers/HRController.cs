@@ -53,16 +53,17 @@ namespace EindProjectMVC.Controllers
             return View(werknemers);
         }
 
-        //public ActionResult HrWijzigWerknemer(int? werknemerId)
-        //{
-        //    NieuweTeamslijstAanmaken();
-        //    if (werknemerId == null)
-        //    {
-        //        //TODO ERROR
-        //    }
-        //    Werknemer werknemer = methode.VraagWerknemerOp(werknemerId.ToString(), "", "")[0]; // geef de 0 en normaal enige terug
-        //    return View(werknemer);
-        //}
+        public ActionResult HrWijzigWerknemer(int? werknemerId)
+        {
+            // overgang van selectie naar werknemer
+            NieuweTeamslijstAanmaken();
+            if (werknemerId == null)
+            {
+                //TODO ERROR
+            }
+            Werknemer werknemer = methode.VraagWerknemerOp(werknemerId.ToString(), "", "")[0]; // geef de 0 en normaal enige terug
+            return View(werknemer);
+        }
         [HttpPost]
         public ActionResult HrWijzigWerknemer(Werknemer werknemer, string team)
         {
