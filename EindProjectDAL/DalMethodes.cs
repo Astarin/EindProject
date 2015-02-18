@@ -54,11 +54,11 @@ namespace EindProjectDAL
         // Doe je dit in modellen buiten de using dan maakt Entity een nieuw team aan in de db ook is het team bestaande.
 
         private Team HaalTeamVoorWerknemerUitDb(Werknemer werknemer, int teamCode, DbEindproject db)
-        { 
-             Team team = (from t in db.Teams
-                                where t.Code == teamCode
-                                select t).First<Team>()
-                               ;
+        {
+            Team team = (from t in db.Teams
+                         where t.Code == teamCode
+                         select t).First<Team>()
+                              ;
             return team;
         }
 
@@ -94,7 +94,7 @@ namespace EindProjectDAL
         {
             using (DbEindproject db = new DbEindproject())
             {
-                List<Werknemer> wnLijst = (from w in db.Werknemers.Include( w => w.Team).Include(w => w.Verlofaanvragen)
+                List<Werknemer> wnLijst = (from w in db.Werknemers.Include(w => w.Team).Include(w => w.Verlofaanvragen)
                                            where w.Naam.Contains(naam)
                                            && w.Voornaam.Contains(voornaam)
                                            && w.PersoneelsNr.ToString().Contains(personeelsNr)
@@ -124,7 +124,7 @@ namespace EindProjectDAL
         **********************************/
         public void WijzigWerknemerProperty(Werknemer werknemer, int teamCode)
         {
-           
+
             using (DbEindproject db = new DbEindproject())
             {
                 Werknemer wn = (from w in db.Werknemers
@@ -219,7 +219,7 @@ namespace EindProjectDAL
          * 1.2.3. Opvragen van teams *
          *****************************
          * David 15/02/15            *
-        *****************************/ 
+        *****************************/
         public List<Team> OpvragenTeams(string code, string teamnaam, string teamleader)
         {
             //  De medewerker geeft 0, 1 of meer van volgende criteria op:
@@ -382,7 +382,7 @@ namespace EindProjectDAL
                 VerlofAanvraag aanvraag = (from v in db.Verlofaanvragen
                                            where v.Id == verlofaanvraag.Id
                                            select v).FirstOrDefault();
-                aanvraag.BehandeldDoor= werknemer;
+                aanvraag.BehandeldDoor = werknemer;
                 db.SaveChanges();
             }
         }

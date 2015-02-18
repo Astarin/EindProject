@@ -54,10 +54,10 @@ namespace EindProjectMVC.Controllers
             return View(werknemer);
         }
         [HttpPost]
-        public ActionResult HrWijzigWerknemer(Werknemer werknemer,string teamCode)
+        public ActionResult HrWijzigWerknemer(Werknemer werknemer,string team)
         {
             NieuweTeamslijstAanmaken();
-            methode.WijzigWerknemerProperty(werknemer, int.Parse(teamCode));
+            methode.WijzigWerknemerProperty(werknemer, int.Parse(team));
             return View(werknemer);
         }
 
