@@ -41,7 +41,7 @@ namespace EindProjectMVC.Controllers
                 {
                     //todo iet met de exc.Message
                 }
-                
+
             }
 
             return View();
@@ -80,11 +80,11 @@ namespace EindProjectMVC.Controllers
             {
                 //todo iet met de exc.Message
             }
-           
+
             return View(werknemer);
         }
 
-             public ActionResult HrTeamToevoegen(Team team)
+        public ActionResult HrTeamToevoegen(Team team)
         {
             if (team.Naam != String.Empty && team.Naam != null)
             {
@@ -94,10 +94,11 @@ namespace EindProjectMVC.Controllers
             return View();
         }
 
-        public ActionResult HrWJaarlijksVerlofToevoegen(string werknemer, JaarlijksVerlof jaarlijksVerlof, string submit)
+        public ActionResult HrWJaarlijksVerlofToevoegen(string werknemer, JaarlijksVerlof jaarlijksVerlof, string submit, string btnSelect)
         {
             if (submit != null)
             {
+                btnSelect = "notnull";
                 try
                 {
                     Werknemer wn = methode.VraagWerknemerOp(werknemer);
@@ -109,22 +110,28 @@ namespace EindProjectMVC.Controllers
                 }
             }
 
+            if (btnSelect != null)
+            {
+                Werknemer wn = methode.VraagWerknemerOp(werknemer);
+                ViewBag.SelectedWnVerlof = wn.JaarlijksVerlof;
+            }
+
             List<Werknemer> wns = methode.VraagAlleWerknemersOp();
             var qry = from w in wns
                       select new SelectListItem
              {
-                          Text = String.Format("{0} {1} ", w.Voornaam, w.Naam),
-                          Value = w.PersoneelsNr.ToString()
-                      };
+                 Text = String.Format("{0} {1} ", w.Voornaam, w.Naam),
+                 Value = w.PersoneelsNr.ToString()
+             };
             ViewBag.Werknemers = qry.ToList();
 
-                 return View();
-             }
+            return View();
+        }
 
         public ActionResult HrTeamVerantwoordelijkeBeheren()
-             {
-                 return View();
-             }
+        {
+            return View();
+        }
 
         private void NieuweTeamslijstAanmaken()
         {
