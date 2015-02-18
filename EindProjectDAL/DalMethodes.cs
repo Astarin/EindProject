@@ -222,11 +222,11 @@ namespace EindProjectDAL
         {
             using (DbEindproject db = new DbEindproject())
             {
-                var tl = (from wn in db.Werknemers
+                var tl = from wn in db.Werknemers
                           where wn.Team.Code == team.Code
                              && wn.TeamLeader == true
-                          select wn).FirstOrDefault
-                          ();
+                          select wn
+                          ;
                 if (tl != null)
                 {
                     return true;
@@ -240,7 +240,16 @@ namespace EindProjectDAL
  
 
 
-
+        public Team GeefTeamMetCode(int code)
+        {
+            using (DbEindproject db = new DbEindproject())
+            {
+                Team team = (from t in db.Teams
+                             where t.Code == code
+                             select t).First();
+                return team;
+            }
+        }
 
         /*****************************
          * 1.2.3. Opvragen van teams *
