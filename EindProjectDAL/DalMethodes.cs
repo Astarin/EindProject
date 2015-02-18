@@ -94,7 +94,7 @@ namespace EindProjectDAL
         {
             using (DbEindproject db = new DbEindproject())
             {
-                List<Werknemer> wnLijst = (from w in db.Werknemers.Include( w => w.Team).Include(w => w.Verlofaanvragen)
+                List<Werknemer> wnLijst = (from w in db.Werknemers.Include(w => w.Team).Include(w => w.Verlofaanvragen)
                                            where w.Naam.Contains(naam)
                                            && w.Voornaam.Contains(voornaam)
                                            && w.PersoneelsNr.ToString().Contains(personeelsNr)
@@ -294,14 +294,27 @@ namespace EindProjectDAL
          ******************************************
          * Roel 16/02/15                          *
          ******************************************/
-        public void SetVerlofWerkNemer(Werknemer werknemer, int verlofDagen, int jaar)
+        public void WijzigJaarlijksVerlof(Werknemer werknemer, JaarlijksVerlof jaarlijksverlof)
         {
+            if (jaarlijksverlof.Jaar < DateTime.Now.Year)
+                throw new Exception("Het opgegeven jaartal ligt in het verleden.");
+            if (jaarlijksverlof.AantalDagen < 0 || jaarlijksverlof.AantalDagen > 50)
+                throw new Exception("Het aantal verlofdagen moet tussen 0(incl.) en 50(incl.) liggen.");
             using (DbEindproject db = new DbEindproject())
             {
-                Werknemer wn = (from w in db.Werknemers
+                Werknemer wn = (from w in db.Werknemers.Include(w => w.JaarlijksVerlof)
                                 where w.PersoneelsNr == werknemer.PersoneelsNr
                                 select w).FirstOrDefault();
-                wn.JaarlijksVerlof.Add(new JaarlijksVerlof { Jaar = jaar, AantalDagen = verlofDagen });
+
+                foreach (JaarlijksVerlof jv in wn.JaarlijksVerlof)
+                {
+                    if (jv.Jaar == jaarlijksverlof.Jaar)
+                    {
+                        throw new Exception("De verlofdagen voor dit jaar voor deze werknemer waren al ingevuld.");
+                    }
+                }
+
+                wn.JaarlijksVerlof.Add(jaarlijksverlof);
                 db.SaveChanges();
             }
         }
