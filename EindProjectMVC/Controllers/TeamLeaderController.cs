@@ -15,8 +15,20 @@ namespace EindProjectMVC.Controllers
         public ActionResult Index()
         {
             DalMethodes Dal = new DalMethodes();
-            //Team team = new Team { Naam = "Smurfen", Code = 1 };
-            Team team = new Team { Naam = "Nog Smurfen", Code = 2 };
+            Werknemer teamLeader;
+            Team team;
+
+            if (Session["teamleader"] != null)
+            {
+                teamLeader = (Werknemer)Session["teamleader"];
+                team = teamLeader.Team;
+                ViewBag.IngelogdAls = String.Format("{0} {1}",teamLeader.Naam, teamLeader.Voornaam);
+            }
+            else
+            {
+                return View("Login/Index");
+            }
+
             List<Werknemer> wnList = Dal.GeefTeamleden(team);
 
             var qry = from w in wnList
@@ -40,9 +52,13 @@ namespace EindProjectMVC.Controllers
             DalMethodes dal = new DalMethodes();
             Werknemer werknemer = (dal.VraagWerknemerOp(ddlTeamLeden.ToString(), "", "")).FirstOrDefault();
             Session["werknemer"] = werknemer;
-            //TO DO: opvragen Teamleader + in Session variabele steken
+
+            // *******************************************************
+            //TO DO: Teamleader bepalen op basis van ingelogde teamleader + in Session variabele steken (indien nodig)
             // nu wordt de geselecteerde werknemer als teamleader in de session variabele gestoken
-            Session["teamleader"] = werknemer;
+            //Session["teamleader"] = werknemer;
+            // *******************************************************
+
             return View(werknemer);
         }
 
@@ -54,7 +70,7 @@ namespace EindProjectMVC.Controllers
             DalMethodes dal = new DalMethodes();
             if (Session["teamleader"] == null)
             {
-                teamLeader = new Werknemer { Naam = "", Voornaam = "" };
+                return View("Login/Index");
             }
             else
             {
@@ -67,6 +83,21 @@ namespace EindProjectMVC.Controllers
                 dal.WijzigBehandelDatumVerlofaanvraag(v);
                 dal.WijzigBehandeldDoorVerlofaanvraag(v, teamLeader);
                 werknemer = (dal.VraagWerknemerOp(werknemer.PersoneelsNr.ToString(), "", "")).FirstOrDefault();
+
+                // ********************************************************************************
+                // TO DO invullen van BehandeldDoor moet in de methode VraagWerknemerOp gebeuren !
+                using(DbEindproject db = new DbEindproject()){
+                foreach (VerlofAanvraag item in werknemer.Verlofaanvragen)
+                {
+                    item.BehandeldDoor = (from aanvraag in db.Verlofaanvragen
+                                         where aanvraag.Id == item.Id
+                                         select aanvraag.BehandeldDoor).FirstOrDefault();
+                }
+                // ********************************************************************************
+
+                }
+
+                Session["werknemer"] = werknemer;
             }
             else { throw new NullReferenceException("Session[werknemer] is null."); }
 

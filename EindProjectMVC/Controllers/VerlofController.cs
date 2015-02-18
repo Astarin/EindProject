@@ -12,9 +12,18 @@ namespace EindProjectMVC.Controllers
     {
         //
         // GET: /Verlof/
-        public ActionResult Index(String Actie)
+        public ActionResult Index(int? ddlTeamLeden)
         {
-            return View();
+            DalMethodes dal = new DalMethodes();
+            if (ddlTeamLeden != null)
+            {
+                Session["teamleader"] = (dal.VraagWerknemerOp(ddlTeamLeden.ToString(), "", "")).FirstOrDefault();
+                return View();
+            }
+            else
+            {
+                return View("Login/Index");
+            }
         }
 
         public ActionResult WerknemerAction(string PersoneelsNr)
