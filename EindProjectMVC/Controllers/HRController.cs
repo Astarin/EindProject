@@ -67,6 +67,11 @@ namespace EindProjectMVC.Controllers
             return View();
         }
 
+        public ActionResult HrTeamToevoegen()
+        {
+
+            return View();
+        }
         private void NieuweTeamslijstAanmaken()
         {
             if (TeamsNieuweWerknemer == null)
