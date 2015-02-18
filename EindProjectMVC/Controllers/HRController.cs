@@ -72,6 +72,7 @@ namespace EindProjectMVC.Controllers
             {
                 if (TeamLeaderControle(werknemer, team))
                 {
+                    //Werkt niet werknemer word niet aangepast? Dal Methode OK?
                     methode.WijzigWerknemerProperty(werknemer, int.Parse(team));
                 }
             }
@@ -93,8 +94,30 @@ namespace EindProjectMVC.Controllers
             return View();
         }
 
-             public ActionResult HrWJaarlijksVerlofToevoegen()
+        public ActionResult HrWJaarlijksVerlofToevoegen(string werknemer, JaarlijksVerlof jaarlijksVerlof, string submit)
+        {
+            if (submit != null)
+            {
+                try
+                {
+                    Werknemer wn = methode.VraagWerknemerOp(werknemer);
+                    methode.WijzigJaarlijksVerlof(wn, jaarlijksVerlof);
+                }
+                catch (Exception e)
+                {
+                    ViewBag.Error = e.Message;
+                }
+            }
+
+            List<Werknemer> wns = methode.VraagAlleWerknemersOp();
+            var qry = from w in wns
+                      select new SelectListItem
              {
+                          Text = String.Format("{0} {1} ", w.Voornaam, w.Naam),
+                          Value = w.PersoneelsNr.ToString()
+                      };
+            ViewBag.Werknemers = qry.ToList();
+
                  return View();
              }
 

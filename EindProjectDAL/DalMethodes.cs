@@ -123,7 +123,22 @@ namespace EindProjectDAL
                                 select w).FirstOrDefault();
 
                 werknemer.Team = HaalTeamVoorWerknemerUitDb(werknemer, teamCode, db);
-                wn = werknemer;
+                // alle properties handmatig copieren. Vuile code maar kan moeilijk anders
+                wn.Adres = werknemer.Adres;
+                wn.Email = werknemer.Email;
+                wn.Geboortedatum = werknemer.Geboortedatum;
+                wn.Gemeente = werknemer.Gemeente;
+                wn.JaarlijksVerlof = werknemer.JaarlijksVerlof;
+                wn.Naam = werknemer.Naam;
+                wn.Paswoord = werknemer.Paswoord;
+                wn.PersoneelsNr = werknemer.PersoneelsNr;
+                wn.Postcode = werknemer.Postcode;
+                wn.Team = werknemer.Team;
+                wn.TeamLeader = werknemer.TeamLeader;
+                wn.Verlofaanvragen = werknemer.Verlofaanvragen;
+                wn.Voornaam = werknemer.Voornaam;
+
+                //wn = werknemer; // werkt niet dbSet ziet de verandering niet omdat geheugenblok adres niet is veranderd.
                 db.SaveChanges();
             }
         }
