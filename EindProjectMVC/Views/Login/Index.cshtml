@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+Selecteer welke de ingelogde werknemer is. Authenticatie wordt later toegevoegd.
+
+@using (@Html.BeginForm("Index", "Verlof"))
+{
+    @Html.DropDownList("ddlTeamLeden");
+    <input type="submit" name="btnBevestig" value="Bevestig" />
+}
+
