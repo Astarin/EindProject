@@ -530,63 +530,63 @@ namespace EindProjectBusinessModels
             // StartDatum = new DateTime(2015, 04, 01),
             // EindDatum = new DateTime(2015, 04, 10),
             // Toestand = Aanvraagstatus.Goedgekeurd
-            smurf2.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd));
-            smurf4.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd));
-            smurf6.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd));
-            smurf8.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd));
-            smurf10.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd));
-            smurf12.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd));
-            smurf14.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd));
-            smurf16.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd));
-            smurf18.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd));
-            smurf20.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd));
-            smurf22.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd));
-            smurf24.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd));
+            smurf2.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd, new DateTime(2015,03,01), smurf1));
+            smurf4.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd, new DateTime(2015, 03, 01), smurf1));
+            smurf6.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd, new DateTime(2015, 03, 01), smurf2));
+            smurf8.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd, new DateTime(2015, 03, 01), smurf2));
+            smurf10.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd, new DateTime(2015, 03, 01), smurf2));
+            smurf12.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd, new DateTime(2015, 03, 01), smurf3));
+            smurf14.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd, new DateTime(2015, 03, 01), smurf3));
+            smurf16.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd, new DateTime(2015, 03, 01), smurf4));
+            smurf18.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd, new DateTime(2015, 03, 01), smurf4));
+            smurf20.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd, new DateTime(2015, 03, 01), smurf4));
+            smurf22.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd, new DateTime(2015, 03, 01), smurf5));
+            smurf24.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 04, 01), new DateTime(2015, 04, 10), Aanvraagstatus.Goedgekeurd, new DateTime(2015, 03, 01), smurf5));
 
 
             // AanvraagDatum = new DateTime(2015, 02, 28),
             // StartDatum = new DateTime(2015, 05, 11),
             // EindDatum = new DateTime(2015, 05, 15),
             // Toestand = Aanvraagstatus.Goedgekeurd
-            smurf2.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 05, 11), new DateTime(2015, 05, 15), Aanvraagstatus.Goedgekeurd));
-            smurf6.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 05, 11), new DateTime(2015, 05, 15), Aanvraagstatus.Goedgekeurd));
-            smurf14.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 05, 11), new DateTime(2015, 05, 15), Aanvraagstatus.Goedgekeurd));
-            smurf18.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 05, 11), new DateTime(2015, 05, 15), Aanvraagstatus.Goedgekeurd));
-            smurf22.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 05, 11), new DateTime(2015, 05, 15), Aanvraagstatus.Goedgekeurd));
+            smurf2.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 05, 11), new DateTime(2015, 05, 15), Aanvraagstatus.Goedgekeurd, new DateTime(2015, 03, 01), smurf1));
+            smurf6.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 05, 11), new DateTime(2015, 05, 15), Aanvraagstatus.Goedgekeurd, new DateTime(2015, 03, 01), smurf2));
+            smurf14.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 05, 11), new DateTime(2015, 05, 15), Aanvraagstatus.Goedgekeurd, new DateTime(2015, 03, 01), smurf3));
+            smurf18.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 05, 11), new DateTime(2015, 05, 15), Aanvraagstatus.Goedgekeurd, new DateTime(2015, 03, 01), smurf4));
+            smurf22.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 05, 11), new DateTime(2015, 05, 15), Aanvraagstatus.Goedgekeurd, new DateTime(2015, 03, 01), smurf5));
             
 
             // AanvraagDatum = new DateTime(2015, 02, 28),
             // StartDatum = new DateTime(2015, 05, 11),
             // EindDatum = new DateTime(2015, 05, 15),
             // Toestand = Aanvraagstatus.Afgekeurd
-            smurf10.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 05, 11), new DateTime(2015, 05, 15), Aanvraagstatus.Afgekeurd));
-            smurf20.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 05, 11), new DateTime(2015, 05, 15), Aanvraagstatus.Afgekeurd));;
+            smurf10.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 05, 11), new DateTime(2015, 05, 15), Aanvraagstatus.Afgekeurd, new DateTime(2015, 03, 01), smurf2));
+            smurf20.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 05, 11), new DateTime(2015, 05, 15), Aanvraagstatus.Afgekeurd, new DateTime(2015, 03, 01), smurf4)); ;
 
 
             // AanvraagDatum = new DateTime(2015, 02, 28),
             // StartDatum = new DateTime(2015, 06, 29),
             // EindDatum = new DateTime(2015, 07, 03),
             // Toestand = Aanvraagstatus.Afgekeurd
-            smurf4.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 06, 29), new DateTime(2015, 07, 03), Aanvraagstatus.Afgekeurd));
-            smurf14.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 06, 29), new DateTime(2015, 07, 03), Aanvraagstatus.Afgekeurd));
-            smurf24.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 06, 29), new DateTime(2015, 07, 03), Aanvraagstatus.Afgekeurd));
+            smurf4.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 06, 29), new DateTime(2015, 07, 03), Aanvraagstatus.Afgekeurd, new DateTime(2015, 03, 01), smurf1));
+            smurf14.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 06, 29), new DateTime(2015, 07, 03), Aanvraagstatus.Afgekeurd, new DateTime(2015, 03, 01), smurf3));
+            smurf24.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 06, 29), new DateTime(2015, 07, 03), Aanvraagstatus.Afgekeurd, new DateTime(2015, 03, 01), smurf5));
 
 
             // AanvraagDatum = new DateTime(2015, 02, 28),
             // StartDatum = new DateTime(2015, 08, 12),
             // EindDatum = new DateTime(2015, 08, 13),
             // Toestand = Aanvraagstatus.Afgekeurd
-            smurf2.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 08, 12), new DateTime(2015, 08, 13), Aanvraagstatus.Afgekeurd));
-            smurf12.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 08, 12), new DateTime(2015, 08, 13), Aanvraagstatus.Afgekeurd));
-            smurf22.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 08, 12), new DateTime(2015, 08, 13), Aanvraagstatus.Afgekeurd));
-
+            smurf2.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 08, 12), new DateTime(2015, 08, 13), Aanvraagstatus.Afgekeurd, new DateTime(2015, 03, 01), smurf1));
+            smurf12.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 08, 12), new DateTime(2015, 08, 13), Aanvraagstatus.Afgekeurd, new DateTime(2015, 03, 01), smurf3));
+            smurf22.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 08, 12), new DateTime(2015, 08, 13), Aanvraagstatus.Afgekeurd, new DateTime(2015, 03, 01), smurf5));
+            db.SaveChanges();
 
             // AanvraagDatum = new DateTime(2015, 02, 28),
             // StartDatum = new DateTime(2015, 08, 12),
             // EindDatum = new DateTime(2015, 08, 19),
             // Toestand = Aanvraagstatus.Ingediend
-            smurf8.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 08, 12), new DateTime(2015, 08, 13), Aanvraagstatus.Ingediend));
-            smurf16.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 08, 12), new DateTime(2015, 08, 13), Aanvraagstatus.Ingediend));
+            smurf8.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 08, 12), new DateTime(2015, 08, 13), Aanvraagstatus.Ingediend, null, null ));
+            smurf16.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 28), new DateTime(2015, 08, 12), new DateTime(2015, 08, 13), Aanvraagstatus.Ingediend, null, null));
 
             db.SaveChanges();
 
@@ -595,14 +595,16 @@ namespace EindProjectBusinessModels
 
 
 
-        private static VerlofAanvraag MaakVerlofAanvraag(DateTime aanvraagdat, DateTime startdat, DateTime einddat, Aanvraagstatus stat)
+        private static VerlofAanvraag MaakVerlofAanvraag(DateTime aanvraagdat, DateTime startdat, DateTime einddat, Aanvraagstatus stat, DateTime? behandeldat, Werknemer behandelaar)
         {
             VerlofAanvraag verlofAanvraag1 = new VerlofAanvraag
             {
                 AanvraagDatum = aanvraagdat,
                 StartDatum = startdat,
                 EindDatum = einddat,
-                Toestand = stat
+                Toestand = stat,
+                BehandelDatum = behandeldat,
+                BehandeldDoor = behandelaar
             };
             return verlofAanvraag1;
         }
