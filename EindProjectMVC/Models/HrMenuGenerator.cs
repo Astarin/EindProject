@@ -9,7 +9,7 @@ namespace EindProjectMVC.Models
     {
        public static string CreeerHrMenu()
        {
-           return 
+           return
            @"    <div class='jumbotron'>
         <h2>Hr Selecteer Werknemer</h2>
         <nav class='navbar navbar-inverse'>
@@ -22,6 +22,10 @@ namespace EindProjectMVC.Models
             <form action='/HR/HrWVerlofToevoegen' class='label label-default'>
                 <input name='Actie' type='submit' value='Verlof Toevoegen' class='button-invis'>
             </form>
+            <form action='/HR/HrTeamToevoegen' class='label label-danger'>
+                <input name='Actie' type='submit' value='Team Toevoegen' class='button-invis'>
+            </form>
+
         </nav>
         </div>
            ";
