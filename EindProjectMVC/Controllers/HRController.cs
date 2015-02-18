@@ -22,7 +22,7 @@ namespace EindProjectMVC.Controllers
         public ActionResult HrNieuweWerknemer(Werknemer werknemer, string team)
         {
             //dropdownlijst opvullen
-                NieuweTeamslijstAanmaken();
+            NieuweTeamslijstAanmaken();
 
             if (werknemer.Naam == null)
             {
@@ -54,7 +54,7 @@ namespace EindProjectMVC.Controllers
             return View(werknemer);
         }
         [HttpPost]
-        public ActionResult HrWijzigWerknemer(Werknemer werknemer,string team)
+        public ActionResult HrWijzigWerknemer(Werknemer werknemer, string team)
         {
             NieuweTeamslijstAanmaken();
             methode.WijzigWerknemerProperty(werknemer, int.Parse(team));
@@ -67,8 +67,12 @@ namespace EindProjectMVC.Controllers
             return View();
         }
 
-        public ActionResult HrTeamToevoegen()
+        public ActionResult HrTeamToevoegen(Team team)
         {
+            if (team.Naam != String.Empty && team.Naam != null )
+            {
+                methode.VoegTeamToeAanDb(team);
+            }
 
             return View();
         }
