@@ -43,10 +43,8 @@ namespace EindProjectDAL
                 }
             }
         }
-        /*
-         * Hulpmethode om bestaande team op te zoeken
-         * Bernd
-         */
+        // Hulpmethode om bestaande team op te zoeken
+        // Bernd
         private Team HaalTeamVoorWerknemerUitDb(Werknemer werknemer, int teamCode, DbEindproject db)
         { 
              Team team = (from t in db.Teams
@@ -191,6 +189,36 @@ namespace EindProjectDAL
                 return teamLijst;
             }
         }
+
+
+
+        /**********************************************
+         * Hulpmethode Heeft Team al een teamleader ? *
+         **********************************************
+         * David 18/02/15                             *
+        ***********************************************/ 
+        public bool IsErAlEenTeamLeader(Team team)
+        {
+            using (DbEindproject db = new DbEindproject())
+            {
+                var tl = (from wn in db.Werknemers
+                          where wn.Team.Code == team.Code
+                             && wn.TeamLeader == true
+                          select wn).FirstOrDefault();
+                if (tl != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+ 
+
+
+
 
         /*****************************
          * 1.2.3. Opvragen van teams *
