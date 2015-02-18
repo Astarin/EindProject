@@ -6,21 +6,16 @@
 
 <h2>Index</h2>
 <form action="/HR">
-    <input name="Actie" type="submit" value="HR Tools">
+    <input name="Actie" type="submit" value="HR Tools" @ViewBag.ShowHR >
 </form>
 <form action="/TeamLeader/Index">
-    <input name="Actie" type="submit" value="TeamLeader Tools">
+    <input name="Actie" type="submit" value="TeamLeader Tools" @ViewBag.ShowTeamLeader >
 </form>
 <form action="/Verlof/WerknemerAction">
-    <input name="Actie" type="submit" value="Werknemer Tools">
-    <br />
-    <p>Hier komen links naar de verschillende pagina's voor verschillende acties</p>
-
-    <p>De links worden enabled/disabled afhankelijk van de rechten van de ingelogde gebruiker.</p>
-
-    <p>
-        Ingelogd als 
-        @((Werknemer)Session["teamleader"]).Naam
-        @((Werknemer)Session["teamleader"]).Voornaam
-    </p>
+    <input name="Actie" type="submit" value="Werknemer Tools" @ViewBag.ShowWerknemer >
 </form>
+<br />
+<p>Hier staan links naar de verschillende pagina's voor verschillende acties</p>
+
+<p>De links worden enabled/disabled afhankelijk van de rechten van de ingelogde gebruiker.</p>
+

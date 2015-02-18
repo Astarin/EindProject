@@ -18,7 +18,10 @@ namespace EindProjectMVC.Controllers
             if (ddlTeamLeden != null)
             {
                 Werknemer werknemer = dal.VraagWerknemerOp(ddlTeamLeden.ToString());
-                Session["teamleader"] = werknemer;
+                Session["werknemer"] = werknemer;
+                ViewBag.ShowHR = werknemer.TeamLeader ? "" : "disabled='disabled'";
+                ViewBag.ShowTeamLeader = werknemer.TeamLeader ? "" : "disabled='disabled'";
+                ViewBag.ShowWerknemer = "";
                 return View();
             }
             else
