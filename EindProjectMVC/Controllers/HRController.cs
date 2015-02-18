@@ -30,6 +30,7 @@ namespace EindProjectMVC.Controllers
             }
             else
             {
+                //test of team bestaat
                 methode.VoegWerknemerToeAanDb(werknemer, int.Parse(team));
             }
 
