@@ -250,6 +250,7 @@
     <Content Include="Views\Verlof\WerknemerIngelogd.cshtml" />
     <Content Include="Views\HR\HrTeamToevoegen.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\HR\HrTeamVerantwoordelijkeBeheren.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
