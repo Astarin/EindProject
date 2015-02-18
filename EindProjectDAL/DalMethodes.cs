@@ -51,11 +51,11 @@ namespace EindProjectDAL
          * Bernd                                             *
          *****************************************************/
         private Team HaalTeamVoorWerknemerUitDb(Werknemer werknemer, int teamCode, DbEindproject db)
-        { 
-             Team team = (from t in db.Teams
-                                where t.Code == teamCode
-                                select t).First<Team>()
-                               ;
+        {
+            Team team = (from t in db.Teams
+                         where t.Code == teamCode
+                         select t).First<Team>()
+                              ;
             return team;
         }
 
@@ -89,9 +89,9 @@ namespace EindProjectDAL
         {
             using (DbEindproject db = new DbEindproject())
             {
-                var wn = (from w in db.Werknemers.Include(w => w.Team).Include(w => w.Verlofaanvragen)
-                                where w.PersoneelsNr.ToString() == personeelsNr
-                                select w).FirstOrDefault();
+                var wn = (from w in db.Werknemers.Include(w => w.Team).Include(w => w.Verlofaanvragen).Include(w => w.JaarlijksVerlof)
+                          where w.PersoneelsNr.ToString() == personeelsNr
+                          select w).FirstOrDefault();
 
                 return (Werknemer)wn;
             }
@@ -115,7 +115,7 @@ namespace EindProjectDAL
         **********************************/
         public void WijzigWerknemerProperty(Werknemer werknemer, int teamCode)
         {
-           
+
             using (DbEindproject db = new DbEindproject())
             {
                 Werknemer wn = (from w in db.Werknemers
@@ -232,15 +232,15 @@ namespace EindProjectDAL
          * Hulpmethode Heeft Team al een teamleader ? *
          **********************************************
          * David 18/02/15                             *
-        ***********************************************/ 
+        ***********************************************/
         public bool IsErAlEenTeamLeader(Team team)
         {
             using (DbEindproject db = new DbEindproject())
             {
                 var tl = from wn in db.Werknemers
-                          where wn.Team.Code == team.Code
-                             && wn.TeamLeader == true
-                          select wn
+                         where wn.Team.Code == team.Code
+                            && wn.TeamLeader == true
+                         select wn
                           ;
                 if (tl != null)
                 {
@@ -252,7 +252,7 @@ namespace EindProjectDAL
                 }
             }
         }
- 
+
 
 
         public Team GeefTeamMetCode(int code)
@@ -270,7 +270,7 @@ namespace EindProjectDAL
          * 1.2.3. Opvragen van teams *
          *****************************
          * David 15/02/15            *
-        *****************************/ 
+        *****************************/
         public List<Team> OpvragenTeams(string code, string teamnaam, string teamleader)
         {
             //  De medewerker geeft 0, 1 of meer van volgende criteria op:
@@ -451,8 +451,8 @@ namespace EindProjectDAL
                 Werknemer teamleader = (from w in db.Werknemers
                                         where w.PersoneelsNr == werknemer.PersoneelsNr
                                         select w).FirstOrDefault();
-                
-                aanvraag.BehandeldDoor= teamleader;
+
+                aanvraag.BehandeldDoor = teamleader;
                 db.SaveChanges();
             }
         }

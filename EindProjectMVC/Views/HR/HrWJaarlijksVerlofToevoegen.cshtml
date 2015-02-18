@@ -23,9 +23,28 @@
         <div class="form-group">
             @Html.Label("Selecteer Werknemer")
             @Html.DropDownList("werknemer", (List<SelectListItem>)ViewBag.Werknemers)
+            <input type="submit" value="Toon jaarlijks verlof" class="btn btn-default" name="btnSelect" />
         </div>
 
+        @{
+    if (ViewBag.SelectedWnVerlof != null)
+    {
 
+
+        List<EindProjectBusinessModels.JaarlijksVerlof> verloven = (List<EindProjectBusinessModels.JaarlijksVerlof>)ViewBag.SelectedWnVerlof;
+
+        <div>
+            <table class="table table-striped">
+                <tr><td>Jaartal</td><td>Aantal verlofdagen</td></tr>
+
+                @foreach (EindProjectBusinessModels.JaarlijksVerlof jv in verloven)
+                {
+                    <tr><td>@jv.Jaar</td><td>@jv.AantalDagen</td></tr>
+                }
+            </table>
+        </div>
+    }
+}
         <div class="form-group">
             @Html.LabelFor(j => jaarlijksVerlof.Jaar, new { @class = "col-sm-2 control-label" })
             <div class="col-sm-10">
@@ -40,10 +59,10 @@
                 @Html.EditorFor(j => jaarlijksVerlof.AantalDagen)
                 @Html.ValidationMessageFor(j => jaarlijksVerlof.AantalDagen)
             </div>
-            </div>
         </div>
+    </div>
 
-        
+
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Voeg Toe" class="btn btn-default" name="submit" />
