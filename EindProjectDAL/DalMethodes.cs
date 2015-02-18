@@ -43,8 +43,13 @@ namespace EindProjectDAL
                 }
             }
         }
-        // Hulpmethode om bestaande team op te zoeken
-        // Bernd
+
+
+        /*****************************************************
+         * Hulpmethode Team ophalen voor bestaande werknemer *
+         *****************************************************
+         * Bernd                                             *
+         *****************************************************/
         private Team HaalTeamVoorWerknemerUitDb(Werknemer werknemer, int teamCode, DbEindproject db)
         { 
              Team team = (from t in db.Teams
@@ -59,7 +64,6 @@ namespace EindProjectDAL
         /**********************************
          * 1.1.2. Opvragen van werknemers *
          **********************************/
-
         /***************************************************************
          * 1.1.2. a. Opvragen van werknemers volgens bepaalde criteria *
          ***************************************************************
@@ -112,11 +116,11 @@ namespace EindProjectDAL
             }
         }
 
-        /***************************
-         *                         *
-         * 1.2. Beheren Werknemers *
-         *                         *
-        ****************************/
+        /**************************
+         *                        *
+         * 1.2. Beheren van Teams *
+         *                        *
+        ***************************/
 
         /******************************
          * 1.2.1. Toevoegen van teams *
@@ -179,6 +183,11 @@ namespace EindProjectDAL
 
         }
 
+        /**********************************************
+         * Hulpmethode Heeft Team al een teamleader ? *
+         **********************************************
+         * onbekend auteur                            *
+         **********************************************/
         public List<Team> OpvragenAlleTeams()
         {
             using (DbEindproject db = new DbEindproject())
@@ -204,7 +213,8 @@ namespace EindProjectDAL
                 var tl = (from wn in db.Werknemers
                           where wn.Team.Code == team.Code
                              && wn.TeamLeader == true
-                          select wn).FirstOrDefault();
+                          select wn).FirstOrDefault
+                          ();
                 if (tl != null)
                 {
                     return true;
@@ -272,6 +282,7 @@ namespace EindProjectDAL
                 }
             }
         }
+
 
         /*********************************
          * 1.2.5. Opvragen van Teamleden *
@@ -409,6 +420,8 @@ namespace EindProjectDAL
                 db.SaveChanges();
             }
         }
+
+
         /***************************************
          * 2.3.5. Afkeuren van verlofaanvragen *
          ***************************************/
