@@ -382,7 +382,12 @@ namespace EindProjectDAL
                 VerlofAanvraag aanvraag = (from v in db.Verlofaanvragen
                                            where v.Id == verlofaanvraag.Id
                                            select v).FirstOrDefault();
-                aanvraag.BehandeldDoor= werknemer;
+
+                Werknemer teamleader = (from w in db.Werknemers
+                                        where w.PersoneelsNr == werknemer.PersoneelsNr
+                                        select w).FirstOrDefault();
+                
+                aanvraag.BehandeldDoor= teamleader;
                 db.SaveChanges();
             }
         }

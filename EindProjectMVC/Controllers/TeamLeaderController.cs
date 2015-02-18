@@ -41,18 +41,8 @@ namespace EindProjectMVC.Controllers
             Werknemer werknemer = (dal.VraagWerknemerOp(ddlTeamLeden.ToString(), "", "")).FirstOrDefault();
             Session["werknemer"] = werknemer;
             //TO DO: opvragen Teamleader + in Session variabele steken
-            Session["teamleader"] = new Werknemer
-            {
-                TeamLeader = true,
-                Naam = "",
-                Voornaam = "",
-                Email = "lelijke@smurf.com",
-                Geboortedatum = new DateTime(1892, 09, 22),
-                Adres = "",
-                Postcode = "",
-                Gemeente = "",
-                Paswoord = "Hash",
-            };
+            // nu wordt de geselecteerde werknemer als teamleader in de session variabele gestoken
+            Session["teamleader"] = werknemer;
             return View(werknemer);
         }
 
@@ -75,7 +65,7 @@ namespace EindProjectMVC.Controllers
                 werknemer = (Werknemer)Session["werknemer"];
                 dal.WijzigStatusVerlofaanvraag(v, Aanvraagstatus.Goedgekeurd);
                 dal.WijzigBehandelDatumVerlofaanvraag(v);
-                //dal.WijzigBehandeldDoorVerlofaanvraag(v, teamLeader);
+                dal.WijzigBehandeldDoorVerlofaanvraag(v, teamLeader);
                 werknemer = (dal.VraagWerknemerOp(werknemer.PersoneelsNr.ToString(), "", "")).FirstOrDefault();
             }
             else { throw new NullReferenceException("Session[werknemer] is null."); }
