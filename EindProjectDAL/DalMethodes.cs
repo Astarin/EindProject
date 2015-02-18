@@ -54,11 +54,11 @@ namespace EindProjectDAL
         // Doe je dit in modellen buiten de using dan maakt Entity een nieuw team aan in de db ook is het team bestaande.
 
         private Team HaalTeamVoorWerknemerUitDb(Werknemer werknemer, int teamCode, DbEindproject db)
-        {
-            Team team = (from t in db.Teams
-                         where t.Code == teamCode
-                         select t).First<Team>()
-                              ;
+        { 
+             Team team = (from t in db.Teams
+                                where t.Code == teamCode
+                                select t).First<Team>()
+                               ;
             return team;
         }
 
@@ -124,7 +124,7 @@ namespace EindProjectDAL
         **********************************/
         public void WijzigWerknemerProperty(Werknemer werknemer, int teamCode)
         {
-
+           
             using (DbEindproject db = new DbEindproject())
             {
                 Werknemer wn = (from w in db.Werknemers
@@ -219,7 +219,7 @@ namespace EindProjectDAL
          * 1.2.3. Opvragen van teams *
          *****************************
          * David 15/02/15            *
-        *****************************/
+        *****************************/ 
         public List<Team> OpvragenTeams(string code, string teamnaam, string teamleader)
         {
             //  De medewerker geeft 0, 1 of meer van volgende criteria op:
