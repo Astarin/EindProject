@@ -19,6 +19,8 @@
     <p>De links worden enabled/disabled afhankelijk van de rechten van de ingelogde gebruiker.</p>
 
     <p>
-        Ingelogd als ((Werknamer)@Session["teamleader"]).Naam  ((Werknamer)@Session["teamleader"]).Voornaam
+        Ingelogd als 
+        @((Werknemer)Session["teamleader"]).Naam
+        @((Werknemer)Session["teamleader"]).Voornaam
     </p>
 </form>

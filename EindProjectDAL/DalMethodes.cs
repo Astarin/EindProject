@@ -81,6 +81,18 @@ namespace EindProjectDAL
             // throw new Exception("Er liep iets fout tijdens het opvragen van 0, 1 of meerdere werknemers");
         }
 
+        public Werknemer VraagEnkeleWerknemerOp(string personeelsNr)
+        {
+            using (DbEindproject db = new DbEindproject())
+            {
+                var wn =  from w in db.Werknemers.Include(w => w.Team).Include(w => w.Verlofaanvragen)
+                                where w.PersoneelsNr.ToString() == personeelsNr
+                                select w;
+
+                return (Werknemer)wn;
+            }
+            // throw new Exception("Er liep iets fout tijdens het opvragen van 0, 1 of meerdere werknemers");
+        }
         /******************************************
         * 1.1.2. b. Opvragen van alle werknemers *
         ******************************************
