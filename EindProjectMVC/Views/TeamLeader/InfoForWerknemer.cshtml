@@ -39,10 +39,22 @@
     {
         <tr>
             <td>
-                @Html.ActionLink("Goedkeuren", "GoedkeurenStatusVerlofAanvraag", item)
+                <br />
+                @using (Html.BeginForm("GoedkeurenStatusVerlofAanvraag", "TeamLeader"))
+                {
+                    <input type="hidden" name="RedenVoorAfkeuren" value="" />
+                    <input type="hidden" name="Id" value="@item.Id" />
+                    <input type="submit" value="Goedkeuren" />
+                }
             </td>
             <td>
-                @Html.ActionLink("Afkeuren", "AfkeurenStatusVerlofAanvraag", item)
+                Reden voor afkeuren<br />
+                @using (Html.BeginForm("AfkeurenStatusVerlofAanvraag", "TeamLeader"))
+                {
+                    <input type="text" name="RedenVoorAfkeuren" value="@item.RedenVoorAfkeuren" />
+                    <input type="hidden" name="Id" value="@item.Id" />
+                    <input type="submit" value="Afkeuren" />
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Id)
