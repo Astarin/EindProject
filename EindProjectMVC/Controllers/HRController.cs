@@ -72,6 +72,7 @@ namespace EindProjectMVC.Controllers
             {
                 if (TeamLeaderControle(werknemer, team))
                 {
+                    //Werkt niet werknemer word niet aangepast? Dal Methode OK?
                     methode.WijzigWerknemerProperty(werknemer, int.Parse(team));
                 }
             }
