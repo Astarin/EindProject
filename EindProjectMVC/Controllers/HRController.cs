@@ -38,7 +38,6 @@ namespace EindProjectMVC.Controllers
 
         public ActionResult HrSelecteerWerknemer()
         {
-
             List<Werknemer> werknemers = methode.VraagAlleWerknemersOp();
             return View(werknemers);
         }
