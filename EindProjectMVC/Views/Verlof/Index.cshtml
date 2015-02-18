@@ -1,4 +1,6 @@
-﻿@{
+﻿@using EindProjectBusinessModels;
+
+@{
     ViewBag.Title = "Index";
 }
 
@@ -15,4 +17,8 @@
     <p>Hier komen links naar de verschillende pagina's voor verschillende acties</p>
 
     <p>De links worden enabled/disabled afhankelijk van de rechten van de ingelogde gebruiker.</p>
+
+    <p>
+        Ingelogd als ((Werknamer)@Session["teamleader"]).Naam  ((Werknamer)@Session["teamleader"]).Voornaam
+    </p>
 </form>
