@@ -30,8 +30,10 @@ namespace EindProjectMVC.Controllers
             }
             else
             {
-                //test of team bestaat
-                methode.VoegWerknemerToeAanDb(werknemer, int.Parse(team));
+                if (TeamLeaderControle(werknemer, team))
+                {
+                    methode.VoegWerknemerToeAanDb(werknemer, int.Parse(team));
+                }
             }
 
             return View();
@@ -57,7 +59,10 @@ namespace EindProjectMVC.Controllers
         public ActionResult HrWijzigWerknemer(Werknemer werknemer, string team)
         {
             NieuweTeamslijstAanmaken();
-            methode.WijzigWerknemerProperty(werknemer, int.Parse(team));
+            if (TeamLeaderControle(werknemer, team))
+            {
+                methode.WijzigWerknemerProperty(werknemer, int.Parse(team));
+            }
             return View(werknemer);
         }
 
@@ -69,7 +74,7 @@ namespace EindProjectMVC.Controllers
 
         public ActionResult HrTeamToevoegen(Team team)
         {
-            if (team.Naam != String.Empty && team.Naam != null )
+            if (team.Naam != String.Empty && team.Naam != null)
             {
                 methode.VoegTeamToeAanDb(team);
             }
@@ -90,6 +95,26 @@ namespace EindProjectMVC.Controllers
                 ViewBag.TeamsNieuweWerknemerDL = qry.ToList();
             }
         }
-
+        private bool TeamLeaderControle(Werknemer werknemer, string team)
+        {
+            // Methode kan kijken of de teamleadereigenschap in orde is.
+            if (werknemer.TeamLeader == true) // de Werknemer moet aangemaakt worden als teamleader.
+            {
+                if (methode.IsErAlEenTeamLeader(methode.GeefTeamMetCode(int.Parse(team))))
+                {
+                    throw new Exception("TODO: Team heeft al een teamleider.");
+                }
+                else
+                {
+                    // Team heeft nog geen teamleader dus werknemer kan toegevoegd worden.
+                    return true;
+                }
+            }
+            else
+            {
+                //
+                return true;
+            }
+        }
     }
 }
