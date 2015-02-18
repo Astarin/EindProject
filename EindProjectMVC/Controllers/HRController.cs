@@ -41,7 +41,7 @@ namespace EindProjectMVC.Controllers
                 {
                     //todo iet met de exc.Message
                 }
-                
+
             }
 
             return View();
@@ -78,11 +78,11 @@ namespace EindProjectMVC.Controllers
             {
                 //todo iet met de exc.Message
             }
-           
+
             return View(werknemer);
         }
 
-             public ActionResult HrTeamToevoegen(Team team)
+        public ActionResult HrTeamToevoegen(Team team)
         {
             if (team.Naam != String.Empty && team.Naam != null)
             {
@@ -92,15 +92,37 @@ namespace EindProjectMVC.Controllers
             return View();
         }
 
-             public ActionResult HrWJaarlijksVerlofToevoegen()
-             {
-                 return View();
-             }
+        public ActionResult HrWJaarlijksVerlofToevoegen(string werknemer, JaarlijksVerlof jaarlijksVerlof, string submit)
+        {
+            if (submit != null)
+            {
+                try
+                {
+                    Werknemer wn = methode.VraagWerknemerOp(werknemer);
+                    methode.WijzigJaarlijksVerlof(wn, jaarlijksVerlof);
+                }
+                catch (Exception e)
+                {
+                    ViewBag.Error = e.Message;
+                }
+            }
+
+            List<Werknemer> wns = methode.VraagAlleWerknemersOp();
+            var qry = from w in wns
+                      select new SelectListItem
+                      {
+                          Text = String.Format("{0} {1} ", w.Voornaam, w.Naam),
+                          Value = w.PersoneelsNr.ToString()
+                      };
+            ViewBag.Werknemers = qry.ToList();
+
+            return View();
+        }
 
         public ActionResult HrTeamVerantwoordelijkeBeheren()
-             {
-                 return View();
-             }
+        {
+            return View();
+        }
 
         private void NieuweTeamslijstAanmaken()
         {
