@@ -463,7 +463,6 @@ namespace EindProjectDAL
          ***************************************/
         public void WijzigStatusVerlofaanvraag(VerlofAanvraag verlofaanvraag, Aanvraagstatus status)
         {
-            // nog niet getest
             using (DbEindproject db = new DbEindproject())
             {
                 VerlofAanvraag aanvraag = (from v in db.Verlofaanvragen
@@ -474,6 +473,17 @@ namespace EindProjectDAL
             }
         }
 
+        public void WijzigRedenAfkeurenVerlofaanvraag(VerlofAanvraag verlofaanvraag, String reden)
+        {
+            using (DbEindproject db = new DbEindproject())
+            {
+                VerlofAanvraag aanvraag = (from v in db.Verlofaanvragen
+                                           where v.Id == verlofaanvraag.Id
+                                           select v).FirstOrDefault();
+                aanvraag.RedenVoorAfkeuren = reden;
+                db.SaveChanges();
+            }
+        }
         /*********************************************
          * 2.3.6. Opvragen lijst met verlofaanvragen *
          *********************************************/

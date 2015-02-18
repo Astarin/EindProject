@@ -65,6 +65,7 @@ namespace EindProjectMVC.Controllers
         public ActionResult AfkeurenStatusVerlofAanvraag(VerlofAanvraag v)
         {
             Werknemer werknemer = WijzigStatusVerlofAanvraag(v, Aanvraagstatus.Afgekeurd);
+            //werknemer.Verlofaanvragen[0].RedenVoorAfkeuren = "test";
             return View("InfoForWerknemer", werknemer);
         }
 
@@ -85,9 +86,15 @@ namespace EindProjectMVC.Controllers
             if (Session["werknemer"] != null)
             {
                 werknemer = (Werknemer)Session["werknemer"];
-                dal.WijzigStatusVerlofaanvraag(v, status);
-                dal.WijzigBehandelDatumVerlofaanvraag(v);
-                dal.WijzigBehandeldDoorVerlofaanvraag(v, teamLeader);
+
+                VerlofAanvraag vA = (from verl in werknemer.Verlofaanvragen
+                                     where verl.Id == v.Id
+                                     select verl).FirstOrDefault();
+
+                dal.WijzigStatusVerlofaanvraag(vA, status);
+                dal.WijzigRedenAfkeurenVerlofaanvraag(vA, v.RedenVoorAfkeuren);
+                dal.WijzigBehandelDatumVerlofaanvraag(vA);
+                dal.WijzigBehandeldDoorVerlofaanvraag(vA, teamLeader);
                 werknemer = dal.VraagWerknemerOp(werknemer.PersoneelsNr.ToString());
 
                 // ********************************************************************************
@@ -96,7 +103,7 @@ namespace EindProjectMVC.Controllers
                 {
                     foreach (VerlofAanvraag item in werknemer.Verlofaanvragen)
                     {
-                        if (item.Id == v.Id)
+                        if (item.Id == vA.Id)
                         {
                             item.BehandeldDoor = (from aanvraag in db.Verlofaanvragen
                                                   where aanvraag.Id == item.Id
