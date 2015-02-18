@@ -9,7 +9,8 @@
 <table class="table">
     <tr>
         <th>
-
+        </th>
+        <th>
         </th>
         <th>
             @Html.Label("Nr")
@@ -38,7 +39,10 @@
     {
         <tr>
             <td>
-                @Html.ActionLink("Goedkeuren", "UpdateStatusVerlofAanvraag", item)
+                @Html.ActionLink("Goedkeuren", "GoedkeurenStatusVerlofAanvraag", item)
+            </td>
+            <td>
+                @Html.ActionLink("Afkeuren", "AfkeurenStatusVerlofAanvraag", item)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Id)
