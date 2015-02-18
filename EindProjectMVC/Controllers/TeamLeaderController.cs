@@ -56,7 +56,19 @@ namespace EindProjectMVC.Controllers
             return View(werknemer);
         }
 
-        public ActionResult UpdateStatusVerlofAanvraag(VerlofAanvraag v)
+        public ActionResult GoedkeurenStatusVerlofAanvraag(VerlofAanvraag v)
+        {
+            Werknemer werknemer = WijzigStatusVerlofAanvraag(v, Aanvraagstatus.Goedgekeurd);
+            return View("InfoForWerknemer", werknemer);
+        }
+
+        public ActionResult AfkeurenStatusVerlofAanvraag(VerlofAanvraag v)
+        {
+            Werknemer werknemer = WijzigStatusVerlofAanvraag(v, Aanvraagstatus.Afgekeurd);
+            return View("InfoForWerknemer", werknemer);
+        }
+
+        private Werknemer WijzigStatusVerlofAanvraag(VerlofAanvraag v, Aanvraagstatus status)
         {
             // Id is de id van de verlofaanvraag.
             Werknemer werknemer;
@@ -64,7 +76,7 @@ namespace EindProjectMVC.Controllers
             DalMethodes dal = new DalMethodes();
             if (Session["teamleader"] == null)
             {
-                return View("Login/Index");
+                throw new ArgumentNullException("Session[teamLeader] is null in WijzigStatusVerlofAanvraag.");
             }
             else
             {
@@ -73,7 +85,7 @@ namespace EindProjectMVC.Controllers
             if (Session["werknemer"] != null)
             {
                 werknemer = (Werknemer)Session["werknemer"];
-                dal.WijzigStatusVerlofaanvraag(v, Aanvraagstatus.Goedgekeurd);
+                dal.WijzigStatusVerlofaanvraag(v, status);
                 dal.WijzigBehandelDatumVerlofaanvraag(v);
                 dal.WijzigBehandeldDoorVerlofaanvraag(v, teamLeader);
                 werknemer = dal.VraagWerknemerOp(werknemer.PersoneelsNr.ToString());
@@ -96,10 +108,10 @@ namespace EindProjectMVC.Controllers
 
                 Session["werknemer"] = werknemer;
             }
-            else { throw new NullReferenceException("Session[werknemer] is null."); }
+            else
+            { throw new NullReferenceException("Session[werknemer] is null."); }
 
-            return View("InfoForWerknemer", werknemer);
+            return werknemer;
         }
-
     }
 }
