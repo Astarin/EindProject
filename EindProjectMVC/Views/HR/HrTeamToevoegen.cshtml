@@ -1,6 +1,4 @@
-﻿@model EindProjectBusinessModels.Team
-
-@{
+﻿@{
     ViewBag.Title = "HrTeamToevoegen";
 }
 
@@ -14,17 +12,20 @@
         <hr />
         @Html.ValidationSummary(true)
 
+        @{EindProjectBusinessModels.Team team = new EindProjectBusinessModels.Team();}
+
         <div class="form-group">
-            @Html.LabelFor(model => model.Naam, new { @class = "col-sm-2 control-label" })
+            @Html.LabelFor(t => team.Naam, new { @class = "col-sm-2 control-label" })
             <div class="col-sm-10">
-                @Html.EditorFor(model => model.Naam)
-                @Html.ValidationMessageFor(model => model.Naam)
+                @*@Html.EditorFor(t => team.Naam, new { @Value = String.Empty })*@
+                @Html.TextBoxFor(t => team.Naam, new { @Value = String.Empty })
+                @Html.ValidationMessageFor(t => team.Naam)
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Creer Werknemer" class="btn btn-default" />
+                <input type="submit" value="Creer Team" class="btn btn-default" />
             </div>
         </div>
     </div>

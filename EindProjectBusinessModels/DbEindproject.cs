@@ -21,6 +21,7 @@ namespace EindProjectBusinessModels
             modelBuilder.Entity<VerlofAanvraag>().HasOptional(v => v.BehandeldDoor).WithMany();
         }
 
+
         public DbSet<Werknemer> Werknemers { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<VerlofAanvraag> Verlofaanvragen { get; set; }
