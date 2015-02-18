@@ -22,7 +22,7 @@ namespace EindProjectMVC.Controllers
             {
                 teamLeader = (Werknemer)Session["teamleader"];
                 team = teamLeader.Team;
-                ViewBag.IngelogdAls = String.Format("{0} {1}",teamLeader.Naam, teamLeader.Voornaam);
+                ViewBag.IngelogdAls = String.Format("{0} {1}", teamLeader.Naam, teamLeader.Voornaam);
             }
             else
             {
@@ -45,20 +45,14 @@ namespace EindProjectMVC.Controllers
 
         public ActionResult InfoForWerknemer(int? ddlTeamLeden)
         {
+            // Session["teamleader"] is al eerder gemaakt.
             if (ddlTeamLeden == null)
             {
                 if (Session["personeelsNr"] != null) ddlTeamLeden = (int)Session["personeelsNr"];
             }
             DalMethodes dal = new DalMethodes();
-            Werknemer werknemer = (dal.VraagWerknemerOp(ddlTeamLeden.ToString(), "", "")).FirstOrDefault();
+            Werknemer werknemer = dal.VraagWerknemerOp(ddlTeamLeden.ToString());
             Session["werknemer"] = werknemer;
-
-            // *******************************************************
-            //TO DO: Teamleader bepalen op basis van ingelogde teamleader + in Session variabele steken (indien nodig)
-            // nu wordt de geselecteerde werknemer als teamleader in de session variabele gestoken
-            //Session["teamleader"] = werknemer;
-            // *******************************************************
-
             return View(werknemer);
         }
 
@@ -82,20 +76,23 @@ namespace EindProjectMVC.Controllers
                 dal.WijzigStatusVerlofaanvraag(v, Aanvraagstatus.Goedgekeurd);
                 dal.WijzigBehandelDatumVerlofaanvraag(v);
                 dal.WijzigBehandeldDoorVerlofaanvraag(v, teamLeader);
-                werknemer = (dal.VraagWerknemerOp(werknemer.PersoneelsNr.ToString(), "", "")).FirstOrDefault();
+                werknemer = dal.VraagWerknemerOp(werknemer.PersoneelsNr.ToString());
 
                 // ********************************************************************************
                 // TO DO invullen van BehandeldDoor moet in de methode VraagWerknemerOp gebeuren !
-                using(DbEindproject db = new DbEindproject()){
-                foreach (VerlofAanvraag item in werknemer.Verlofaanvragen)
+                using (DbEindproject db = new DbEindproject())
                 {
-                    item.BehandeldDoor = (from aanvraag in db.Verlofaanvragen
-                                         where aanvraag.Id == item.Id
-                                         select aanvraag.BehandeldDoor).FirstOrDefault();
+                    foreach (VerlofAanvraag item in werknemer.Verlofaanvragen)
+                    {
+                        if (item.Id == v.Id)
+                        {
+                            item.BehandeldDoor = (from aanvraag in db.Verlofaanvragen
+                                                  where aanvraag.Id == item.Id
+                                                  select aanvraag.BehandeldDoor).FirstOrDefault();
+                        }
+                    }
                 }
                 // ********************************************************************************
-
-                }
 
                 Session["werknemer"] = werknemer;
             }

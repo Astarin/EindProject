@@ -17,7 +17,7 @@ namespace EindProjectMVC.Controllers
             DalMethodes dal = new DalMethodes();
             if (ddlTeamLeden != null)
             {
-                Werknemer werknemer = (dal.VraagWerknemerOp(ddlTeamLeden.ToString(), "", "")).FirstOrDefault();
+                Werknemer werknemer = dal.VraagWerknemerOp(ddlTeamLeden.ToString());
                 Session["teamleader"] = werknemer;
                 return View();
             }
