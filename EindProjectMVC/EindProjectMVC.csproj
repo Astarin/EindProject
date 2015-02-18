@@ -247,6 +247,7 @@
     <Content Include="Views\TeamLeader\InfoForWerknemer.cshtml" />
     <Content Include="Views\HR\HrWijzigWerknemer.cshtml" />
     <Content Include="Views\Verlof\WerknemerIngelogd.cshtml" />
+    <Content Include="Views\HR\HrTeamToevoegen.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
