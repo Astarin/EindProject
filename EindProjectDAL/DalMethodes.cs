@@ -451,10 +451,11 @@ namespace EindProjectDAL
 
         /**********************************************************
          * 2.3.4. Goedkeuren van verlofaanvragen door het systeem *
+         **********************************************************
+         * Frank                                                  *
          **********************************************************/
         public void WijzigBehandelDatumVerlofaanvraag(VerlofAanvraag verlofaanvraag)
         {
-            // nog niet getest
             using (DbEindproject db = new DbEindproject())
             {
                 VerlofAanvraag aanvraag = (from v in db.Verlofaanvragen
@@ -464,9 +465,9 @@ namespace EindProjectDAL
                 db.SaveChanges();
             }
         }
+
         public void WijzigBehandeldDoorVerlofaanvraag(VerlofAanvraag verlofaanvraag, Werknemer werknemer)
         {
-            // nog niet getest
             using (DbEindproject db = new DbEindproject())
             {
                 VerlofAanvraag aanvraag = (from v in db.Verlofaanvragen
@@ -482,9 +483,20 @@ namespace EindProjectDAL
             }
         }
 
-
+        public bool HeeftVerlofaanvraagStatus(VerlofAanvraag verlofaanvraag, Aanvraagstatus status)
+        {
+            using (DbEindproject db = new DbEindproject())
+            {
+                VerlofAanvraag aanvraag = (from v in db.Verlofaanvragen
+                                           where v.Id == verlofaanvraag.Id
+                                           select v).FirstOrDefault();
+                return aanvraag.Toestand == status;
+            }
+        }
         /***************************************
          * 2.3.5. Afkeuren van verlofaanvragen *
+         ***************************************
+         * Frank                               *
          ***************************************/
         public void WijzigStatusVerlofaanvraag(VerlofAanvraag verlofaanvraag, Aanvraagstatus status)
         {
