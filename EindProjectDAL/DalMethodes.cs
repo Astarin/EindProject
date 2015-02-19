@@ -186,26 +186,29 @@ namespace EindProjectDAL
              * Huidige teamleader teamleader af maken en
              * geselecteerde werknemer teamleader maken
             */
-            var theTeam = werknemer.Team;
+            Team theTeam = werknemer.Team;
             using (DbEindproject db = new DbEindproject())
             {
-                var huidigTL = (from wn in db.Werknemers
-                                where wn.Team.Code == theTeam.Code
-                                   && wn.TeamLeader == true
-                                select wn).FirstOrDefault();
+                Werknemer huidigTL = (from wn in db.Werknemers
+                                      where wn.Team.Code == theTeam.Code
+                                         && wn.TeamLeader
+                                      select wn).FirstOrDefault();
                 if (huidigTL != null)
                 {
                     huidigTL.TeamLeader = false;
+                   // db.SaveChanges();
                 }
                 try
                 {
-                    werknemer.TeamLeader = true;
-                    db.SaveChanges();
+                    Werknemer wn = VraagWerknemerOp(werknemer.PersoneelsNr.ToString());
+                    wn.TeamLeader = true;
+                    //   db.SaveChanges();
                 }
                 catch
                 {
                     throw new Exception("Nieuwe teamleader kon niet worden aangesteld.");
                 }
+           //     db.SaveChanges();
             }
 
         }
@@ -220,8 +223,8 @@ namespace EindProjectDAL
             using (DbEindproject db = new DbEindproject())
             {
                 Team t = (from tmp in db.Teams
-                         where tmp.Code == team.Code
-                         select tmp).FirstOrDefault();
+                          where tmp.Code == team.Code
+                          select tmp).FirstOrDefault();
                 try
                 {
                     t.Naam = team.Naam;
@@ -263,9 +266,9 @@ namespace EindProjectDAL
             using (DbEindproject db = new DbEindproject())
             {
                 var tl = (from wn in db.Werknemers
-                         where wn.Team.Code == team.Code
-                            && wn.TeamLeader == true
-                         select wn).FirstOrDefault();
+                          where wn.Team.Code == team.Code
+                             && wn.TeamLeader == true
+                          select wn).FirstOrDefault();
 
                 if (tl != null)
                 {
