@@ -210,6 +210,31 @@ namespace EindProjectDAL
 
         }
 
+        /********************************************
+       * 1.2.2. Beheren van teamverantwoordelijken  - teamnaam wijzigen*
+       ********************************************
+       * David 19/02/15                           *
+       ********************************************/
+        public void WijzigTeamNaam(Team team)
+        {
+            using (DbEindproject db = new DbEindproject())
+            {
+                Team t = (from tmp in db.Teams
+                         where tmp.Code == team.Code
+                         select tmp).FirstOrDefault();
+                try
+                {
+                    t.Naam = team.Naam;
+                    db.SaveChanges();
+                }
+                catch
+                {
+                    throw new Exception("Teamnaam kon niet worden aangepast.");
+                }
+            }
+
+        }
+
         /**********************************************
          * Hulpmethode Heeft Team al een teamleader ? *
          **********************************************

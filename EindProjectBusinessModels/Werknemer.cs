@@ -90,5 +90,12 @@ namespace EindProjectBusinessModels
             // VerlofDagenPerJaar = new Dictionary<int, int>();
             JaarlijksVerlof = new List<JaarlijksVerlof>();
         }
+
+        [NotMapped]
+        [ScaffoldColumn(false)]
+        public string VolledigeNaam
+        {
+            get { return String.Format("{0} {1}", Naam.ToUpper(), Voornaam); }
+        }
     }
 }

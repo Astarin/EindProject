@@ -12,28 +12,43 @@
     @Html.AntiForgeryToken()
 
     <div>
-        @Html.DropDownList( "AlleTeams", new System.Web.Mvc.SelectList(ViewBag.AlleTeams, "Code", "Naam"))
+        @Html.DropDownList("AlleTeams", new System.Web.Mvc.SelectList(ViewBag.AlleTeams, "Code", "Naam"))
         <input name="OpvragenTeam" id="OpvragenTeam" type="submit" value="Beheren" />
+        @ViewBag.Melding
     </div>
-    
-    <div class="form-horizontal" style="@ViewBag.Zichtbaar" >
-         
+
+    <div class="form-horizontal" style="@ViewBag.Zichtbaar">
+
         <h4>Team</h4>
         <hr />
         @Html.ValidationSummary(true)
         <div class="form-group">
+            @* Wijzigen teamnaam mogelijk*@
+            
             @Html.LabelFor(model => model.Naam, new { @class = "control-label col-md-2" })
+            
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Naam)
+                @*<input type="text" name="Naam" value="@Model.Naam"/>*@
+                @Html.EditorFor(model => model.Naam);
                 @Html.ValidationMessageFor(model => model.Naam)
+            </div>
+        </div>
+        <div class="form-group">
+                @Html.Label("Teamverantwoordelijke", new { @class = "control-label col-md-2" })
+                @* dropdownlist waaruit verantwoordelijke kan gekozen worden*@
+            <div class="col-md-10">
+                @Html.DropDownList("Teamleden", new System.Web.Mvc.SelectList(ViewBag.LijstWerknemers, "PersoneelsNr", "VolledigeNaam"))
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Bewaren" class="btn btn-default" name="Bewaren"/>
             </div>
         </div>
+
+        
+
     </div>
 }
 
@@ -42,5 +57,5 @@
 </div>
 
 @*@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}*@
+        @Scripts.Render("~/bundles/jqueryval")
+    }*@
