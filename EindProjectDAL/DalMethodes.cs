@@ -43,9 +43,7 @@ namespace EindProjectDAL
                 }
             }
         }
-
-
-        /*****************************************************
+                /*****************************************************
          * Hulpmethode Team ophalen voor bestaande werknemer *
          *****************************************************
          * Bernd                                             *
@@ -180,6 +178,7 @@ namespace EindProjectDAL
          ********************************************
          * David 16/02/15                           *
          ********************************************/
+
         public void BeheerTeamVerantwoordelijke(Werknemer werknemer)
         {
             /*
