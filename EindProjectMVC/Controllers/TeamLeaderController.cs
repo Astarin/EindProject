@@ -26,7 +26,7 @@ namespace EindProjectMVC.Controllers
             }
             else
             {
-                return View("Login/Index");
+                return RedirectToAction("Index", "Login"); ;
             }
 
             List<Werknemer> wnList = Dal.GeefTeamleden(team);
@@ -58,12 +58,16 @@ namespace EindProjectMVC.Controllers
 
         public ActionResult GoedkeurenStatusVerlofAanvraag(VerlofAanvraag v)
         {
+            // Verlofaanvraag v is een gedeeltelijk ingevulde verlofaanvraag om de parameters
+            // uit de form door te geven (id en RedenVoorAfkeuren)
             Werknemer werknemer = WijzigStatusVerlofAanvraag(v, Aanvraagstatus.Goedgekeurd);
             return View("InfoForWerknemer", werknemer);
         }
 
         public ActionResult AfkeurenStatusVerlofAanvraag(VerlofAanvraag v)
         {
+            // Verlofaanvraag v is een gedeeltelijk ingevulde verlofaanvraag om de parameters
+            // uit de form door te geven (id en RedenVoorAfkeuren)
             Werknemer werknemer = WijzigStatusVerlofAanvraag(v, Aanvraagstatus.Afgekeurd);
             //werknemer.Verlofaanvragen[0].RedenVoorAfkeuren = "test";
             return View("InfoForWerknemer", werknemer);
@@ -74,6 +78,7 @@ namespace EindProjectMVC.Controllers
             // Id is de id van de verlofaanvraag.
             Werknemer werknemer;
             Werknemer teamLeader;
+            @ViewBag.ErrorMsg = "";
             DalMethodes dal = new DalMethodes();
             if (Session["teamleader"] == null)
             {
@@ -87,33 +92,44 @@ namespace EindProjectMVC.Controllers
             {
                 werknemer = (Werknemer)Session["werknemer"];
 
+                // vanuit de gedeeltelijk ingevulde Verlofaanvraag wordt op het Id de
+                // Verlofaanvraag uit de Werknemer opgehaald
                 VerlofAanvraag vA = (from verl in werknemer.Verlofaanvragen
                                      where verl.Id == v.Id
                                      select verl).FirstOrDefault();
 
-                dal.WijzigStatusVerlofaanvraag(vA, status);
-                dal.WijzigRedenAfkeurenVerlofaanvraag(vA, v.RedenVoorAfkeuren);
-                dal.WijzigBehandelDatumVerlofaanvraag(vA);
-                dal.WijzigBehandeldDoorVerlofaanvraag(vA, teamLeader);
-                werknemer = dal.VraagWerknemerOp(werknemer.PersoneelsNr.ToString());
-
-                // ********************************************************************************
-                // TO DO invullen van BehandeldDoor moet in de methode VraagWerknemerOp gebeuren !
-                using (DbEindproject db = new DbEindproject())
+                // Verlofaanvragen mogen enkel goedgekeurd of afgekeurd worden indien
+                // ze in toestand "Ingediend" zijn.
+                if (dal.HeeftVerlofaanvraagStatus(vA, Aanvraagstatus.Ingediend))
                 {
-                    foreach (VerlofAanvraag item in werknemer.Verlofaanvragen)
+                    dal.WijzigStatusVerlofaanvraag(vA, status);
+                    dal.WijzigRedenAfkeurenVerlofaanvraag(vA, v.RedenVoorAfkeuren);
+                    dal.WijzigBehandelDatumVerlofaanvraag(vA);
+                    dal.WijzigBehandeldDoorVerlofaanvraag(vA, teamLeader);
+                    werknemer = dal.VraagWerknemerOp(werknemer.PersoneelsNr.ToString());
+
+                    // ********************************************************************************
+                    // TO DO invullen van BehandeldDoor moet in de methode VraagWerknemerOp gebeuren !
+                    using (DbEindproject db = new DbEindproject())
                     {
-                        if (item.Id == vA.Id)
+                        foreach (VerlofAanvraag item in werknemer.Verlofaanvragen)
                         {
-                            item.BehandeldDoor = (from aanvraag in db.Verlofaanvragen
-                                                  where aanvraag.Id == item.Id
-                                                  select aanvraag.BehandeldDoor).FirstOrDefault();
+                            if (item.Id == vA.Id)
+                            {
+                                item.BehandeldDoor = (from aanvraag in db.Verlofaanvragen
+                                                      where aanvraag.Id == item.Id
+                                                      select aanvraag.BehandeldDoor).FirstOrDefault();
+                            }
                         }
                     }
-                }
-                // ********************************************************************************
+                    // ********************************************************************************
 
-                Session["werknemer"] = werknemer;
+                    Session["werknemer"] = werknemer;
+                }
+                else
+                {
+                    @ViewBag.ErrorMsg = "Verlofaanvraag moet in status ingediend zijn.";
+                }
             }
             else
             { throw new NullReferenceException("Session[werknemer] is null."); }
