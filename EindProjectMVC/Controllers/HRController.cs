@@ -41,7 +41,7 @@ namespace EindProjectMVC.Controllers
                 {
                     //todo iet met de exc.Message
                 }
-                
+
             }
 
             return View();
@@ -80,11 +80,11 @@ namespace EindProjectMVC.Controllers
             {
                 //todo iet met de exc.Message
             }
-           
+
             return View(werknemer);
         }
 
-             public ActionResult HrTeamToevoegen(Team team)
+        public ActionResult HrTeamToevoegen(Team team)
         {
             if (team.Naam != String.Empty && team.Naam != null)
             {
@@ -125,15 +125,15 @@ namespace EindProjectMVC.Controllers
              };
             ViewBag.Werknemers = qry.ToList();
 
-                 return View();
-             }
+            return View();
+        }
 
         /*************************************
          * HR/HrTeamverantwoordelijkeBeheren *
          *************************************
          * David 18/02/15                    *
          *************************************/
-        public ActionResult HrTeamVerantwoordelijkeBeheren(string OpvragenTeam, string AlleTeams, string Bewaren, Team team)
+        public ActionResult HrTeamVerantwoordelijkeBeheren(string OpvragenTeam, string AlleTeams, string Bewaren, Team team, string Teamleden)
         {
             // Wat hebben we nodig :
             // lijst van teams met
@@ -157,31 +157,37 @@ namespace EindProjectMVC.Controllers
                 return View(tmpTeam);
             }
             else
-                if(Bewaren != null){
-                     // op submit button Bewaren geklikt
+                if (Bewaren != null)
+                {
+                    // op submit button Bewaren geklikt
                     ViewBag.Melding = "aanpassingen  bewaard";
                     ViewBag.Zichtbaar = "display:none";
                     Team tmpTeam = methode.GeefTeamMetCode(int.Parse(AlleTeams));
-                    tmpTeam.Naam = team.Naam ;
+                    tmpTeam.Naam = team.Naam;
                     methode.WijzigTeamNaam(tmpTeam);
 
                     // list met werknemers voor dropdownbox
                     List<Werknemer> lijstwerknemers = methode.GeefTeamleden(tmpTeam);
                     ViewBag.LijstWerknemers = lijstwerknemers;
-                    
+
+                    Werknemer wn = methode.VraagWerknemerOp(Teamleden);
+                    methode.BeheerTeamVerantwoordelijke(wn);
+
+
+
+
+
+                    alleteams = methode.OpvragenAlleTeams().ToList();
+                    ViewBag.AlleTeams = alleteams;
                     return View(tmpTeam);
                 }
                 else
-             {
-                ViewBag.Zichtbaar = "display:none";
-                ViewBag.LijstWerknemers = new List<Werknemer>();
-                return View();
-            }
-            
-
-             }
-
-
+                {
+                    ViewBag.Zichtbaar = "display:none";
+                    ViewBag.LijstWerknemers = new List<Werknemer>();
+                    return View();
+                }
+        }
 
         private void NieuweTeamslijstAanmaken()
         {

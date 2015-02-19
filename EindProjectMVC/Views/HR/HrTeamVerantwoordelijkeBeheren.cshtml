@@ -24,18 +24,21 @@
         @Html.ValidationSummary(true)
         <div class="form-group">
             @* Wijzigen teamnaam mogelijk*@
-            
+
             @Html.LabelFor(model => model.Naam, new { @class = "control-label col-md-2" })
-            
+
             <div class="col-md-10">
                 @*<input type="text" name="Naam" value="@Model.Naam"/>*@
-                @Html.EditorFor(model => model.Naam);
+                @*@Html.EditorFor(model => model.Naam);*@
+
+                    @Html.TextBoxFor(model => model.Naam, new { @Value = (Model == null) ? String.Empty : Model.Naam })
+
                 @Html.ValidationMessageFor(model => model.Naam)
             </div>
         </div>
         <div class="form-group">
-                @Html.Label("Teamverantwoordelijke", new { @class = "control-label col-md-2" })
-                @* dropdownlist waaruit verantwoordelijke kan gekozen worden*@
+            @Html.Label("Teamverantwoordelijke", new { @class = "control-label col-md-2" })
+            @* dropdownlist waaruit verantwoordelijke kan gekozen worden*@
             <div class="col-md-10">
                 @Html.DropDownList("Teamleden", new System.Web.Mvc.SelectList(ViewBag.LijstWerknemers, "PersoneelsNr", "VolledigeNaam"))
             </div>
@@ -43,11 +46,11 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Bewaren" class="btn btn-default" name="Bewaren"/>
+                <input type="submit" value="Bewaren" class="btn btn-default" name="Bewaren" />
             </div>
         </div>
 
-        
+
 
     </div>
 }
