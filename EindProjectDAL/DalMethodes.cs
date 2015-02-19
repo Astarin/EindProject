@@ -237,11 +237,11 @@ namespace EindProjectDAL
         {
             using (DbEindproject db = new DbEindproject())
             {
-                var tl = from wn in db.Werknemers
+                var tl = (from wn in db.Werknemers
                          where wn.Team.Code == team.Code
                             && wn.TeamLeader == true
-                         select wn
-                          ;
+                         select wn).FirstOrDefault();
+
                 if (tl != null)
                 {
                     return true;

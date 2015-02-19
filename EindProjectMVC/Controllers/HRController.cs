@@ -61,7 +61,7 @@ namespace EindProjectMVC.Controllers
             {
                 //TODO ERROR
             }
-            Werknemer werknemer = methode.VraagWerknemerOp(werknemerId.ToString(), "", "")[0]; // geef de 0 en normaal enige terug
+            Werknemer werknemer = methode.VraagWerknemerOp(werknemerId.ToString()); // geef de 0 en normaal enige terug
             return View(werknemer);
         }
         [HttpPost]
@@ -182,6 +182,7 @@ namespace EindProjectMVC.Controllers
             {
                 if (methode.IsErAlEenTeamLeader(methode.GeefTeamMetCode(int.Parse(team))))
                 {
+                    return false;
                     throw new Exception("TODO: Team heeft al een teamleider.");
                 }
                 else
