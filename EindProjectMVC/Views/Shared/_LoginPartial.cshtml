@@ -16,7 +16,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        @*<li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
         @if (Session["werknemer"] != null)
         {
             EindProjectBusinessModels.Werknemer werknemer = (EindProjectBusinessModels.Werknemer)(Session["werknemer"]);
@@ -24,13 +24,13 @@ else
             <li class="">
                 <div class="left">
                     <img src="~/Content/Images/smurf.jpg" alt="img smurf" class="img-circle" width="50" height="50" />
-                    @Html.ActionLink(werknemer.Naam + " " + werknemer.Voornaam, "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+                    @Html.ActionLink(werknemer.Naam + " " + werknemer.Voornaam, "Index", "Login", routeValues: null, htmlAttributes: new { id = "loginLink" })
                 </div>
             </li>
         }
         else
         {
-            <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+            <li>@Html.ActionLink("Log in", "Index", "Login", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
         }
 
     </ul>
