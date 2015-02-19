@@ -180,6 +180,7 @@ namespace EindProjectDAL
          ********************************************
          * David 16/02/15                           *
          ********************************************/
+
         public void BeheerTeamVerantwoordelijke(Werknemer werknemer)
         {
             /*
@@ -205,6 +206,31 @@ namespace EindProjectDAL
                 catch
                 {
                     throw new Exception("Nieuwe teamleader kon niet worden aangesteld.");
+                }
+            }
+
+        }
+
+        /********************************************
+       * 1.2.2. Beheren van teamverantwoordelijken  - teamnaam wijzigen*
+       ********************************************
+       * David 19/02/15                           *
+       ********************************************/
+        public void WijzigTeamNaam(Team team)
+        {
+            using (DbEindproject db = new DbEindproject())
+            {
+                Team t = (from tmp in db.Teams
+                         where tmp.Code == team.Code
+                         select tmp).FirstOrDefault();
+                try
+                {
+                    t.Naam = team.Naam;
+                    db.SaveChanges();
+                }
+                catch
+                {
+                    throw new Exception("Teamnaam kon niet worden aangepast.");
                 }
             }
 
@@ -237,11 +263,11 @@ namespace EindProjectDAL
         {
             using (DbEindproject db = new DbEindproject())
             {
-                var tl = from wn in db.Werknemers
+                var tl = (from wn in db.Werknemers
                          where wn.Team.Code == team.Code
                             && wn.TeamLeader == true
-                         select wn
-                          ;
+                         select wn).FirstOrDefault();
+
                 if (tl != null)
                 {
                     return true;

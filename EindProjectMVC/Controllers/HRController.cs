@@ -61,7 +61,7 @@ namespace EindProjectMVC.Controllers
             {
                 //TODO ERROR
             }
-            Werknemer werknemer = methode.VraagWerknemerOp(werknemerId.ToString(), "", "")[0]; // geef de 0 en normaal enige terug
+            Werknemer werknemer = methode.VraagWerknemerOp(werknemerId.ToString()); // geef de 0 en normaal enige terug
             return View(werknemer);
         }
         [HttpPost]
@@ -133,7 +133,7 @@ namespace EindProjectMVC.Controllers
          *************************************
          * David 18/02/15                    *
          *************************************/
-        public ActionResult HrTeamVerantwoordelijkeBeheren(string OpvragenTeam, string AlleTeams)
+        public ActionResult HrTeamVerantwoordelijkeBeheren(string OpvragenTeam, string AlleTeams, string Bewaren, Team team)
         {
             // Wat hebben we nodig :
             // lijst van teams met
@@ -145,17 +145,39 @@ namespace EindProjectMVC.Controllers
             ViewBag.AlleTeams = alleteams;
             if (OpvragenTeam != null)
             {
-                // op submit button geklikt
-                // todo
+                // op submit button Opvragen geklikt
+                // Team (via code) opvragen en doorgeven aan de view
                 ViewBag.Zichtbaar = "display:inline";
-                Team team = methode.OpvragenTeams(AlleTeams, String.Empty, String.Empty).FirstOrDefault();
-                return View(team);
+                Team tmpTeam = methode.GeefTeamMetCode(int.Parse(AlleTeams));
+
+                // list met werknemers voor dropdownbox
+                List<Werknemer> lijstwerknemers = methode.GeefTeamleden(tmpTeam);
+                ViewBag.LijstWerknemers = lijstwerknemers;
+
+                return View(tmpTeam);
             }
             else
+                if(Bewaren != null){
+                     // op submit button Bewaren geklikt
+                    ViewBag.Melding = "aanpassingen  bewaard";
+                    ViewBag.Zichtbaar = "display:none";
+                    Team tmpTeam = methode.GeefTeamMetCode(int.Parse(AlleTeams));
+                    tmpTeam.Naam = team.Naam ;
+                    methode.WijzigTeamNaam(tmpTeam);
+
+                    // list met werknemers voor dropdownbox
+                    List<Werknemer> lijstwerknemers = methode.GeefTeamleden(tmpTeam);
+                    ViewBag.LijstWerknemers = lijstwerknemers;
+                    
+                    return View(tmpTeam);
+                }
+                else
              {
                 ViewBag.Zichtbaar = "display:none";
+                ViewBag.LijstWerknemers = new List<Werknemer>();
+                return View();
             }
-                 return View();
+            
 
              }
 
@@ -182,6 +204,7 @@ namespace EindProjectMVC.Controllers
             {
                 if (methode.IsErAlEenTeamLeader(methode.GeefTeamMetCode(int.Parse(team))))
                 {
+                    return false;
                     throw new Exception("TODO: Team heeft al een teamleider.");
                 }
                 else
