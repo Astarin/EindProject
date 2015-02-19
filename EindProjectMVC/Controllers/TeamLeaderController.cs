@@ -56,7 +56,20 @@ namespace EindProjectMVC.Controllers
             return View(werknemer);
         }
 
-        public ActionResult UpdateStatusVerlofAanvraag(VerlofAanvraag v)
+        public ActionResult GoedkeurenStatusVerlofAanvraag(VerlofAanvraag v)
+        {
+            Werknemer werknemer = WijzigStatusVerlofAanvraag(v, Aanvraagstatus.Goedgekeurd);
+            return View("InfoForWerknemer", werknemer);
+        }
+
+        public ActionResult AfkeurenStatusVerlofAanvraag(VerlofAanvraag v)
+        {
+            Werknemer werknemer = WijzigStatusVerlofAanvraag(v, Aanvraagstatus.Afgekeurd);
+            //werknemer.Verlofaanvragen[0].RedenVoorAfkeuren = "test";
+            return View("InfoForWerknemer", werknemer);
+        }
+
+        private Werknemer WijzigStatusVerlofAanvraag(VerlofAanvraag v, Aanvraagstatus status)
         {
             // Id is de id van de verlofaanvraag.
             Werknemer werknemer;
@@ -64,7 +77,7 @@ namespace EindProjectMVC.Controllers
             DalMethodes dal = new DalMethodes();
             if (Session["teamleader"] == null)
             {
-                return View("Login/Index");
+                throw new ArgumentNullException("Session[teamLeader] is null in WijzigStatusVerlofAanvraag.");
             }
             else
             {
@@ -73,9 +86,15 @@ namespace EindProjectMVC.Controllers
             if (Session["werknemer"] != null)
             {
                 werknemer = (Werknemer)Session["werknemer"];
-                dal.WijzigStatusVerlofaanvraag(v, Aanvraagstatus.Goedgekeurd);
-                dal.WijzigBehandelDatumVerlofaanvraag(v);
-                dal.WijzigBehandeldDoorVerlofaanvraag(v, teamLeader);
+
+                VerlofAanvraag vA = (from verl in werknemer.Verlofaanvragen
+                                     where verl.Id == v.Id
+                                     select verl).FirstOrDefault();
+
+                dal.WijzigStatusVerlofaanvraag(vA, status);
+                dal.WijzigRedenAfkeurenVerlofaanvraag(vA, v.RedenVoorAfkeuren);
+                dal.WijzigBehandelDatumVerlofaanvraag(vA);
+                dal.WijzigBehandeldDoorVerlofaanvraag(vA, teamLeader);
                 werknemer = dal.VraagWerknemerOp(werknemer.PersoneelsNr.ToString());
 
                 // ********************************************************************************
@@ -84,7 +103,7 @@ namespace EindProjectMVC.Controllers
                 {
                     foreach (VerlofAanvraag item in werknemer.Verlofaanvragen)
                     {
-                        if (item.Id == v.Id)
+                        if (item.Id == vA.Id)
                         {
                             item.BehandeldDoor = (from aanvraag in db.Verlofaanvragen
                                                   where aanvraag.Id == item.Id
@@ -96,10 +115,10 @@ namespace EindProjectMVC.Controllers
 
                 Session["werknemer"] = werknemer;
             }
-            else { throw new NullReferenceException("Session[werknemer] is null."); }
+            else
+            { throw new NullReferenceException("Session[werknemer] is null."); }
 
-            return View("InfoForWerknemer", werknemer);
+            return werknemer;
         }
-
     }
 }

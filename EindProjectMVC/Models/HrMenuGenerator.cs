@@ -5,7 +5,7 @@ using System.Web;
 
 namespace EindProjectMVC.Models
 {
-   static  public class HrMenuGenerator
+    static public class HrMenuGenerator
     {
        public static string CreeerHrMenu()
        {
@@ -19,11 +19,14 @@ namespace EindProjectMVC.Models
             <form action='/HR/HrSelecteerWerknemer' class='label label-success'>
                 <input name='Actie' type='submit' value='Wijzig Werknemer' class='button-invis'>
             </form>
-            <form action='/HR/HrWVerlofToevoegen' class='label label-default'>
+            <form action='/HR/HrWJaarlijksVerlofToevoegen' class='label label-default'>
                 <input name='Actie' type='submit' value='Verlof Toevoegen' class='button-invis'>
             </form>
             <form action='/HR/HrTeamToevoegen' class='label label-danger'>
                 <input name='Actie' type='submit' value='Team Toevoegen' class='button-invis'>
+            </form>
+            <form action='/HR/HrTeamVerantwoordelijkeBeheren' class='label label-primary'>
+                <input name='Actie' type='submit' value='Team Bewerken Toevoegen' class='button-invis'>
             </form>
 
         </nav>
