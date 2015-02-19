@@ -114,12 +114,9 @@ namespace EindProjectMVC.Controllers
                     {
                         foreach (VerlofAanvraag item in werknemer.Verlofaanvragen)
                         {
-                            if (item.Id == vA.Id)
-                            {
-                                item.BehandeldDoor = (from aanvraag in db.Verlofaanvragen
-                                                      where aanvraag.Id == item.Id
-                                                      select aanvraag.BehandeldDoor).FirstOrDefault();
-                            }
+                            item.BehandeldDoor = (from aanvraag in db.Verlofaanvragen
+                                                  where aanvraag.Id == item.Id
+                                                  select aanvraag.BehandeldDoor).FirstOrDefault();
                         }
                     }
                     // ********************************************************************************
