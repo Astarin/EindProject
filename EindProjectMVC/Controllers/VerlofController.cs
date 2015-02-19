@@ -28,7 +28,7 @@ namespace EindProjectMVC.Controllers
             }
             else
             {
-                return View("Login/Index");
+                return RedirectToAction("Index", "Login");;
             }
         }
 

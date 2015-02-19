@@ -26,7 +26,7 @@ namespace EindProjectMVC.Controllers
             }
             else
             {
-                return View("/Login/Index");
+                return RedirectToAction("Index", "Login"); ;
             }
 
             List<Werknemer> wnList = Dal.GeefTeamleden(team);
@@ -78,6 +78,7 @@ namespace EindProjectMVC.Controllers
             // Id is de id van de verlofaanvraag.
             Werknemer werknemer;
             Werknemer teamLeader;
+            @ViewBag.ErrorMsg = "";
             DalMethodes dal = new DalMethodes();
             if (Session["teamleader"] == null)
             {
@@ -124,6 +125,10 @@ namespace EindProjectMVC.Controllers
                     // ********************************************************************************
 
                     Session["werknemer"] = werknemer;
+                }
+                else
+                {
+                    @ViewBag.ErrorMsg = "Verlofaanvraag moet in status ingediend zijn.";
                 }
             }
             else
