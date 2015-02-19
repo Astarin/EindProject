@@ -41,7 +41,7 @@ namespace EindProjectMVC.Controllers
                 {
                     //todo iet met de exc.Message
                 }
-
+                
             }
 
             return View();
@@ -80,11 +80,11 @@ namespace EindProjectMVC.Controllers
             {
                 //todo iet met de exc.Message
             }
-
+           
             return View(werknemer);
         }
 
-        public ActionResult HrTeamToevoegen(Team team)
+             public ActionResult HrTeamToevoegen(Team team)
         {
             if (team.Naam != String.Empty && team.Naam != null)
             {
@@ -125,13 +125,41 @@ namespace EindProjectMVC.Controllers
              };
             ViewBag.Werknemers = qry.ToList();
 
-            return View();
-        }
+                 return View();
+             }
 
-        public ActionResult HrTeamVerantwoordelijkeBeheren()
+        /*************************************
+         * HR/HrTeamverantwoordelijkeBeheren *
+         *************************************
+         * David 18/02/15                    *
+         *************************************/
+        public ActionResult HrTeamVerantwoordelijkeBeheren(string OpvragenTeam, string AlleTeams)
         {
-            return View();
-        }
+            // Wat hebben we nodig :
+            // lijst van teams met
+            //  - code / naam van het team
+            //  - alle werknemers v/h team
+            //  - teamleader
+
+            List<Team> alleteams = methode.OpvragenAlleTeams().ToList();
+            ViewBag.AlleTeams = alleteams;
+            if (OpvragenTeam != null)
+            {
+                // op submit button geklikt
+                // todo
+                ViewBag.Zichtbaar = "display:inline";
+                Team team = methode.OpvragenTeams(AlleTeams, String.Empty, String.Empty).FirstOrDefault();
+                return View(team);
+            }
+            else
+             {
+                ViewBag.Zichtbaar = "display:none";
+            }
+                 return View();
+
+             }
+
+
 
         private void NieuweTeamslijstAanmaken()
         {
