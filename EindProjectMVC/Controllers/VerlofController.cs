@@ -20,16 +20,15 @@ namespace EindProjectMVC.Controllers
                 //ddlTeamLeden bevat hier het personeelsnr.
                 Werknemer werknemer = dal.VraagWerknemerOp(ddlTeamLeden.ToString());
                 Session["werknemer"] = werknemer;
-                if (werknemer.TeamLeader) Session["teamleader"] = werknemer;
-                // TO DO: als werknemer in Team HR --> Session["hr"] = werknemer;
-                ViewBag.ShowHR = werknemer.TeamLeader ? "" : "disabled='disabled'"; // aan te passen voor HR
+                Session["currentUser"] = werknemer;
+                ViewBag.ShowHR = werknemer.IsHr ? "" : "disabled='disabled'";
                 ViewBag.ShowTeamLeader = werknemer.TeamLeader ? "" : "disabled='disabled'";
                 ViewBag.ShowWerknemer = "";
                 return View();
             }
             else
             {
-                return RedirectToAction("Index", "Login");;
+                return RedirectToAction("Index", "Login"); ;
             }
         }
 

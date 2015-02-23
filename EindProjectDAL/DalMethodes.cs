@@ -43,7 +43,7 @@ namespace EindProjectDAL
                 }
             }
         }
-                /*****************************************************
+        /*****************************************************
          * Hulpmethode Team ophalen voor bestaande werknemer *
          *****************************************************
          * Bernd                                             *
@@ -56,7 +56,6 @@ namespace EindProjectDAL
                               ;
             return team;
         }
-
 
 
         /**********************************
@@ -195,7 +194,7 @@ namespace EindProjectDAL
                 if (huidigTL != null)
                 {
                     huidigTL.TeamLeader = false;
-                   // db.SaveChanges();
+                    // db.SaveChanges();
                 }
                 try
                 {
@@ -207,7 +206,7 @@ namespace EindProjectDAL
                 {
                     throw new Exception("Nieuwe teamleader kon niet worden aangesteld.");
                 }
-           //     db.SaveChanges();
+                //     db.SaveChanges();
             }
 
         }

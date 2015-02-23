@@ -84,6 +84,12 @@ namespace EindProjectBusinessModels
         //[Range(typeof (bool),"true","false",ErrorMessage = "Het teamleader veld moet ingevuld worden." )]
         public bool TeamLeader { get; set; }
 
+        [ScaffoldColumn(false)] // word niet opgevraagd in auto generated creates.
+        public bool IsHr
+        {
+            get { return this.Team.Naam.ToUpper() == "HR"; }
+        }
+
         public Werknemer()
         {
             Verlofaanvragen = new List<VerlofAanvraag>();

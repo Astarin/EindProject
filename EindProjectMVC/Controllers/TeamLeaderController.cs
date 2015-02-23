@@ -18,11 +18,10 @@ namespace EindProjectMVC.Controllers
             Werknemer teamLeader;
             Team team;
 
-            if (Session["teamleader"] != null)
+            if (Session["currentUser"] != null)
             {
-                teamLeader = (Werknemer)Session["teamleader"];
+                teamLeader = (Werknemer)Session["currentUser"];
                 team = teamLeader.Team;
-                ViewBag.IngelogdAls = String.Format("{0} {1}", teamLeader.Naam, teamLeader.Voornaam);
             }
             else
             {
@@ -45,13 +44,24 @@ namespace EindProjectMVC.Controllers
 
         public ActionResult InfoForWerknemer(int? ddlTeamLeden)
         {
-            // Session["teamleader"] is al eerder gemaakt.
             if (ddlTeamLeden == null)
             {
                 if (Session["personeelsNr"] != null) ddlTeamLeden = (int)Session["personeelsNr"];
             }
             DalMethodes dal = new DalMethodes();
             Werknemer werknemer = dal.VraagWerknemerOp(ddlTeamLeden.ToString());
+            // ********************************************************************************
+            // TO DO invullen van BehandeldDoor moet in de methode VraagWerknemerOp gebeuren !
+            using (DbEindproject db = new DbEindproject())
+            {
+                foreach (VerlofAanvraag item in werknemer.Verlofaanvragen)
+                {
+                    item.BehandeldDoor = (from aanvraag in db.Verlofaanvragen
+                                          where aanvraag.Id == item.Id
+                                          select aanvraag.BehandeldDoor).FirstOrDefault();
+                }
+            }
+            // ********************************************************************************
             Session["werknemer"] = werknemer;
             return View(werknemer);
         }
@@ -79,13 +89,13 @@ namespace EindProjectMVC.Controllers
             Werknemer teamLeader;
             @ViewBag.ErrorMsg = "";
             DalMethodes dal = new DalMethodes();
-            if (Session["teamleader"] == null)
+            if (Session["currentUser"] == null)
             {
-                throw new ArgumentNullException("Session[teamLeader] is null in WijzigStatusVerlofAanvraag.");
+                throw new ArgumentNullException("Session[currentUser] is null in WijzigStatusVerlofAanvraag.");
             }
             else
             {
-                teamLeader = (Werknemer)Session["teamleader"];
+                teamLeader = (Werknemer)Session["currentUser"];
             }
             if (Session["werknemer"] != null)
             {
