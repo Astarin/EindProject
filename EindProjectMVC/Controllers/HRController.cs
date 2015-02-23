@@ -55,6 +55,7 @@ namespace EindProjectMVC.Controllers
 
         public ActionResult HrWijzigWerknemer(int? werknemerId)
         {
+            // nog een doorvewijzing inlassen naar de meer volldige methode.
             // overgang van selectie naar werknemer
             NieuweTeamslijstAanmaken();
             if (werknemerId == null)

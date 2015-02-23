@@ -604,7 +604,8 @@ namespace EindProjectBusinessModels
                 EindDatum = einddat,
                 Toestand = stat,
                 BehandelDatum = behandeldat,
-                BehandeldDoor = behandelaar
+                BehandeldDoor = behandelaar,
+                Gelezen = false
             };
             return verlofAanvraag1;
         }
