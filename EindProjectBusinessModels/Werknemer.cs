@@ -86,7 +86,6 @@ namespace EindProjectBusinessModels
         public string UserName { get; set; }
 
         // [ScaffoldColumn(false)] // word niet opgevraagd in auto generated creates.
-        [Required]
         [DataType(DataType.Password)]
         public string Paswoord { get; set; }
 
