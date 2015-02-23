@@ -523,6 +523,19 @@ namespace EindProjectDAL
                 db.SaveChanges();
             }
         }
+
+        public void SetGelezen(VerlofAanvraag x, bool p)
+        {
+            using (DbEindproject db = new DbEindproject())
+            {
+                VerlofAanvraag aanvraag = (from v in db.Verlofaanvragen
+                                           where x.Id == v.Id
+                                           select v).FirstOrDefault();
+                aanvraag.Gelezen = p;
+                db.SaveChanges();
+            }
+        }
+
         /*********************************************
          * 2.3.6. Opvragen lijst met verlofaanvragen *
          *********************************************/

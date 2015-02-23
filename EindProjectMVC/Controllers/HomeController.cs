@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using EindProjectBusinessModels;
+using EindProjectDAL;
 
 namespace EindProjectMVC.Controllers
 {
@@ -13,6 +14,11 @@ namespace EindProjectMVC.Controllers
         {
             if (Session["currentUser"] != null)
             {
+                // De werknemer wordt gerefreshed
+                Werknemer wn = (Werknemer)Session["currentUser"];
+                wn = new DalMethodes().VraagWerknemerOp(wn.PersoneelsNr.ToString());
+                Session["currentUser"] = wn;
+
                 return View((Werknemer)Session["currentUser"]);
             }
             else

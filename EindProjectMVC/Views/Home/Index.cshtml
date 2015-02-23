@@ -19,12 +19,31 @@
 
 </div>
 
-<p style="font-size:16px">
-    Voorstel: Laat hier een lijst zien van alle verlofaanvragen waarvan de status gewijzigd is sinds laatste bezoek.<br />
-    (bool changed toevoegen aan verlofaanvraag ofzo)
-</p>
-
 <div class="row">
+
+    @{
+        bool tmpbool = false;
+        foreach (EindProjectBusinessModels.VerlofAanvraag va in Model.Verlofaanvragen)
+        {
+            if (!va.Gelezen)
+            {
+                tmpbool = true;
+            }
+        }
+        if (tmpbool)
+        {
+            <div class="col-md-12">
+                <h2>Verwerkte verlofaanvragen</h2>
+                <p>
+                    Uw ingediende verlofaanvragen werden verwerkt. Bekijk ze
+                    <a class="btn btn-default" href="/verlof/verlofindienen">Hier</a>
+
+                </p>
+            </div>
+        }
+
+    }
+
 
     @if (Model.IsHr)
     {
@@ -41,17 +60,21 @@
             <p><a class="btn btn-default" href="">More To Come ...</a></p>
         </div>
     }
-
-
+    @if (Model.TeamLeader)
+    {
+        <div class="col-md-4">
+            <h2>Teamleader</h2>
+            <p>Als teamleader kan u de verlofaanvragen van de leden van uw team beheren</p>
+            <p><a class="btn btn-default" href="/teamleader/index">Verlofaanvragen beheren</a></p>
+        </div>
+    }
 
     <div class="col-md-4">
-        <h2>Under Construction (na de pauze)</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        <h2>Verlof Aanvragen</h2>
+        <p>
+            Om een overzicht van uw verlofaanvragen te zien of om een verlofaanvraag in te dienen klik dan
+            <a class="btn btn-default" href="/verlof/verlofindienen">Hier</a>
+        </p>
     </div>
-    <div class="col-md-4">
-        <h2>Under Construction (na de pauze)</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
+
 </div>

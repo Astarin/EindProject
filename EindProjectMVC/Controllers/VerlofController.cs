@@ -47,6 +47,12 @@ namespace EindProjectMVC.Controllers
                 wn = methode.VraagWerknemerOp(wn.PersoneelsNr.ToString());
             }
 
+            // De werknemer heeft de gewijzigde toestanden van zijn verlofaanvragen gezien
+            foreach (VerlofAanvraag item in ((Werknemer)Session["currentUser"]).Verlofaanvragen)
+            {
+                methode.SetGelezen(item, true);
+            }
+
             return View("WerknemerIngelogd", wn);
         }
     }
