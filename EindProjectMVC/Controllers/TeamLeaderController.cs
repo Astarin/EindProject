@@ -118,6 +118,7 @@ namespace EindProjectMVC.Controllers
                         dal.WijzigBehandelDatumVerlofaanvraag(vA);
                         dal.WijzigBehandeldDoorVerlofaanvraag(vA, teamLeader);
                         werknemer = dal.VraagWerknemerOp(werknemer.PersoneelsNr.ToString());
+                        dal.WijzigGelezenVerlofaanvraag(vA, false);
 
                         // ********************************************************************************
                         // TO DO invullen van BehandeldDoor moet in de methode VraagWerknemerOp gebeuren !

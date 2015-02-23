@@ -35,6 +35,8 @@ namespace EindProjectMVC.Controllers
                     if (TeamLeaderControle(werknemer, team))
                     {
                         methode.VoegWerknemerToeAanDb(werknemer, int.Parse(team));
+                        DalMethodes dal = new DalMethodes();
+                        dal.SetInitieelPaswoord(werknemer);
                     }
                 }
                 catch (Exception exc)

@@ -84,10 +84,15 @@ namespace EindProjectBusinessModels
         //[Range(typeof (bool),"true","false",ErrorMessage = "Het teamleader veld moet ingevuld worden." )]
         public bool TeamLeader { get; set; }
 
+        [NotMapped]
         [ScaffoldColumn(false)] // word niet opgevraagd in auto generated creates.
         public bool IsHr
         {
-            get { return this.Team.Naam.ToUpper() == "HR"; }
+            get
+            {
+                if (this.Team == null) return false;
+                return this.Team.Naam.ToUpper() == "HR";
+            }
         }
 
         public Werknemer()
