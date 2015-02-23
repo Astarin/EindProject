@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using EindProjectBusinessModels;
 
 namespace EindProjectMVC.Controllers
 {
@@ -10,7 +11,14 @@ namespace EindProjectMVC.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            if (Session["currentUser"] != null)
+            {
+                return View((Werknemer)Session["currentUser"]);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
         }
 
         public ActionResult About()
