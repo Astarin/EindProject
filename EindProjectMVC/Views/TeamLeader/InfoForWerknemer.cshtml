@@ -1,5 +1,5 @@
 ﻿@model EindProjectBusinessModels.Werknemer
-
+@using EindProjectBusinessModels
 @{
     ViewBag.Title = "InfoForWerknemer";
 }
@@ -44,16 +44,16 @@
                 {
                     <input type="hidden" name="RedenVoorAfkeuren" value="" />
                     <input type="hidden" name="Id" value="@item.Id" />
-                    <input type="submit" value="Goedkeuren" />
+                    <input type="submit" value="Goedkeuren" @Html.Raw((@item.Toestand == Aanvraagstatus.Ingediend) ? "" : "hidden") />
                 }
             </td>
             <td>
-                Reden voor afkeuren<br />
+                <p @Html.Raw((@item.Toestand == Aanvraagstatus.Ingediend) ? "" : "hidden")>Reden voor afkeuren</p>
                 @using (Html.BeginForm("AfkeurenStatusVerlofAanvraag", "TeamLeader"))
                 {
-                    <input type="text" name="RedenVoorAfkeuren" value="@item.RedenVoorAfkeuren" />
+                    <input type="text" name="RedenVoorAfkeuren" value="@item.RedenVoorAfkeuren" @Html.Raw((@item.Toestand == Aanvraagstatus.Ingediend) ? "" : "hidden") />
                     <input type="hidden" name="Id" value="@item.Id" />
-                    <input type="submit" value="Afkeuren" />
+                    <input type="submit" value="Afkeuren" @Html.Raw((@item.Toestand == Aanvraagstatus.Ingediend) ? "" : "hidden") />
                 }
             </td>
             <td>

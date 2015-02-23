@@ -36,12 +36,13 @@
 
 <h4>Overzicht Verlofaanvragen</h4>
 
-<table class="table table-striped" >
+<table class="table table-striped">
     <tr>
         <td><b>aanvraagdatum</b></td>
         <td><b>startdatum</b></td>
         <td><b>einddatum</b></td>
         <td><b>toestand</b></td>
+        <td></td>
     </tr>
     @foreach (var x in Model.Verlofaanvragen)
     {
@@ -51,6 +52,9 @@
             <td>@aanvraag.StartDatum.ToShortDateString()</td>
             <td>@aanvraag.EindDatum.ToShortDateString()</td>
             <td>@aanvraag.Toestand</td>
+            <td>
+                <input type="submit" value="TO DO : Annuleren" />
+            </td>
         </tr>
     }
 </table>

@@ -129,10 +129,17 @@ namespace EindProjectMVC.Controllers
                                                       where aanvraag.Id == item.Id
                                                       select aanvraag.BehandeldDoor).FirstOrDefault();
                             }
+
+                            // De verlofaanvraag is nodig voor het sturen van een mail. Omdat de aangepaste
+                            // verlofaanvraag enkel in de Db zit, moet die eerst terug opgevraagd worden:
+                            vA = (from aanvraag in db.Verlofaanvragen
+                                  where aanvraag.Id == vA.Id
+                                  select aanvraag).FirstOrDefault();
                         }
                         // ********************************************************************************
 
                         Session["werknemer"] = werknemer;
+                        dal.StuurMail(teamLeader, werknemer, vA);
                     }
                     else
                     {
