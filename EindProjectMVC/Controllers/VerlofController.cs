@@ -24,7 +24,8 @@ namespace EindProjectMVC.Controllers
                 ViewBag.ShowHR = werknemer.IsHr ? "" : "disabled='disabled'";
                 ViewBag.ShowTeamLeader = werknemer.TeamLeader ? "" : "disabled='disabled'";
                 ViewBag.ShowWerknemer = "";
-                return View();
+                // return View();
+                return RedirectToAction("Index", "Home");
             }
             else
             {
@@ -32,31 +33,19 @@ namespace EindProjectMVC.Controllers
             }
         }
 
-        public ActionResult WerknemerAction(string PersoneelsNr)
-        {
-            if (PersoneelsNr == String.Empty || PersoneelsNr == null)
-            {
-                return View();
-            }
-            else
-            {
-                DalMethodes methode = new DalMethodes();
-
-                Werknemer wn = methode.VraagWerknemerOp(PersoneelsNr, "", "").FirstOrDefault();
-
-                return View("WerknemerIngelogd", wn);
-            }
-        }
-
-        public ActionResult VerlofIndienen(VerlofAanvraag aanvraag, string PersoneelsNr)
+        public ActionResult VerlofIndienen(VerlofAanvraag aanvraag, string btnSubmit)
         {
             DalMethodes methode = new DalMethodes();
 
-            Werknemer wn = methode.VraagWerknemerOp(PersoneelsNr, "", "").FirstOrDefault();
+            Werknemer wn = (Werknemer)Session["currentUser"];
 
-            methode.IndienenVerlofaanvraag(wn, aanvraag);
+            if (btnSubmit != null)
+            {
+                methode.IndienenVerlofaanvraag(wn, aanvraag);
 
-            wn = methode.VraagWerknemerOp(PersoneelsNr, "", "").FirstOrDefault();
+                // Om de gegevens te refreshen
+                wn = methode.VraagWerknemerOp(wn.PersoneelsNr.ToString());
+            }
 
             return View("WerknemerIngelogd", wn);
         }

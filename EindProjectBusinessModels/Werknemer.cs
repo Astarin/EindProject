@@ -66,9 +66,6 @@ namespace EindProjectBusinessModels
         public string Gemeente { get; set; }
 
         [ScaffoldColumn(false)] // word niet opgevraagd in auto generated creates.
-        public string Paswoord { get; set; }
-
-        [ScaffoldColumn(false)] // word niet opgevraagd in auto generated creates.
         //  public Dictionary<int, int> VerlofDagenPerJaar { get; set; }
         public List<JaarlijksVerlof> JaarlijksVerlof { get; set; }
         [Required]
@@ -84,7 +81,15 @@ namespace EindProjectBusinessModels
         //[Range(typeof (bool),"true","false",ErrorMessage = "Het teamleader veld moet ingevuld worden." )]
         public bool TeamLeader { get; set; }
 
-        [NotMapped]
+        [Required]
+        [DataType(DataType.Text)]
+        public string UserName { get; set; }
+
+        // [ScaffoldColumn(false)] // word niet opgevraagd in auto generated creates.
+        [Required]
+        [DataType(DataType.Password)]
+        public string Paswoord { get; set; }
+
         [ScaffoldColumn(false)] // word niet opgevraagd in auto generated creates.
         public bool IsHr
         {

@@ -12,25 +12,25 @@
 {
     @Html.Hidden("PersoneelsNr", @Model.PersoneelsNr);
 
-                                                     EindProjectBusinessModels.VerlofAanvraag aanvraag = new EindProjectBusinessModels.VerlofAanvraag();
+    EindProjectBusinessModels.VerlofAanvraag aanvraag = new EindProjectBusinessModels.VerlofAanvraag();
 
-                                                    <div class="form-group">
-                                                        @Html.LabelFor(a => aanvraag.StartDatum, new { @class = "col-sm-2 control-label" })
-                                                        <div class="col-sm-10">
-                                                            @Html.TextBoxFor(a => aanvraag.StartDatum, DateTime.Now.AddDays(14).ToShortDateString())
-                                                            @Html.ValidationMessageFor(a => aanvraag.StartDatum)
-                                                        </div>
-                                                    </div>
+    <div class="form-group">
+    @Html.LabelFor(a => aanvraag.StartDatum, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+    @Html.TextBoxFor(a => aanvraag.StartDatum, DateTime.Now.AddDays(14).ToShortDateString())
+    @Html.ValidationMessageFor(a => aanvraag.StartDatum)
+    </div>
+    </div>
 
-                                                    <div class="form-group">
-                                                        @Html.LabelFor(a => aanvraag.EindDatum, new { @class = "col-sm-2 control-label" })
-                                                        <div class="col-sm-10">
-                                                            @Html.TextBoxFor(a => aanvraag.EindDatum, DateTime.Now.AddDays(14).ToShortDateString())
-                                                            @Html.ValidationMessageFor(a => aanvraag.EindDatum)
-                                                        </div>
-                                                    </div>
+    <div class="form-group">
+        @Html.LabelFor(a => aanvraag.EindDatum, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(a => aanvraag.EindDatum, DateTime.Now.AddDays(14).ToShortDateString())
+            @Html.ValidationMessageFor(a => aanvraag.EindDatum)
+        </div>
+    </div>
 
-                                                    <input type="submit" value="Verlof Aanvragen" class="btn btn-default" />
+    <input type="submit" value="Verlof Aanvragen" name="btnSubmit" class="btn btn-default" />
 
 }
 
@@ -48,14 +48,14 @@
     {
         EindProjectBusinessModels.VerlofAanvraag aanvraag = x as EindProjectBusinessModels.VerlofAanvraag;
         <tr>
-           <td>@aanvraag.AanvraagDatum.ToShortDateString()</td>
+            <td>@aanvraag.AanvraagDatum.ToShortDateString()</td>
             <td>@aanvraag.StartDatum.ToShortDateString()</td>
             <td>@aanvraag.EindDatum.ToShortDateString()</td>
             <td>@aanvraag.Toestand</td>
             <td>
                 <input type="submit" value="TO DO : Annuleren" />
             </td>
-       </tr>
+        </tr>
     }
 </table>
 
