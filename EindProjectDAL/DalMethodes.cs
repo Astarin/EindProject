@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using EindProjectBusinessModels;
 using System.Reflection;
 using System.Data.Entity;
+using System.Net.Mail;
 
 namespace EindProjectDAL
 {
@@ -596,6 +597,32 @@ namespace EindProjectDAL
          *                                                                           *
          *****************************************************************************/
 
+        public void StuurMail(Werknemer zender, Werknemer ontvanger, VerlofAanvraag aanvraag)
+        {
+            MailAddress bestemmeling = new MailAddress(ontvanger.Email);
+            MailAddress verzender = new MailAddress(zender.Email);
+
+            MailMessage bericht = new MailMessage(verzender, bestemmeling);
+            bericht.Subject = String.Format("Uw verlofaanvraag is {0}.", aanvraag.Toestand);
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat("Uw verlofaanvraag met onderstaande gegevens werd {0} door {1} {2}:\n",
+                              aanvraag.Toestand,
+                              aanvraag.BehandeldDoor.Naam,
+                              aanvraag.BehandeldDoor.Voornaam
+                              );
+            sb.Append(Environment.NewLine);
+            sb.AppendFormat("Aanvraagdatum : {0}", aanvraag.AanvraagDatum);
+            sb.Append(Environment.NewLine);
+            sb.AppendFormat("Startdatum : {0}", aanvraag.StartDatum);
+            sb.Append(Environment.NewLine);
+            sb.AppendFormat("Einddatum : {0}", aanvraag.EindDatum);
+            sb.Append(Environment.NewLine);
+            if (aanvraag.Toestand == Aanvraagstatus.Afgekeurd) sb.AppendFormat("Reden weigering : {0}", aanvraag.RedenVoorAfkeuren);
+            bericht.Body = sb.ToString();
+
+            SmtpClient smtp = new SmtpClient("127.0.0.1");
+            smtp.Send(bericht);
+        }
 
 
     }
