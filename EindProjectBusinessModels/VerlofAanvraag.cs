@@ -37,6 +37,9 @@ namespace EindProjectBusinessModels
         [DataType(DataType.Text)]
         public String RedenVoorAfkeuren { get; set; }
 
+         [ScaffoldColumn(false)]
+        public bool Gelezen { get; set; }
+
         // De aanvraagdatum word bij creatie aangemaakt.
         public VerlofAanvraag()
         {
