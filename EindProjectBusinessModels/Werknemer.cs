@@ -86,14 +86,17 @@ namespace EindProjectBusinessModels
         public string UserName { get; set; }
 
         // [ScaffoldColumn(false)] // word niet opgevraagd in auto generated creates.
-        [Required]
         [DataType(DataType.Password)]
         public string Paswoord { get; set; }
 
         [ScaffoldColumn(false)] // word niet opgevraagd in auto generated creates.
         public bool IsHr
         {
-            get { return this.Team.Naam.ToUpper() == "HR"; }
+            get
+            {
+                if (this.Team == null) return false;
+                return this.Team.Naam.ToUpper() == "HR";
+            }
         }
 
         public Werknemer()
