@@ -69,7 +69,6 @@ namespace EindProjectMVC.Controllers
             // Verlofaanvraag v is een gedeeltelijk ingevulde verlofaanvraag om de parameters
             // uit de form door te geven (id en RedenVoorAfkeuren)
             Werknemer werknemer = WijzigStatusVerlofAanvraag(v, Aanvraagstatus.Afgekeurd);
-            //werknemer.Verlofaanvragen[0].RedenVoorAfkeuren = "test";
             return View("InfoForWerknemer", werknemer);
         }
 
@@ -102,26 +101,33 @@ namespace EindProjectMVC.Controllers
                 // ze in toestand "Ingediend" zijn.
                 if (dal.HeeftVerlofaanvraagStatus(vA, Aanvraagstatus.Ingediend))
                 {
-                    dal.WijzigStatusVerlofaanvraag(vA, status);
-                    dal.WijzigRedenAfkeurenVerlofaanvraag(vA, v.RedenVoorAfkeuren);
-                    dal.WijzigBehandelDatumVerlofaanvraag(vA);
-                    dal.WijzigBehandeldDoorVerlofaanvraag(vA, teamLeader);
-                    werknemer = dal.VraagWerknemerOp(werknemer.PersoneelsNr.ToString());
-
-                    // ********************************************************************************
-                    // TO DO invullen van BehandeldDoor moet in de methode VraagWerknemerOp gebeuren !
-                    using (DbEindproject db = new DbEindproject())
+                    if (!(status == Aanvraagstatus.Afgekeurd && String.IsNullOrEmpty(v.RedenVoorAfkeuren)))
                     {
-                        foreach (VerlofAanvraag item in werknemer.Verlofaanvragen)
-                        {
-                            item.BehandeldDoor = (from aanvraag in db.Verlofaanvragen
-                                                  where aanvraag.Id == item.Id
-                                                  select aanvraag.BehandeldDoor).FirstOrDefault();
-                        }
-                    }
-                    // ********************************************************************************
+                        dal.WijzigStatusVerlofaanvraag(vA, status);
+                        dal.WijzigRedenAfkeurenVerlofaanvraag(vA, v.RedenVoorAfkeuren);
+                        dal.WijzigBehandelDatumVerlofaanvraag(vA);
+                        dal.WijzigBehandeldDoorVerlofaanvraag(vA, teamLeader);
+                        werknemer = dal.VraagWerknemerOp(werknemer.PersoneelsNr.ToString());
 
-                    Session["werknemer"] = werknemer;
+                        // ********************************************************************************
+                        // TO DO invullen van BehandeldDoor moet in de methode VraagWerknemerOp gebeuren !
+                        using (DbEindproject db = new DbEindproject())
+                        {
+                            foreach (VerlofAanvraag item in werknemer.Verlofaanvragen)
+                            {
+                                item.BehandeldDoor = (from aanvraag in db.Verlofaanvragen
+                                                      where aanvraag.Id == item.Id
+                                                      select aanvraag.BehandeldDoor).FirstOrDefault();
+                            }
+                        }
+                        // ********************************************************************************
+
+                        Session["werknemer"] = werknemer;
+                    }
+                    else
+                    {
+                        @ViewBag.ErrorMsg = "Reden voor afkeuren moet ingevuld zijn.";
+                    }
                 }
                 else
                 {
