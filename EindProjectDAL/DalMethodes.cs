@@ -539,6 +539,14 @@ namespace EindProjectDAL
          * 2.3.6.3. Opvragen lijst met verlofaanvragen door systeem *
          ************************************************************/
 
+        /*******************************************************************************
+         * Maken van melding ivm nieuwe status verlofaanvragen bij aanloggen werknemer *
+         *******************************************************************************/
+        public String MaakVerlofaanvraagLoginMelding(VerlofAanvraag aanvraag)
+        {
+            return CreateBody(aanvraag);
+        }
+
 
         /************** 3. BEHEREN VAN ADV dagenJAARLIJKSE VERLOVEN *******************/
 
@@ -588,11 +596,6 @@ namespace EindProjectDAL
         /*****************************************************************************
          *                                                                           *
          * 6.1. Verzenden van email bij indienen of annuleren van een verlofaanvraag *
-         *                                                                           *
-         *****************************************************************************/
-
-        /*****************************************************************************
-         *                                                                           *
          * 6.2. Verzenden van email bij goekeuren of afkeuren van een verlofaanvraag *
          *                                                                           *
          *****************************************************************************/
@@ -604,11 +607,19 @@ namespace EindProjectDAL
 
             MailMessage bericht = new MailMessage(verzender, bestemmeling);
             bericht.Subject = String.Format("Uw verlofaanvraag is {0}.", aanvraag.Toestand);
+            bericht.Body = CreateBody(aanvraag);
+
+            SmtpClient smtp = new SmtpClient("127.0.0.1");
+            smtp.Send(bericht);
+        }
+
+        private String CreateBody(VerlofAanvraag aanvraag)
+        {
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat("Uw verlofaanvraag met onderstaande gegevens werd {0} door {1} {2}:\n",
                               aanvraag.Toestand,
-                              aanvraag.BehandeldDoor.Naam,
-                              aanvraag.BehandeldDoor.Voornaam
+                              aanvraag.BehandeldDoor.Voornaam,
+                              aanvraag.BehandeldDoor.Naam
                               );
             sb.Append(Environment.NewLine);
             sb.AppendFormat("Aanvraagdatum : {0}", aanvraag.AanvraagDatum);
@@ -617,13 +628,10 @@ namespace EindProjectDAL
             sb.Append(Environment.NewLine);
             sb.AppendFormat("Einddatum : {0}", aanvraag.EindDatum);
             sb.Append(Environment.NewLine);
+            sb.AppendFormat("Aanvraag behandeld op : {0}", aanvraag.BehandelDatum);
+            sb.Append(Environment.NewLine);
             if (aanvraag.Toestand == Aanvraagstatus.Afgekeurd) sb.AppendFormat("Reden weigering : {0}", aanvraag.RedenVoorAfkeuren);
-            bericht.Body = sb.ToString();
-
-            SmtpClient smtp = new SmtpClient("127.0.0.1");
-            smtp.Send(bericht);
+            return sb.ToString();
         }
-
-
     }
 }
