@@ -39,37 +39,39 @@
 
 <table class="sortable table table-striped">
     <thead>
-    <tr>
-        <td><b>aanvraagdatum</b></td>
-        <td><b>startdatum</b></td>
-        <td><b>einddatum</b></td>
+        <tr>
+            <td><b>aanvraagdatum</b></td>
+            <td><b>startdatum</b></td>
+            <td><b>einddatum</b></td>
             <td colspan="2"><b>toestand</b></td>
-    </tr>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var x in Model.Verlofaanvragen)
-    {
-        EindProjectBusinessModels.VerlofAanvraag aanvraag = x as EindProjectBusinessModels.VerlofAanvraag;
-        <tr>
-            <td>@aanvraag.AanvraagDatum.ToShortDateString()</td>
-            <td>@aanvraag.StartDatum.ToShortDateString()</td>
-            <td>@aanvraag.EindDatum.ToShortDateString()</td>
-            <td>@aanvraag.Toestand</td>
-            <td>
-                @if ((aanvraag.Toestand == EindProjectBusinessModels.Aanvraagstatus.Goedgekeurd
+        @foreach (var x in Model.Verlofaanvragen)
+        {
+            EindProjectBusinessModels.VerlofAanvraag aanvraag = x as EindProjectBusinessModels.VerlofAanvraag;
+            <tr>
+                <td>@aanvraag.AanvraagDatum.ToShortDateString()</td>
+                <td>@aanvraag.StartDatum.ToShortDateString()</td>
+                <td>@aanvraag.EindDatum.ToShortDateString()</td>
+                <td>@aanvraag.Toestand</td>
+                <td>
+                    @if ((aanvraag.Toestand == EindProjectBusinessModels.Aanvraagstatus.Goedgekeurd
                     || aanvraag.Toestand == EindProjectBusinessModels.Aanvraagstatus.Ingediend)
                     && aanvraag.StartDatum > DateTime.Now)
-                {
-                    using (Html.BeginForm("VerlofAnnuleren", "Verlof", FormMethod.Post))
                     {
-                        <input type="hidden" value="@Model.PersoneelsNr" name="persNr" />
-                        <input type="hidden" value="@aanvraag.Id" name="aanvraagId" />
-                        <input type="submit" value="Annuleren" name="btnAnnuleren" class="btn btn-default" />
+                        @Html.ActionLink("Annuleren", "VerlofAnnuleren", new { aanvraagID = aanvraag.Id }, FormMethod.Post)
+
+                        @*using (Html.BeginForm("VerlofAnnuleren", "Verlof", FormMethod.Post))
+                        {
+                            <input type="hidden" value="@Model.PersoneelsNr" name="persNr" />
+                            <input type="hidden" value="@aanvraag.Id" name="aanvraagId" />
+                            <input type="submit" value="Annuleren" name="btnAnnuleren" class="btn btn-default" />
+                        }*@
                     }
-                }
-            </td>
-        </tr>
-    }
+                </td>
+            </tr>
+        }
     </tbody>
 
 </table>
