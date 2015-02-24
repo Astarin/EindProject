@@ -40,7 +40,7 @@ namespace EindProjectDAL
                 }
                 catch (Exception e)
                 {
-                    throw new Exception("Probleempje met het toevoegen van een werknemer.", e);
+                    throw ;
                 }
             }
         }
@@ -93,7 +93,7 @@ namespace EindProjectDAL
 
                 return (Werknemer)wn;
             }
-            // throw new Exception("Er liep iets fout tijdens het opvragen van 0, 1 of meerdere werknemers");
+            
         }
         /******************************************
         * 1.1.2. b. Opvragen van alle werknemers *
@@ -167,7 +167,7 @@ namespace EindProjectDAL
                 }
                 catch
                 {
-                    throw new Exception("Het toevoegen van een team is niet gelukt.");
+                    throw;
                 }
             }
         }
@@ -205,7 +205,7 @@ namespace EindProjectDAL
                 }
                 catch
                 {
-                    throw new Exception("Nieuwe teamleader kon niet worden aangesteld.");
+                    throw;
                 }
                 //     db.SaveChanges();
             }
@@ -231,7 +231,7 @@ namespace EindProjectDAL
                 }
                 catch
                 {
-                    throw new Exception("Teamnaam kon niet worden aangepast.");
+                    throw;
                 }
             }
 
@@ -340,7 +340,7 @@ namespace EindProjectDAL
                     }
                     catch
                     {
-                        throw new Exception("Het verwijderen van het team is niet succesvol verlopen.");
+                        throw;
                     }
                 }
             }
