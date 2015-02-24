@@ -188,28 +188,28 @@ namespace EindProjectDAL
             Team theTeam = werknemer.Team;
             using (DbEindproject db = new DbEindproject())
             {
-                Werknemer huidigTL = (from wn in db.Werknemers
+                Werknemer huidigTL = (from wn in db.Werknemers.Include(wn => wn.Team)
                                       where wn.Team.Code == theTeam.Code
                                          && wn.TeamLeader
                                       select wn).FirstOrDefault();
                 if (huidigTL != null)
                 {
                     huidigTL.TeamLeader = false;
-                    // db.SaveChanges();
                 }
                 try
                 {
-                    Werknemer wn = VraagWerknemerOp(werknemer.PersoneelsNr.ToString());
+                    Werknemer wn = (from w in db.Werknemers.Include(w => w.Team).Include(w => w.Verlofaanvragen).Include(w => w.JaarlijksVerlof)
+                              where w.PersoneelsNr == werknemer.PersoneelsNr
+                              select w).FirstOrDefault();
+
                     wn.TeamLeader = true;
-                    //   db.SaveChanges();
+                    db.SaveChanges();
                 }
                 catch
                 {
                     throw;
                 }
-                //     db.SaveChanges();
             }
-
         }
 
         /********************************************

@@ -26,7 +26,7 @@ namespace EindProjectMVC.Models
                 <input name='Actie' type='submit' value='Team Toevoegen' class='button-invis'>
             </form>
             <form action='/HR/HrTeamVerantwoordelijkeBeheren' class='label label-primary'>
-                <input name='Actie' type='submit' value='Team Bewerken Toevoegen' class='button-invis'>
+                <input name='Actie' type='submit' value='Teams Beheren' class='button-invis'>
             </form>
 
         </nav>
