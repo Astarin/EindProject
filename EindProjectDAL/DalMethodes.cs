@@ -133,7 +133,7 @@ namespace EindProjectDAL
                 wn.PersoneelsNr = werknemer.PersoneelsNr;
                 wn.Postcode = werknemer.Postcode;
                 wn.Team = werknemer.Team;
-                wn.TeamLeader = werknemer.TeamLeader;
+                //wn.TeamLeader = werknemer.TeamLeader; // bij wijziging moet de teamleader niet gewijzigd kunnen worden
                 wn.Verlofaanvragen = werknemer.Verlofaanvragen;
                 wn.Voornaam = werknemer.Voornaam;
 

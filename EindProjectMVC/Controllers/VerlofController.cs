@@ -74,15 +74,12 @@ namespace EindProjectMVC.Controllers
             return View("WerknemerIngelogd", wn);
         }
 
-        public ActionResult VerlofAnnuleren(string aanvraagId, string btnAnnuleren, string persNr)
+        public ActionResult VerlofAnnuleren(string aanvraagId)
         {
             DalMethodes methode = new DalMethodes();
             Werknemer wn = (Werknemer)Session["currentUser"];
 
-            if (btnAnnuleren != null)
-            {
-                methode.AnnuleerVerlofAanvraag(aanvraagId);
-            }
+            methode.AnnuleerVerlofAanvraag(aanvraagId);
 
             wn = methode.VraagWerknemerOp(wn.PersoneelsNr.ToString());
             // ********************************************************************************
@@ -98,7 +95,7 @@ namespace EindProjectMVC.Controllers
             }
             // ********************************************************************************
 
-            VerlofAanvraag vA = wn.Verlofaanvragen.Find( x => x.Id.ToString() == aanvraagId);
+            VerlofAanvraag vA = wn.Verlofaanvragen.Find(x => x.Id.ToString() == aanvraagId);
             methode.StuurMail(wn, methode.GeefTeamLeader(wn.Team), vA);
             return View("WerknemerIngelogd", wn);
 
