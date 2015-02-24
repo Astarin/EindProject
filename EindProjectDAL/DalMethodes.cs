@@ -198,7 +198,7 @@ namespace EindProjectDAL
                 }
                 try
                 {
-                    Werknemer wn = (from w in db.Werknemers.Include(w => w.Team).Include(w => w.Verlofaanvragen).Include(w => w.JaarlijksVerlof)
+                    Werknemer wn = (from w in db.Werknemers.Include(w => w.Team)
                               where w.PersoneelsNr == werknemer.PersoneelsNr
                               select w).FirstOrDefault();
 
