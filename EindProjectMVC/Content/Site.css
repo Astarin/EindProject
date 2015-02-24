@@ -26,3 +26,11 @@ textarea {
             outline: none
 
         }
+.caret-black{
+    background-color: gray;
+    
+}
+.dropdown-menu-inverse {
+  background-color: #222222;
+  color: #ffffff;
+}

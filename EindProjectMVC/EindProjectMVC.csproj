@@ -253,6 +253,7 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\HR\HrTeamVerantwoordelijkeBeheren.cshtml" />
     <Content Include="Views\Shared\_TitelEnError.cshtml" />
+    <Content Include="Views\Shared\_HrDropdownMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

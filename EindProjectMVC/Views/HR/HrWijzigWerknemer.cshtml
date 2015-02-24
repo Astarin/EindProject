@@ -3,8 +3,8 @@
 @{
     ViewBag.Title = "HrWijzigWerknemer";
 }
+@Html.Partial("_TitelEnError")
 
-@Html.Raw(EindProjectMVC.Models.MenuGenerator.CreeerHrMenu())
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
