@@ -1,8 +1,7 @@
 ﻿@{
     ViewBag.Title = "HrTeamToevoegen";
 }
-
-@Html.Raw(EindProjectMVC.Models.HrMenuGenerator.CreeerHrMenu())
+@Html.Partial("_TitelEnError")
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()

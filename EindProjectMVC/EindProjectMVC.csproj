@@ -241,7 +241,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\HR\HrNieuweWerknemer.cshtml" />
     <Content Include="Views\Verlof\Index.cshtml" />
-    <Content Include="Views\Verlof\WerknemerAction.cshtml" />
     <Content Include="Views\HR\Index.cshtml" />
     <Content Include="Views\TeamLeader\Index.cshtml" />
     <Content Include="Views\HR\HrSelecteerWerknemer.cshtml" />
@@ -253,6 +252,8 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\HR\HrTeamVerantwoordelijkeBeheren.cshtml" />
     <Content Include="Views\TeamLeader\InfoForAllWerknemers.cshtml" />
+    <Content Include="Views\Shared\_TitelEnError.cshtml" />
+    <Content Include="Views\Shared\_HrDropdownMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

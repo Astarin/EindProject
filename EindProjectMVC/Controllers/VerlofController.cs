@@ -47,6 +47,8 @@ namespace EindProjectMVC.Controllers
                 wn = methode.VraagWerknemerOp(wn.PersoneelsNr.ToString());
             }
 
+
+
             // De werknemer heeft de gewijzigde toestanden van zijn verlofaanvragen gezien
             foreach (VerlofAanvraag item in ((Werknemer)Session["currentUser"]).Verlofaanvragen)
             {
@@ -54,6 +56,22 @@ namespace EindProjectMVC.Controllers
             }
 
             return View("WerknemerIngelogd", wn);
+        }
+
+        public ActionResult VerlofAnnuleren(string aanvraagId, string btnAnnuleren)
+        {
+            DalMethodes methode = new DalMethodes();
+            Werknemer wn = (Werknemer)Session["currentUser"];
+
+            if (btnAnnuleren != null)
+            {
+                methode.AnnuleerVerlofAanvraag(aanvraagId);
+            }
+
+            wn = methode.VraagWerknemerOp(wn.PersoneelsNr.ToString());
+
+            return View("WerknemerIngelogd", wn);
+
         }
     }
 }

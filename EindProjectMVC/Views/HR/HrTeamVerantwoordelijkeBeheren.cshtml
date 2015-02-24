@@ -3,9 +3,8 @@
 @{
     ViewBag.Title = "HrTeamVerantwoordelijkeBeheren";
 }
-
+@Html.Partial("_TitelEnError")
 <h2>Beheer teams en teamverantwoordelijken</h2>
-
 
 @using (Html.BeginForm())
 {
@@ -13,13 +12,13 @@
  
     <div>
         @Html.DropDownList("AlleTeams", new System.Web.Mvc.SelectList(ViewBag.AlleTeams, "Code", "Naam"))
-        <input name="OpvragenTeam" id="OpvragenTeam" type="submit" value="Beheren" />
+        <input name="OpvragenTeam" id="OpvragenTeam" type="submit" value="Beheren" class="btn btn-default"/>
         @ViewBag.Melding
     </div>
 
     <div class="form-horizontal" style="@ViewBag.Zichtbaar">
 
-        <h4>Team</h4>
+        <h4>Team @Model.Naam</h4>
         <hr />
         @Html.ValidationSummary(true)
         <div class="form-group">
@@ -55,10 +54,7 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
-@*@section Scripts {
+@section Scripts {
         @Scripts.Render("~/bundles/jqueryval")
-    }*@
+    }
