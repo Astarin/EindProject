@@ -21,6 +21,7 @@ namespace EindProjectMVC.Controllers
 
         public ActionResult HrNieuweWerknemer(Werknemer werknemer, string team)
         {
+            //ViewBag.ErrorMsg = "test Error";
             //dropdownlijst opvullen
             NieuweTeamslijstAanmaken();
 

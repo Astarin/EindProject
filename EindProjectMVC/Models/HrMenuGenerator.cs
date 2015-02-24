@@ -5,7 +5,7 @@ using System.Web;
 
 namespace EindProjectMVC.Models
 {
-    static public class HrMenuGenerator
+    static public class MenuGenerator
     {
         public static string CreeerHrMenu()
         {
@@ -33,5 +33,6 @@ namespace EindProjectMVC.Models
         </div>
            ";
         }
+     
     }
 }
