@@ -40,7 +40,7 @@ namespace EindProjectDAL
                 }
                 catch (Exception e)
                 {
-                    throw ;
+                    throw;
                 }
             }
         }
@@ -93,7 +93,7 @@ namespace EindProjectDAL
 
                 return (Werknemer)wn;
             }
-            
+
         }
         /******************************************
         * 1.1.2. b. Opvragen van alle werknemers *
@@ -514,6 +514,21 @@ namespace EindProjectDAL
             }
         }
 
+        public void AnnuleerVerlofAanvraag(string aanvraagId)
+        {
+            using (DbEindproject db = new DbEindproject())
+            {
+                VerlofAanvraag aanvraag = (from v in db.Verlofaanvragen
+                                           where v.Id.ToString() == aanvraagId
+                                           select v).FirstOrDefault();
+                if (aanvraag.StartDatum > DateTime.Now)
+                {
+                    aanvraag.Toestand = Aanvraagstatus.Geannuleerd;
+                }
+                db.SaveChanges();
+            }
+        }
+
         public void WijzigRedenAfkeurenVerlofaanvraag(VerlofAanvraag verlofaanvraag, String reden)
         {
             using (DbEindproject db = new DbEindproject())
@@ -594,7 +609,7 @@ namespace EindProjectDAL
                 Werknemer wn = (from werkn in db.Werknemers
                                 where werkn.PersoneelsNr == w.PersoneelsNr
                                 select werkn).FirstOrDefault();
-                wn.Paswoord=paswoord;
+                wn.Paswoord = paswoord;
                 db.SaveChanges();
             }
         }
@@ -671,14 +686,14 @@ namespace EindProjectDAL
 
         public Werknemer GetWerknemerWithUsernamePasw(string username, string paswoord)
         {
-            using(DbEindproject db = new DbEindproject() )
+            using (DbEindproject db = new DbEindproject())
             {
                 Werknemer werknemer = (from w in db.Werknemers.Include(w => w.JaarlijksVerlof).Include(w => w.Verlofaanvragen)
-                                         where w.UserName == username
-                                         && w.Paswoord == paswoord
-                                         select w).FirstOrDefault();
+                                       where w.UserName == username
+                                       && w.Paswoord == paswoord
+                                       select w).FirstOrDefault();
                 return werknemer;
-                                  
+
             }
         }
     }
