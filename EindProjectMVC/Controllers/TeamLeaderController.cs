@@ -42,28 +42,62 @@ namespace EindProjectMVC.Controllers
 
         }
 
-        public ActionResult InfoForWerknemer(int? ddlTeamLeden)
+        public ActionResult InfoForWerknemer(int? ddlTeamLeden, VerlofAanvraag v, bool chkAlleWerknemers)
         {
-            if (ddlTeamLeden == null)
-            {
-                if (Session["personeelsNr"] != null) ddlTeamLeden = (int)Session["personeelsNr"];
-            }
             DalMethodes dal = new DalMethodes();
-            Werknemer werknemer = dal.VraagWerknemerOp(ddlTeamLeden.ToString());
+            Werknemer werknemer=null;
+            List<Werknemer> werknemers = new List<Werknemer>();
+            if (chkAlleWerknemers)
+            {
+                Team team = ((Werknemer)Session["currentUser"]).Team;
+                werknemers = dal.GeefTeamleden(team);
+                Session["werknemer"] = werknemers;
+            }
+            else
+            {
+                if (ddlTeamLeden == null)
+                {
+                    if (Session["personeelsNr"] != null)
+                    {
+                        ddlTeamLeden = (int)Session["personeelsNr"];
+                        werknemer = dal.VraagWerknemerOp(ddlTeamLeden.ToString());
+                    }
+                    else
+                    {
+                        return View();
+                    }
+                }
+                else
+                {
+                    werknemer = dal.VraagWerknemerOp(ddlTeamLeden.ToString());
+                }
+                werknemers.Add(werknemer);
+            }
             // ********************************************************************************
             // TO DO invullen van BehandeldDoor moet in de methode VraagWerknemerOp gebeuren !
             using (DbEindproject db = new DbEindproject())
             {
-                foreach (VerlofAanvraag item in werknemer.Verlofaanvragen)
+                foreach (Werknemer w in werknemers)
                 {
-                    item.BehandeldDoor = (from aanvraag in db.Verlofaanvragen
-                                          where aanvraag.Id == item.Id
-                                          select aanvraag.BehandeldDoor).FirstOrDefault();
+                    foreach (VerlofAanvraag item in w.Verlofaanvragen)
+                    {
+                        item.BehandeldDoor = (from aanvraag in db.Verlofaanvragen
+                                              where aanvraag.Id == item.Id
+                                              select aanvraag.BehandeldDoor).FirstOrDefault();
+                    }
                 }
             }
             // ********************************************************************************
-            Session["werknemer"] = werknemer;
-            return View(werknemer);
+            Session["werknemer"] = werknemers;
+            
+            if (chkAlleWerknemers)
+            {
+                return View("InfoForAllWerknemers");
+            }
+            else
+            {
+                return View(werknemers[0]);
+            }
         }
 
         public ActionResult GoedkeurenStatusVerlofAanvraag(VerlofAanvraag v)
@@ -99,7 +133,7 @@ namespace EindProjectMVC.Controllers
             }
             if (Session["werknemer"] != null)
             {
-                werknemer = (Werknemer)Session["werknemer"];
+                werknemer = ((List<Werknemer>)Session["werknemer"])[0];
 
                 // vanuit de gedeeltelijk ingevulde Verlofaanvraag wordt op het Id de
                 // Verlofaanvraag uit de Werknemer opgehaald
@@ -139,7 +173,9 @@ namespace EindProjectMVC.Controllers
                         }
                         // ********************************************************************************
 
-                        Session["werknemer"] = werknemer;
+                        List<Werknemer> werknemers = new List<Werknemer>();
+                        werknemers.Add(werknemer);
+                        Session["werknemer"] = werknemers;
                         dal.StuurMail(teamLeader, werknemer, vA);
                     }
                     else

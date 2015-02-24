@@ -356,7 +356,7 @@ namespace EindProjectDAL
         {
             using (DbEindproject db = new DbEindproject())
             {
-                List<Werknemer> wnLijst = (from w in db.Werknemers
+                List<Werknemer> wnLijst = (from w in db.Werknemers.Include(v => v.Verlofaanvragen)
                                            where w.Team.Code == team.Code
                                            select w).ToList<Werknemer>();
                 return wnLijst;

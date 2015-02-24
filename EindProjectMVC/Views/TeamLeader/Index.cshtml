@@ -1,4 +1,5 @@
-﻿
+﻿@model EindProjectBusinessModels.VerlofAanvraag
+
 @{
     ViewBag.Title = "TeamLeader Index";
 }
@@ -6,9 +7,21 @@
 <h2>TeamLeader Tools</h2>
 <h3>Behandelen verlofaanvragen</h3>
 <br />
-Selecteer werknemer:
 @using (@Html.BeginForm("InfoForWerknemer", "TeamLeader"))
 {
-    @Html.DropDownList("ddlTeamLeden");
+    <table>
+        <tr>
+            <th>Werknemer</th>
+            <th>Startdatum</th>
+            <th>Einddatum</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            <td>@Html.CheckBox("chkAlleWerknemers", false)@Html.Label("lblAlle", "alle teamleden of selecteer ")@Html.DropDownList("ddlTeamLeden")</td>
+            <td>@Html.EditorFor(model => model.StartDatum)</td>
+            <td>@Html.EditorFor(model => model.EindDatum)</td>
+            <td>@Html.EditorFor(model => model.Toestand)</td>
+        </tr>
+    </table>
     <input type="submit" name="btnBevestig" value="Bevestig" />
 }
