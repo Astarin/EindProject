@@ -35,6 +35,7 @@ namespace EindProjectDAL
                 try
                 {
                     werknemer.Team = HaalTeamVoorWerknemerUitDb(werknemer, teamCode, db);
+                    SetInitieelPaswoord(werknemer);
                     db.Werknemers.Add(werknemer);
                     db.SaveChanges();
                 }
@@ -128,7 +129,7 @@ namespace EindProjectDAL
                 wn.Gemeente = werknemer.Gemeente;
                 wn.JaarlijksVerlof = werknemer.JaarlijksVerlof;
                 wn.Naam = werknemer.Naam;
-                wn.Paswoord = werknemer.Paswoord;
+                //wn.Paswoord = werknemer.Paswoord; niet op deze manier aanpassen!
                 wn.PersoneelsNr = werknemer.PersoneelsNr;
                 wn.Postcode = werknemer.Postcode;
                 wn.Team = werknemer.Team;
@@ -280,7 +281,17 @@ namespace EindProjectDAL
             }
         }
 
-
+        public Werknemer GeefTeamLeader(Team team)
+        {
+            using (DbEindproject db = new DbEindproject())
+            {
+                Werknemer tl = (from wn in db.Werknemers
+                                where wn.Team.Code == team.Code
+                                   && wn.TeamLeader == true
+                                select wn).FirstOrDefault();
+                return tl;
+            }
+        }
 
         public Team GeefTeamMetCode(int code)
         {
@@ -616,7 +627,8 @@ namespace EindProjectDAL
 
         public void SetInitieelPaswoord(Werknemer w)
         {
-            WijzigPaswoord(w, w.Voornaam);
+            w.Paswoord = w.Voornaam;
+            //WijzigPaswoord(w, w.Voornaam);
         }
 
         /************** 5. GEBRUIK VAN KALENDER VOOR VISUALISATIE *******************/
@@ -666,10 +678,10 @@ namespace EindProjectDAL
         private String CreateBody(VerlofAanvraag aanvraag)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendFormat("Uw verlofaanvraag met onderstaande gegevens werd {0} door {1} {2}:\n",
+            sb.AppendFormat("De verlofaanvraag met onderstaande gegevens werd {0} {1} {2}:\n",
                               aanvraag.Toestand,
-                              aanvraag.BehandeldDoor.Voornaam,
-                              aanvraag.BehandeldDoor.Naam
+                              aanvraag.BehandeldDoor == null?"":String.Format("door {0}",aanvraag.BehandeldDoor.Voornaam),
+                              aanvraag.BehandeldDoor == null?"":aanvraag.BehandeldDoor.Naam
                               );
             sb.Append(Environment.NewLine);
             sb.AppendFormat("Aanvraagdatum : {0}", aanvraag.AanvraagDatum);
@@ -678,8 +690,11 @@ namespace EindProjectDAL
             sb.Append(Environment.NewLine);
             sb.AppendFormat("Einddatum : {0}", aanvraag.EindDatum);
             sb.Append(Environment.NewLine);
+            if (aanvraag.BehandeldDoor != null)
+            {
             sb.AppendFormat("Aanvraag behandeld op : {0}", aanvraag.BehandelDatum);
             sb.Append(Environment.NewLine);
+            }
             if (aanvraag.Toestand == Aanvraagstatus.Afgekeurd) sb.AppendFormat("Reden weigering : {0}", aanvraag.RedenVoorAfkeuren);
             return sb.ToString();
         }
@@ -694,6 +709,23 @@ namespace EindProjectDAL
                                        select w).FirstOrDefault();
                 return werknemer;
 
+            }
+        }
+        public bool IsUserNameInGebruik(string username)
+        {
+            using (DbEindproject db = new DbEindproject())
+            {
+                var usern = (from u in db.Werknemers
+                             where u.UserName.ToUpper() == username.ToUpper()
+                             select u.UserName).FirstOrDefault();
+                if ( string.IsNullOrEmpty(usern))
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
         }
     }
