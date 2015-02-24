@@ -48,6 +48,7 @@ namespace EindProjectMVC.Controllers
                 }
                 catch (Exception exc)
                 {
+                    ViewBag.ErrorMsg = "Er is een fout opgetreden de bewerking is niet uitgevoerd.";
                     throw; //todo iet met de exc.Message
                 }
 
@@ -60,6 +61,11 @@ namespace EindProjectMVC.Controllers
         {
             List<Werknemer> werknemers = methode.VraagAlleWerknemersOp();
             return View(werknemers);
+        }
+        public ActionResult HrZoekWerknemer(string personeelsNr, string werknemerNaam, string werknemerVoorNaam)
+        {
+            List<Werknemer> werknemers = methode.VraagWerknemerOp(personeelsNr, werknemerNaam, werknemerVoorNaam);
+            return View("HrSelecteerWerknemer", werknemers);
         }
 
         public ActionResult HrWijzigWerknemer(int? werknemerId)
@@ -85,9 +91,15 @@ namespace EindProjectMVC.Controllers
                     //Werkt niet werknemer word niet aangepast? Dal Methode OK?
                     methode.WijzigWerknemerProperty(werknemer, int.Parse(team));
                 }
+                else
+                {
+                    ViewBag.ErrorMsg = "Kan {0} geen teamleader maken. Er bestaat reeds een teamleader.";
+                }
             }
             catch (Exception exc)
             {
+                ViewBag.ErrorMsg = "Er is een fout opgetreden de bewerking is niet uitgevoerd.";
+                throw;
                 //todo iet met de exc.Message
             }
 
@@ -99,6 +111,10 @@ namespace EindProjectMVC.Controllers
             if (team.Naam != String.Empty && team.Naam != null)
             {
                 methode.VoegTeamToeAanDb(team);
+            }
+            else
+            {
+                ViewBag.ErrorMsg = "Het team is niet toegevoegd. Controleer of de naam correct is ingevuld.";
             }
 
             return View();
@@ -116,7 +132,8 @@ namespace EindProjectMVC.Controllers
                 }
                 catch (Exception e)
                 {
-                    ViewBag.Error = e.Message;
+                    ViewBag.ErrorMsg = "Er is een fout opgetreden.";
+                    ViewBag.Error = e.Message; // mag dit weg?
                 }
             }
 
