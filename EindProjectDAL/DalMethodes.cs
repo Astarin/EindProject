@@ -35,6 +35,7 @@ namespace EindProjectDAL
                 try
                 {
                     werknemer.Team = HaalTeamVoorWerknemerUitDb(werknemer, teamCode, db);
+                    SetInitieelPaswoord(werknemer);
                     db.Werknemers.Add(werknemer);
                     db.SaveChanges();
                 }
@@ -128,7 +129,7 @@ namespace EindProjectDAL
                 wn.Gemeente = werknemer.Gemeente;
                 wn.JaarlijksVerlof = werknemer.JaarlijksVerlof;
                 wn.Naam = werknemer.Naam;
-                wn.Paswoord = werknemer.Paswoord;
+                //wn.Paswoord = werknemer.Paswoord; niet op deze manier aanpassen!
                 wn.PersoneelsNr = werknemer.PersoneelsNr;
                 wn.Postcode = werknemer.Postcode;
                 wn.Team = werknemer.Team;
@@ -199,8 +200,8 @@ namespace EindProjectDAL
                 try
                 {
                     Werknemer wn = (from w in db.Werknemers.Include(w => w.Team)
-                                    where w.PersoneelsNr == werknemer.PersoneelsNr
-                                    select w).FirstOrDefault();
+                              where w.PersoneelsNr == werknemer.PersoneelsNr
+                              select w).FirstOrDefault();
 
                     wn.TeamLeader = true;
                     db.SaveChanges();
@@ -626,7 +627,8 @@ namespace EindProjectDAL
 
         public void SetInitieelPaswoord(Werknemer w)
         {
-            WijzigPaswoord(w, w.Voornaam);
+            w.Paswoord = w.Voornaam;
+            //WijzigPaswoord(w, w.Voornaam);
         }
 
         /************** 5. GEBRUIK VAN KALENDER VOOR VISUALISATIE *******************/
@@ -690,8 +692,8 @@ namespace EindProjectDAL
             sb.Append(Environment.NewLine);
             if (aanvraag.BehandeldDoor != null)
             {
-                sb.AppendFormat("Aanvraag behandeld op : {0}", aanvraag.BehandelDatum);
-                sb.Append(Environment.NewLine);
+            sb.AppendFormat("Aanvraag behandeld op : {0}", aanvraag.BehandelDatum);
+            sb.Append(Environment.NewLine);
             }
             if (aanvraag.Toestand == Aanvraagstatus.Afgekeurd) sb.AppendFormat("Reden weigering : {0}", aanvraag.RedenVoorAfkeuren);
             return sb.ToString();
@@ -707,6 +709,23 @@ namespace EindProjectDAL
                                        select w).FirstOrDefault();
                 return werknemer;
 
+            }
+        }
+        public bool IsUserNameInGebruik(string username)
+        {
+            using (DbEindproject db = new DbEindproject())
+            {
+                var usern = (from u in db.Werknemers
+                             where u.UserName.ToUpper() == username.ToUpper()
+                             select u.UserName).FirstOrDefault();
+                if ( string.IsNullOrEmpty(usern))
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
         }
     }

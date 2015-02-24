@@ -21,7 +21,7 @@ namespace EindProjectMVC.Controllers
 
         public ActionResult HrNieuweWerknemer(Werknemer werknemer, string team)
         {
-            //ViewBag.ErrorMsg = "test Error";
+            
             //dropdownlijst opvullen
             NieuweTeamslijstAanmaken();
 
@@ -35,9 +35,15 @@ namespace EindProjectMVC.Controllers
                 {
                     if (TeamLeaderControle(werknemer, team))
                     {
+                        if (!methode.IsUserNameInGebruik(werknemer.UserName))
+                        {
                         methode.VoegWerknemerToeAanDb(werknemer, int.Parse(team));
-                        DalMethodes dal = new DalMethodes();
-                        dal.SetInitieelPaswoord(werknemer);
+                        }
+                        else
+                        {
+                            ViewBag.ErrorMsg = "De usernaam bestaat reeds. De nieuwe werknemer is niet toegevoegd. ";
+                        }
+                       
                     }
                 }
                 catch (Exception exc)
@@ -215,7 +221,6 @@ namespace EindProjectMVC.Controllers
                 if (methode.IsErAlEenTeamLeader(methode.GeefTeamMetCode(int.Parse(team))))
                 {
                     return false;
-                    throw new Exception("TODO: Team heeft al een teamleider.");
                 }
                 else
                 {

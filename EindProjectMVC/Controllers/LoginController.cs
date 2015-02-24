@@ -40,10 +40,10 @@ namespace EindProjectMVC.Controllers
             if (inlogger != null)
             {
                 Session["currentUser"] = inlogger;
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home");
             }
-                return View("Index");
-            
+            return View("Index");
+
         }
-	}
+    }
 }

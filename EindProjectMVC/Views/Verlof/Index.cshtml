@@ -3,8 +3,9 @@
 @{
     ViewBag.Title = "Index";
 }
+
 @Html.AntiForgeryToken()
-<h2>Index</h2>
+@Html.Partial("_TitelEnError")
 <form action="/HR">
     <input name="Actie" type="submit" value="HR Tools" @ViewBag.ShowHR >
 </form>

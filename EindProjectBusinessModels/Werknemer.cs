@@ -81,7 +81,7 @@ namespace EindProjectBusinessModels
         //[Range(typeof (bool),"true","false",ErrorMessage = "Het teamleader veld moet ingevuld worden." )]
         public bool TeamLeader { get; set; }
 
-        [Required]
+         [Required(ErrorMessage = "Je moet een gebruikersnaam opgegeven")]
         [DataType(DataType.Text)]
         public string UserName { get; set; }
 
