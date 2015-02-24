@@ -58,7 +58,7 @@ namespace EindProjectMVC.Controllers
             return View("WerknemerIngelogd", wn);
         }
 
-        public ActionResult VerlofAnnuleren(string aanvraagId, string btnAnnuleren)
+        public ActionResult VerlofAnnuleren(string aanvraagId, string btnAnnuleren, string persNr)
         {
             DalMethodes methode = new DalMethodes();
             Werknemer wn = (Werknemer)Session["currentUser"];
@@ -69,9 +69,45 @@ namespace EindProjectMVC.Controllers
             }
 
             wn = methode.VraagWerknemerOp(wn.PersoneelsNr.ToString());
+            // ********************************************************************************
+            // TO DO invullen van BehandeldDoor moet in de methode VraagWerknemerOp gebeuren !
+            using (DbEindproject db = new DbEindproject())
+            {
+                foreach (VerlofAanvraag item in wn.Verlofaanvragen)
+                {
+                    item.BehandeldDoor = (from aanvraag in db.Verlofaanvragen
+                                          where aanvraag.Id == item.Id
+                                          select aanvraag.BehandeldDoor).FirstOrDefault();
+                }
+            }
+            // ********************************************************************************
 
+            VerlofAanvraag vA = wn.Verlofaanvragen.Find( x => x.Id.ToString() == aanvraagId);
+            methode.StuurMail(wn, methode.GeefTeamLeader(wn.Team), vA);
             return View("WerknemerIngelogd", wn);
 
+        }
+
+        public ActionResult Sort(string sortBy)
+        {
+            DalMethodes methode = new DalMethodes();
+
+            switch (sortBy)
+            {
+                case "a":
+
+
+
+                    break;
+                default:
+                    break;
+            }
+
+
+
+            Werknemer wn = (Werknemer)Session["currentUser"];
+            wn = methode.VraagWerknemerOp(wn.PersoneelsNr.ToString());
+            return View("WerknemerIngelogd", wn);
         }
     }
 }

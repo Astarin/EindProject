@@ -1,4 +1,4 @@
-﻿@model System.Collections.Generic.IEnumerable<EindProjectBusinessModels.Werknemer>
+﻿@model System.Collections.Generic.IEnumerable<eindprojectbusinessmodels.werknemer>
 
     @{
         ViewBag.Title = "HrWijzigWerknemer";
@@ -33,7 +33,7 @@
     }
 
     <div class="table table-striped ">
-        <table class="table-hover">
+        <table class="table-hover sortable">
             <thead>
                 <tr>
                     <th></th>
@@ -48,41 +48,46 @@
                     <th>Verlofdagen per jaar</th>
                 </tr>
             </thead>
-            @foreach (EindProjectBusinessModels.Werknemer werkn in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.ActionLink("Wijzig", "HrWijzigWerknemer", new { werknemerId = werkn.PersoneelsNr })
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => werkn.PersoneelsNr)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => werkn.Naam)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => werkn.Voornaam)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => werkn.Geboortedatum)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => werkn.Team.Naam)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => werkn.Adres)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => werkn.Postcode)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => werkn.Verlofaanvragen.Count)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => werkn.JaarlijksVerlof.Count)
-                    </td>
-                </tr>
-            }
+            <tbody>
+                @foreach (EindProjectBusinessModels.Werknemer werkn in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink("Wijzig", "HrWijzigWerknemer", new { werknemerId = werkn.PersoneelsNr })
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => werkn.PersoneelsNr)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => werkn.Naam)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => werkn.Voornaam)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => werkn.Geboortedatum)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => werkn.Team.Naam)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => werkn.Adres)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => werkn.Postcode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => werkn.Verlofaanvragen.Count)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => werkn.JaarlijksVerlof.Count)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+
+
 
 
 

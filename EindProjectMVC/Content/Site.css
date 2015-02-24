@@ -17,20 +17,35 @@ textarea {
 }
 
 .button-invis {
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
 
-            background-color: Transparent;
-            background-repeat:no-repeat;
-            border: none;
-            cursor:pointer;
-            overflow: hidden;
-            outline: none
-
-        }
-.caret-black{
+.caret-black {
     background-color: gray;
-    
 }
+
 .dropdown-menu-inverse {
-  background-color: #222222;
-  color: #ffffff;
+    background-color: #222222;
+    color: #ffffff;
 }
+
+table.sortable thead {
+    background-color: #eee;
+    color: #666666;
+    font-weight: bold;
+    cursor: default;
+    border: 1px solid black;
+}
+
+    table.sortable thead td {
+        border: 1px solid black;
+    }
+
+    table.sortable thead th {
+        border: 1px solid black;
+    }
