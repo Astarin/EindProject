@@ -189,7 +189,7 @@ namespace EindProjectMVC.Controllers
                 {
                     ViewBag.Zichtbaar = "display:none";
                     ViewBag.LijstWerknemers = new List<Werknemer>();
-                    return View();
+                    return View(new Team());
                 }
         }
 
