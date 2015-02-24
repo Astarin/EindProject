@@ -73,5 +73,27 @@ namespace EindProjectMVC.Controllers
             return View("WerknemerIngelogd", wn);
 
         }
+
+        public ActionResult Sort(string sortBy)
+        {
+            DalMethodes methode = new DalMethodes();
+
+            switch (sortBy)
+            {
+                case "a":
+
+
+
+                    break;
+                default:
+                    break;
+            }
+
+
+
+            Werknemer wn = (Werknemer)Session["currentUser"];
+            wn = methode.VraagWerknemerOp(wn.PersoneelsNr.ToString());
+            return View("WerknemerIngelogd", wn);
+        }
     }
 }

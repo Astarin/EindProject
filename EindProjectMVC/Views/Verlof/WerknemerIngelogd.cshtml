@@ -4,6 +4,7 @@
     ViewBag.Title = "WerknemerIngelogd";
 }
 
+
 @Html.Partial("_TitelEnError")
 
 
@@ -36,36 +37,40 @@
 
 <h4>Overzicht Verlofaanvragen</h4>
 
-<table class="table table-striped">
-    <tr>
-        <td><b>aanvraagdatum</b></td>
-        <td><b>startdatum</b></td>
-        <td><b>einddatum</b></td>
-        <td><b>toestand</b></td>
-        <td></td>
-    </tr>
-    @foreach (var x in Model.Verlofaanvragen)
-    {
-        EindProjectBusinessModels.VerlofAanvraag aanvraag = x as EindProjectBusinessModels.VerlofAanvraag;
+<table class="sortable table table-striped">
+    <thead>
         <tr>
-            <td>@aanvraag.AanvraagDatum.ToShortDateString()</td>
-            <td>@aanvraag.StartDatum.ToShortDateString()</td>
-            <td>@aanvraag.EindDatum.ToShortDateString()</td>
-            <td>@aanvraag.Toestand</td>
-            <td>
-                @if ((aanvraag.Toestand == EindProjectBusinessModels.Aanvraagstatus.Goedgekeurd
+            <td><b>aanvraagdatum</b></td>
+            <td><b>startdatum</b></td>
+            <td><b>einddatum</b></td>
+            <td colspan="2"><b>toestand</b></td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var x in Model.Verlofaanvragen)
+        {
+            EindProjectBusinessModels.VerlofAanvraag aanvraag = x as EindProjectBusinessModels.VerlofAanvraag;
+            <tr>
+                <td>@aanvraag.AanvraagDatum.ToShortDateString()</td>
+                <td>@aanvraag.StartDatum.ToShortDateString()</td>
+                <td>@aanvraag.EindDatum.ToShortDateString()</td>
+                <td>@aanvraag.Toestand</td>
+                <td>
+                    @if ((aanvraag.Toestand == EindProjectBusinessModels.Aanvraagstatus.Goedgekeurd
                     || aanvraag.Toestand == EindProjectBusinessModels.Aanvraagstatus.Ingediend)
                     && aanvraag.StartDatum > DateTime.Now)
-                {
-                    using (Html.BeginForm("VerlofAnnuleren", "Verlof", FormMethod.Post))
                     {
-                        <input type="hidden" value="@aanvraag.Id" name="aanvraagId" />
-                        <input type="submit" value="Annuleren" name="btnAnnuleren" class="btn btn-default" />
+                        using (Html.BeginForm("VerlofAnnuleren", "Verlof", FormMethod.Post))
+                        {
+                            <input type="hidden" value="@aanvraag.Id" name="aanvraagId" />
+                            <input type="submit" value="Annuleren" name="btnAnnuleren" class="btn btn-default" />
+                        }
                     }
-                }
-            </td>
-        </tr>
-    }
+                </td>
+            </tr>
+        }
+    </tbody>
+
 </table>
 
 
