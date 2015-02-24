@@ -42,7 +42,7 @@ namespace EindProjectMVC.Controllers
                 }
                 catch (Exception exc)
                 {
-                    //todo iet met de exc.Message
+                    throw exc;
                 }
 
             }
@@ -82,7 +82,7 @@ namespace EindProjectMVC.Controllers
             }
             catch (Exception exc)
             {
-                //todo iet met de exc.Message
+                throw exc;
             }
 
             return View(werknemer);

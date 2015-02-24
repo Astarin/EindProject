@@ -59,6 +59,7 @@
                 {
                     using (Html.BeginForm("VerlofAnnuleren", "Verlof", FormMethod.Post))
                     {
+                        <input type="hidden" value="@Model.PersoneelsNr" name="persNr" />
                         <input type="hidden" value="@aanvraag.Id" name="aanvraagId" />
                         <input type="submit" value="Annuleren" name="btnAnnuleren" class="btn btn-default" />
                     }
