@@ -38,9 +38,9 @@ namespace EindProjectDAL
                     db.Werknemers.Add(werknemer);
                     db.SaveChanges();
                 }
-                catch
+                catch (Exception e)
                 {
-                    throw new Exception("Probleempje met het toevoegen van een werknemer.");
+                    throw new Exception("Probleempje met het toevoegen van een werknemer.", e);
                 }
             }
         }
@@ -443,19 +443,14 @@ namespace EindProjectDAL
          ****************************************************************/
 
 
-        /****************************************
-         * 2.3.2. Annuleren van verlofaanvragen *
-         ****************************************/
-
         /*********************************************************************
+         * 2.3.2. Annuleren van verlofaanvragen                              *
          * 2.3.3. Goedkeuren van verlofaanvragen door teamverantwoordelijken *
+         * 2.3.4. Goedkeuren van verlofaanvragen door het systeem            *
+         * 2.3.5. Afkeuren van verlofaanvragen                               *
+         *********************************************************************
+         * Frank                                                             *
          *********************************************************************/
-
-        /**********************************************************
-         * 2.3.4. Goedkeuren van verlofaanvragen door het systeem *
-         **********************************************************
-         * Frank                                                  *
-         **********************************************************/
         public void WijzigBehandelDatumVerlofaanvraag(VerlofAanvraag verlofaanvraag)
         {
             using (DbEindproject db = new DbEindproject())
@@ -468,6 +463,17 @@ namespace EindProjectDAL
             }
         }
 
+        public void WijzigGelezenVerlofaanvraag(VerlofAanvraag verlofaanvraag, bool isGelezen)
+        {
+            using (DbEindproject db = new DbEindproject())
+            {
+                VerlofAanvraag aanvraag = (from v in db.Verlofaanvragen
+                                           where v.Id == verlofaanvraag.Id
+                                           select v).FirstOrDefault();
+                aanvraag.Gelezen = isGelezen;
+                db.SaveChanges();
+            }
+        }
         public void WijzigBehandeldDoorVerlofaanvraag(VerlofAanvraag verlofaanvraag, Werknemer werknemer)
         {
             using (DbEindproject db = new DbEindproject())
@@ -495,11 +501,7 @@ namespace EindProjectDAL
                 return aanvraag.Toestand == status;
             }
         }
-        /***************************************
-         * 2.3.5. Afkeuren van verlofaanvragen *
-         ***************************************
-         * Frank                               *
-         ***************************************/
+
         public void WijzigStatusVerlofaanvraag(VerlofAanvraag verlofaanvraag, Aanvraagstatus status)
         {
             using (DbEindproject db = new DbEindproject())
@@ -523,6 +525,19 @@ namespace EindProjectDAL
                 db.SaveChanges();
             }
         }
+
+        public void SetGelezen(VerlofAanvraag x, bool p)
+        {
+            using (DbEindproject db = new DbEindproject())
+            {
+                VerlofAanvraag aanvraag = (from v in db.Verlofaanvragen
+                                           where x.Id == v.Id
+                                           select v).FirstOrDefault();
+                aanvraag.Gelezen = p;
+                db.SaveChanges();
+            }
+        }
+
         /*********************************************
          * 2.3.6. Opvragen lijst met verlofaanvragen *
          *********************************************/
@@ -566,8 +581,28 @@ namespace EindProjectDAL
 
         /************** 4. AUTHORISATIE *******************/
 
+        /***********************
+         * Paswoordbehandeling *
+         ***********************/
+        /*********************************************** 
+         * Wijzigen van het paswoord van een werknemer *
+         ***********************************************/
+        public void WijzigPaswoord(Werknemer w, String paswoord)
+        {
+            using (DbEindproject db = new DbEindproject())
+            {
+                Werknemer wn = (from werkn in db.Werknemers
+                                where werkn.PersoneelsNr == w.PersoneelsNr
+                                select werkn).FirstOrDefault();
+                wn.Paswoord=paswoord;
+                db.SaveChanges();
+            }
+        }
 
-
+        public void SetInitieelPaswoord(Werknemer w)
+        {
+            WijzigPaswoord(w, w.Voornaam);
+        }
 
         /************** 5. GEBRUIK VAN KALENDER VOOR VISUALISATIE *******************/
 

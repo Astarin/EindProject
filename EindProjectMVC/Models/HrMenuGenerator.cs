@@ -7,10 +7,10 @@ namespace EindProjectMVC.Models
 {
     static public class HrMenuGenerator
     {
-       public static string CreeerHrMenu()
-       {
-           return
-           @"    <div class='jumbotron'>
+        public static string CreeerHrMenu()
+        {
+            return
+            @"    <div class='jumbotron'>
         <h2>Hr Selecteer Werknemer</h2>
         <nav class='navbar navbar-inverse'>
             <form action='/HR/HrNieuweWerknemer' class='label label-primary' >
@@ -32,6 +32,6 @@ namespace EindProjectMVC.Models
         </nav>
         </div>
            ";
-       }
+        }
     }
 }

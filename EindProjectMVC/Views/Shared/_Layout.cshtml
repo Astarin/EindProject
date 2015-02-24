@@ -17,13 +17,38 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+
+                    @{
+                        if (Session["currentUser"] != null)
+                        {
+                            EindProjectBusinessModels.Werknemer currentUser = (EindProjectBusinessModels.Werknemer)Session["currentUser"];
+
+                            if (currentUser.TeamLeader && currentUser.IsHr)
+                            {
+                                <li>@Html.ActionLink("Hr Tools", "Index", "Hr")</li>
+                                <li>@Html.ActionLink("TeamLeader Tools", "Index", "TeamLeader")</li>
+                            }
+                            else if (currentUser.TeamLeader)
+                            {
+                                <li>@Html.ActionLink("TeamLeader Tools", "Index", "TeamLeader")</li>
+                            }
+                            else if (currentUser.IsHr)
+                            {
+                                <li>@Html.ActionLink("HR Tools", "Index", "HR")</li>
+                            }
+                            
+                            <li>@Html.ActionLink("Verlof Aanvragen", "VerlofIndienen", "Verlof")</li>
+                        }
+
+                    }
+
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -33,7 +58,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Bernd, David, Frank, Roel</p>
         </footer>
     </div>
 

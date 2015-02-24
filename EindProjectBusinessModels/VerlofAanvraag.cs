@@ -44,6 +44,7 @@ namespace EindProjectBusinessModels
         public VerlofAanvraag()
         {
             AanvraagDatum = DateTime.Now;
+            Gelezen = true;
         }
     }
 }

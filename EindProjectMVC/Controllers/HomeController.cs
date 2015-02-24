@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using EindProjectBusinessModels;
+using EindProjectDAL;
 
 namespace EindProjectMVC.Controllers
 {
@@ -10,7 +12,19 @@ namespace EindProjectMVC.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            if (Session["currentUser"] != null)
+            {
+                // De werknemer wordt gerefreshed
+                Werknemer wn = (Werknemer)Session["currentUser"];
+                wn = new DalMethodes().VraagWerknemerOp(wn.PersoneelsNr.ToString());
+                Session["currentUser"] = wn;
+
+                return View((Werknemer)Session["currentUser"]);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login"); ;
+            }
         }
 
         public ActionResult About()
