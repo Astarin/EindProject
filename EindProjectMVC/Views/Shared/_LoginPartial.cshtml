@@ -17,14 +17,14 @@ else
 {
     <ul class="nav navbar-nav navbar-right">
         @*<li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
-        @if (Session["werknemer"] != null)
+        @if (Session["currentUser"] != null)
         {
-            EindProjectBusinessModels.Werknemer werknemer = (EindProjectBusinessModels.Werknemer)(Session["werknemer"]);
+            EindProjectBusinessModels.Werknemer werknemer = ((EindProjectBusinessModels.Werknemer)Session["currentUser"]);
             
             <li class="">
                 <div class="left">
                     <img src="~/Content/Images/smurf.jpg" alt="img smurf" class="img-circle" width="50" height="50" />
-                    @Html.ActionLink(werknemer.Naam + " " + werknemer.Voornaam, "Index", "Login", routeValues: null, htmlAttributes: new { id = "loginLink" })
+                    @Html.ActionLink(werknemer.Naam + " " + werknemer.Voornaam, "Index", "Home", routeValues: null, htmlAttributes: new { id = "loginLink" })
                 </div>
             </li>
         }

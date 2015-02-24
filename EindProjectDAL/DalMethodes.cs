@@ -633,5 +633,18 @@ namespace EindProjectDAL
             if (aanvraag.Toestand == Aanvraagstatus.Afgekeurd) sb.AppendFormat("Reden weigering : {0}", aanvraag.RedenVoorAfkeuren);
             return sb.ToString();
         }
+
+        public Werknemer GetWerknemerWithUsernamePasw(string username, string paswoord)
+        {
+            using(DbEindproject db = new DbEindproject() )
+            {
+                Werknemer werknemer = (from w in db.Werknemers.Include(w => w.JaarlijksVerlof).Include(w => w.Verlofaanvragen)
+                                         where w.UserName == username
+                                         && w.Paswoord == paswoord
+                                         select w).FirstOrDefault();
+                return werknemer;
+                                  
+            }
+        }
     }
 }
