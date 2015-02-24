@@ -200,8 +200,8 @@ namespace EindProjectDAL
                 try
                 {
                     Werknemer wn = (from w in db.Werknemers.Include(w => w.Team)
-                              where w.PersoneelsNr == werknemer.PersoneelsNr
-                              select w).FirstOrDefault();
+                                    where w.PersoneelsNr == werknemer.PersoneelsNr
+                                    select w).FirstOrDefault();
 
                     wn.TeamLeader = true;
                     db.SaveChanges();
@@ -585,7 +585,7 @@ namespace EindProjectDAL
          *******************************************************************************/
         public String MaakVerlofaanvraagLoginMelding(VerlofAanvraag aanvraag)
         {
-            return CreateBody(aanvraag);
+            return CreateBody(null, null, aanvraag);
         }
 
 
@@ -668,20 +668,28 @@ namespace EindProjectDAL
             MailAddress verzender = new MailAddress(zender.Email);
 
             MailMessage bericht = new MailMessage(verzender, bestemmeling);
-            bericht.Subject = String.Format("Uw verlofaanvraag is {0}.", aanvraag.Toestand);
-            bericht.Body = CreateBody(aanvraag);
+            bericht.Subject = String.Format("Een verlofaanvraag is {0}.", aanvraag.Toestand);
+            bericht.Body = CreateBody(zender, ontvanger, aanvraag);
 
             SmtpClient smtp = new SmtpClient("127.0.0.1");
             smtp.Send(bericht);
         }
 
-        private String CreateBody(VerlofAanvraag aanvraag)
+        private String CreateBody(Werknemer zender, Werknemer ontvanger, VerlofAanvraag aanvraag)
         {
             StringBuilder sb = new StringBuilder();
+            if (zender != null)
+            {
+                sb.AppendFormat("Melding door:\n {0} {1}\n PersNr. {2}\n {3}\n\n", zender.Voornaam, zender.Naam, zender.PersoneelsNr, zender.Email);
+            }
+            if (ontvanger != null)
+            {
+                sb.AppendFormat("Melding aan:\n {0} {1}\n PersNr. {2}\n {3}\n\n", ontvanger.Voornaam, ontvanger.Naam, ontvanger.PersoneelsNr, ontvanger.Email);
+            }
             sb.AppendFormat("De verlofaanvraag met onderstaande gegevens werd {0} {1} {2}:\n",
                               aanvraag.Toestand,
-                              aanvraag.BehandeldDoor == null?"":String.Format("door {0}",aanvraag.BehandeldDoor.Voornaam),
-                              aanvraag.BehandeldDoor == null?"":aanvraag.BehandeldDoor.Naam
+                              aanvraag.BehandeldDoor == null ? "" : String.Format("door {0}", aanvraag.BehandeldDoor.Voornaam),
+                              aanvraag.BehandeldDoor == null ? "" : aanvraag.BehandeldDoor.Naam
                               );
             sb.Append(Environment.NewLine);
             sb.AppendFormat("Aanvraagdatum : {0}", aanvraag.AanvraagDatum);
@@ -692,10 +700,15 @@ namespace EindProjectDAL
             sb.Append(Environment.NewLine);
             if (aanvraag.BehandeldDoor != null)
             {
-            sb.AppendFormat("Aanvraag behandeld op : {0}", aanvraag.BehandelDatum);
-            sb.Append(Environment.NewLine);
+                sb.AppendFormat("Aanvraag behandeld op : {0}", aanvraag.BehandelDatum);
+                sb.Append(Environment.NewLine);
+                sb.AppendFormat("Aanvraag behandeld door : {0} {1}", aanvraag.BehandeldDoor.Voornaam, aanvraag.BehandeldDoor.Naam);
+                sb.Append(Environment.NewLine);
             }
-            if (aanvraag.Toestand == Aanvraagstatus.Afgekeurd) sb.AppendFormat("Reden weigering : {0}", aanvraag.RedenVoorAfkeuren);
+            if (aanvraag.Toestand == Aanvraagstatus.Afgekeurd)
+            {
+                sb.AppendFormat("Reden weigering : {0}", aanvraag.RedenVoorAfkeuren);
+            }
             return sb.ToString();
         }
 
@@ -718,7 +731,7 @@ namespace EindProjectDAL
                 var usern = (from u in db.Werknemers
                              where u.UserName.ToUpper() == username.ToUpper()
                              select u.UserName).FirstOrDefault();
-                if ( string.IsNullOrEmpty(usern))
+                if (string.IsNullOrEmpty(usern))
                 {
                     return false;
                 }

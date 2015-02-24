@@ -45,6 +45,22 @@ namespace EindProjectMVC.Controllers
 
                 // Om de gegevens te refreshen
                 wn = methode.VraagWerknemerOp(wn.PersoneelsNr.ToString());
+
+                // ********************************************************************************
+                // TO DO invullen van BehandeldDoor moet in de methode VraagWerknemerOp gebeuren !
+                using (DbEindproject db = new DbEindproject())
+                {
+                    foreach (VerlofAanvraag item in wn.Verlofaanvragen)
+                    {
+                        item.BehandeldDoor = (from a in db.Verlofaanvragen
+                                              where a.Id == item.Id
+                                              select a.BehandeldDoor).FirstOrDefault();
+                    }
+                }
+                // ********************************************************************************
+
+                VerlofAanvraag vA = wn.Verlofaanvragen.Find(x => x.Id == aanvraag.Id);
+                methode.StuurMail(wn, methode.GeefTeamLeader(wn.Team), vA);
             }
 
 

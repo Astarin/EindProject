@@ -37,48 +37,48 @@
 
     @foreach (VerlofAanvraag item in Model.Verlofaanvragen)
     {
-            <tr>
-                <td>
+        <tr>
+            <td>
+                @using (Html.BeginForm("GoedkeurenStatusVerlofAanvraag", "TeamLeader"))
+                {
                     <br />
-                    @using (Html.BeginForm("GoedkeurenStatusVerlofAanvraag", "TeamLeader"))
-                    {
-                        <input type="hidden" name="RedenVoorAfkeuren" value="" />
-                        <input type="hidden" name="Id" value="@item.Id" />
-                        <input type="submit" value="Goedkeuren" @Html.Raw((@item.Toestand == Aanvraagstatus.Ingediend) ? "" : "hidden") />
-                    }
-                </td>
-                <td>
-                    <p @Html.Raw((@item.Toestand == Aanvraagstatus.Ingediend) ? "" : "hidden")>Reden voor afkeuren</p>
-                    @using (Html.BeginForm("AfkeurenStatusVerlofAanvraag", "TeamLeader"))
-                    {
-                        <input type="text" name="RedenVoorAfkeuren" value="@item.RedenVoorAfkeuren" @Html.Raw((@item.Toestand == Aanvraagstatus.Ingediend) ? "" : "hidden") />
-                        <input type="hidden" name="Id" value="@item.Id" />
-                        <input type="submit" value="Afkeuren" @Html.Raw((@item.Toestand == Aanvraagstatus.Ingediend) ? "" : "hidden") />
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartDatum)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EindDatum)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AanvraagDatum)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Toestand)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BehandelDatum)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BehandeldDoor.Naam)
-                    @Html.DisplayFor(modelItem => item.BehandeldDoor.Voornaam)
-                </td>
-            </tr>
+                    <input type="hidden" name="RedenVoorAfkeuren" value="" />
+                    <input type="hidden" name="Id" value="@item.Id" />
+                    <input type="submit" value="Goedkeuren" @Html.Raw((@item.Toestand == Aanvraagstatus.Ingediend) ? "" : "hidden") />
+                }
+            </td>
+            <td>
+                <p @Html.Raw((@item.Toestand == Aanvraagstatus.Ingediend) ? "" : "hidden")>Reden voor afkeuren</p>
+                @using (Html.BeginForm("AfkeurenStatusVerlofAanvraag", "TeamLeader"))
+                {
+                    <input type="text" name="RedenVoorAfkeuren" value="@item.RedenVoorAfkeuren" @Html.Raw((@item.Toestand == Aanvraagstatus.Ingediend) ? "" : "hidden") />
+                    <input type="hidden" name="Id" value="@item.Id" />
+                    <input type="submit" value="Afkeuren" @Html.Raw((@item.Toestand == Aanvraagstatus.Ingediend) ? "" : "hidden") />
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDatum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EindDatum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AanvraagDatum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Toestand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BehandelDatum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BehandeldDoor.Naam)
+                @Html.DisplayFor(modelItem => item.BehandeldDoor.Voornaam)
+            </td>
+        </tr>
     }
 </table>
 <p style="color:red">@ViewBag.ErrorMsg</p>

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using EindProjectDAL;
 using EindProjectBusinessModels;
+using EindProjectMVC.Models;
 
 namespace EindProjectMVC.Controllers
 {
@@ -45,13 +46,16 @@ namespace EindProjectMVC.Controllers
         public ActionResult InfoForWerknemer(int? ddlTeamLeden, VerlofAanvraag v, bool chkAlleWerknemers)
         {
             DalMethodes dal = new DalMethodes();
-            Werknemer werknemer=null;
+            Werknemer werknemer = null;
             List<Werknemer> werknemers = new List<Werknemer>();
             if (chkAlleWerknemers)
             {
                 Team team = ((Werknemer)Session["currentUser"]).Team;
                 werknemers = dal.GeefTeamleden(team);
+                VulBehandeldDoorVelden(werknemers);
+                ViewBag.Status = v.Toestand;
                 Session["werknemer"] = werknemers;
+                return View("InfoForAllWerknemers");
             }
             else
             {
@@ -72,7 +76,13 @@ namespace EindProjectMVC.Controllers
                     werknemer = dal.VraagWerknemerOp(ddlTeamLeden.ToString());
                 }
                 werknemers.Add(werknemer);
+                Session["werknemer"] = werknemers;
+                return View(werknemers[0]);
             }
+        }
+
+        private void VulBehandeldDoorVelden(List<Werknemer> werknemers)
+        {
             // ********************************************************************************
             // TO DO invullen van BehandeldDoor moet in de methode VraagWerknemerOp gebeuren !
             using (DbEindproject db = new DbEindproject())
@@ -88,16 +98,6 @@ namespace EindProjectMVC.Controllers
                 }
             }
             // ********************************************************************************
-            Session["werknemer"] = werknemers;
-            
-            if (chkAlleWerknemers)
-            {
-                return View("InfoForAllWerknemers");
-            }
-            else
-            {
-                return View(werknemers[0]);
-            }
         }
 
         public ActionResult GoedkeurenStatusVerlofAanvraag(VerlofAanvraag v)
