@@ -46,7 +46,7 @@ namespace EindProjectMVC.Controllers
             }
             SelectList sl = new SelectList(statusLijst);
             ViewBag.ddlStatus = sl;
-            if (String.IsNullOrEmpty(ErrorMsg)){ViewBag.ErrorMsg="";}
+            if (String.IsNullOrEmpty(ErrorMsg)) { ViewBag.ErrorMsg = ""; }
             else { ViewBag.ErrorMsg = ErrorMsg; }
             return View();
 
@@ -62,14 +62,26 @@ namespace EindProjectMVC.Controllers
             {
                 DateTime startDt;
                 DateTime EindDt;
-                if (!String.IsNullOrEmpty(txtStartDatum) && !DateTime.TryParse(txtStartDatum, out startDt))
+                if (String.IsNullOrEmpty(txtStartDatum))
                 {
-                    ErrorMsg = "Geef een geldige startdatum in of maak het veld leeg.";
+                    // geen startdatum opgegeven - niets in het veld ingegeven
+                    startDt = DateTime.MinValue;
                 }
-                if (!String.IsNullOrEmpty(txtEindDatum) && !DateTime.TryParse(txtEindDatum, out EindDt))
+                else if (!DateTime.TryParse(txtStartDatum, out startDt))
                 {
-                    ErrorMsg = "Geef een geldige einddatum in of maak het veld leeg.";
+                    ErrorMsg = "Geef een geldige startdatum in of maak het veld leeg." + Environment.NewLine;
                 }
+                // ofwel is ErrorMsg ingevuld, ofwel bevat startdate een geldige datum.
+                if (String.IsNullOrEmpty(txtEindDatum))
+                {
+                    // geen startdatum opgegeven - niets in het veld ingegeven
+                    EindDt = DateTime.MaxValue;
+                }
+                else if (!DateTime.TryParse(txtEindDatum, out EindDt))
+                {
+                    ErrorMsg = "Geef een geldige txtEindDatum in of maak het veld leeg." + Environment.NewLine;
+                }
+                // ofwel is ErrorMsg ingevuld, ofwel bevat startdate een geldige datum.
                 if (String.IsNullOrEmpty(ErrorMsg))
                 {
                     Team team = ((Werknemer)Session["currentUser"]).Team;
@@ -85,6 +97,8 @@ namespace EindProjectMVC.Controllers
                         GeldigeStatussen.Add(ddlStatus);
                     }
                     ViewBag.Status = GeldigeStatussen;
+                    ViewBag.StartDatum = startDt;
+                    ViewBag.EindDatum = EindDt;
                     Session["werknemer"] = werknemers;
                     return View("InfoForAllWerknemers");
                 }

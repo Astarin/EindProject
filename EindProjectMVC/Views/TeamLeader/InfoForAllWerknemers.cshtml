@@ -38,7 +38,9 @@
     {
         foreach (VerlofAanvraag v in item.Verlofaanvragen)
         {
-            if (((List<String>)@ViewBag.Status).Contains(v.Toestand.ToString()))
+            if (((List<String>)@ViewBag.Status).Contains(v.Toestand.ToString())
+                && v.StartDatum >= (DateTime)@ViewBag.StartDatum
+                && v.EindDatum <= (DateTime)@ViewBag.EindDatum)
             {
                 <tr>
                     <td>
