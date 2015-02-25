@@ -41,35 +41,44 @@ namespace EindProjectMVC.Controllers
 
             if (btnSubmit != null)
             {
-                methode.IndienenVerlofaanvraag(wn, aanvraag);
-
-                // Om de gegevens te refreshen
-                wn = methode.VraagWerknemerOp(wn.PersoneelsNr.ToString());
-
-                // ********************************************************************************
-                // TO DO invullen van BehandeldDoor moet in de methode VraagWerknemerOp gebeuren !
-                using (DbEindproject db = new DbEindproject())
+                try
                 {
-                    foreach (VerlofAanvraag item in wn.Verlofaanvragen)
+                    methode.IndienenVerlofaanvraag(wn, aanvraag);
+
+                    // Om de gegevens te refreshen
+                    wn = methode.VraagWerknemerOp(wn.PersoneelsNr.ToString());
+
+                    // ********************************************************************************
+                    // TO DO invullen van BehandeldDoor moet in de methode VraagWerknemerOp gebeuren !
+                    using (DbEindproject db = new DbEindproject())
                     {
-                        item.BehandeldDoor = (from a in db.Verlofaanvragen
-                                              where a.Id == item.Id
-                                              select a.BehandeldDoor).FirstOrDefault();
+                        foreach (VerlofAanvraag item in wn.Verlofaanvragen)
+                        {
+                            item.BehandeldDoor = (from a in db.Verlofaanvragen
+                                                  where a.Id == item.Id
+                                                  select a.BehandeldDoor).FirstOrDefault();
+                        }
                     }
+                    // ********************************************************************************
+
+                    VerlofAanvraag vA = wn.Verlofaanvragen.Find(x => x.Id == aanvraag.Id);
+                    methode.StuurMail(wn, methode.GeefTeamLeader(wn.Team), vA);
+
                 }
-                // ********************************************************************************
-
-                VerlofAanvraag vA = wn.Verlofaanvragen.Find(x => x.Id == aanvraag.Id);
-                methode.StuurMail(wn, methode.GeefTeamLeader(wn.Team), vA);
+                catch (Exception exc)
+                {
+                    ViewBag.ErrorMsg = exc.Message;
+                }
             }
-
-
 
             // De werknemer heeft de gewijzigde toestanden van zijn verlofaanvragen gezien
             foreach (VerlofAanvraag item in ((Werknemer)Session["currentUser"]).Verlofaanvragen)
             {
                 methode.SetGelezen(item, true);
             }
+
+            // Om de gegevens te refreshen
+            wn = methode.VraagWerknemerOp(wn.PersoneelsNr.ToString());
 
             return View("WerknemerIngelogd", wn);
         }
