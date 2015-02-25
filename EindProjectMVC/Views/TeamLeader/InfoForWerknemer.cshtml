@@ -81,6 +81,8 @@
         </tr>
     }
 </table>
-<p style="color:red">@ViewBag.ErrorMsg</p>
 <br />
-@Html.ActionLink("Selecteer andere werknemer", "Index")
+@using (@Html.BeginForm("Index", "TeamLeader"))
+{
+    <input type="submit" name="btnSubmit" value="Selecteer andere werknemer" />
+}
