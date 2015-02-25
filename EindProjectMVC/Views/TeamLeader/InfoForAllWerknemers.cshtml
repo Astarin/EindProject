@@ -38,7 +38,7 @@
     {
         foreach (VerlofAanvraag v in item.Verlofaanvragen)
         {
-            if (v.Toestand == @ViewBag.Status)
+            if (((List<String>)@ViewBag.Status).Contains(v.Toestand.ToString()))
             {
                 <tr>
                     <td>
@@ -73,8 +73,7 @@
     }
 </table>
 <br />
-@Html.ActionLink("Selecteer andere werknemer", "Index")
 @using (@Html.BeginForm("Index","TeamLeader"))
 {
-    <input type="submit" name="btnSubmit" value="kies andere werknemer" />
+    <input type="submit" name="btnSubmit" value="Selecteer andere werknemer" />
 }

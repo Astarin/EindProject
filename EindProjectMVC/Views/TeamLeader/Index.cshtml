@@ -4,21 +4,35 @@
     ViewBag.Title = "TeamLeader Index";
 }
 @Html.Partial("_TitelEnError")
+
+<h3>Toon verlofaanvragen voor een teamlid</h3>
+@using (@Html.BeginForm("InfoForWerknemer", "TeamLeader"))
+{
+    @Html.Label("lblTeamlid", "Selecteer teamlid ")@Html.DropDownList("ddlTeamLeden")<br />
+    <input type="submit" name="btnSubmit" value="Toon verlofaanvragen voor teamlid" />
+}
+<br />
+<br />
+<h3>Toon verlofaanvragen voor alle teamleden</h3>
 @using (@Html.BeginForm("InfoForWerknemer", "TeamLeader"))
 {
     <table>
         <tr>
-            <th>Werknemer</th>
             <th>Startdatum</th>
             <th>Einddatum</th>
             <th>Status</th>
         </tr>
         <tr>
-            <td>@Html.CheckBox("chkAlleWerknemers", false)@Html.Label("lblAlle", "alle teamleden of selecteer ")@Html.DropDownList("ddlTeamLeden")</td>
-            <td>@Html.EditorFor(model => model.StartDatum)</td>
-            <td>@Html.EditorFor(model => model.EindDatum)</td>
-            <td>@Html.EditorFor(model => model.Toestand)</td>
+            <td>@Html.TextBox("txtStartDatum")</td>
+            <td>@Html.TextBox("txtEindDatum")</td>
+            <td>@Html.DropDownList("ddlStatus")</td>
+        </tr>
+        <tr>
+            @ViewBag.ErrorMsg
         </tr>
     </table>
-    <input type="submit" name="btnBevestig" value="Bevestig" />
+    <input type="submit" name="btnSubmit" value="Toon verlofaanvragen" />
+}
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval");
 }
