@@ -430,19 +430,138 @@ namespace EindProjectDAL
          ***************************************************************************************
          * Roel 16/02/15                                                                       *
          ***************************************************************************************/
-        public Aanvraagstatus IndienenVerlofaanvraag(Werknemer werknemer, VerlofAanvraag verlofaanvraag)
+        public void IndienenVerlofaanvraag(Werknemer werknemer, VerlofAanvraag va)
         {
             using (DbEindproject db = new DbEindproject())
             {
-                Werknemer wn = (from w in db.Werknemers
+                Werknemer wn = (from w in db.Werknemers.Include(w => w.Verlofaanvragen).Include(w => w.JaarlijksVerlof)
                                 where w.PersoneelsNr == werknemer.PersoneelsNr
                                 select w).FirstOrDefault();
-                wn.Verlofaanvragen.Add(verlofaanvraag);
-                verlofaanvraag.Toestand = Aanvraagstatus.Ingediend;
+
+                if (va.EindDatum < va.StartDatum)
+                {
+                    throw new Exception("De einddatum moet voor de begindatum komen.");
+                }
+                if (va.StartDatum < DateTime.Now.AddDays(14))
+                {
+                    throw new Exception("De startdatum moet minstens 14 kalenderdagen na vandaag komen.");
+                }
+
+                foreach (VerlofAanvraag item in wn.Verlofaanvragen)
+                {
+                    if (item.Toestand != Aanvraagstatus.Geannuleerd && item.Toestand != Aanvraagstatus.Afgekeurd)
+                    {
+                        if (OverlappendePeriode(va, item))
+                        {
+                            throw new Exception("U heeft een openstaande verlofaanvraag staan in deze periode.");
+                        }
+                    }
+                }
+
+                // de boolean zal onthouden of er voor die dag een verlofdag genomen wordt
+                // of niet (weekend, collectieve, feestdag ...)
+                Dictionary<DateTime, bool> periode = new Dictionary<DateTime, bool>();
+
+                TimeSpan span = va.EindDatum - va.StartDatum;
+
+                for (int i = 0; i <= span.Days; i++)
+                {
+                    periode[va.StartDatum.AddDays(i)] = true;
+                }
+
+                // geen verlofdagen aftrekken voor weekends
+                for (int i = 0; i < periode.Count; i++)
+                {
+                    if (periode.ElementAt(i).Key.DayOfWeek == DayOfWeek.Saturday
+                        || periode.ElementAt(i).Key.DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        periode[periode.ElementAt(i).Key] = false;
+                    }
+                }
+
+                // geen verlofdagen aftrekken voor collectieve sluitingen
+                foreach (CollectieveSluiting item in db.Sluitingsdagen)
+                {
+                    if (periode.ContainsKey(item.StartDatum))
+                    {
+                        periode[item.StartDatum] = false;
+                    }
+
+                    if (item is CollectiefVerlof)
+                    {
+                        CollectiefVerlof col = (CollectiefVerlof)item;
+
+                        TimeSpan spanCol = col.EindDatum - col.StartDatum;
+
+                        for (int i = 0; i <= spanCol.Days; i++)
+                        {
+                            if (periode.ContainsKey(col.StartDatum.AddDays(i)))
+                            {
+                                periode[col.StartDatum.AddDays(i)] = false;
+                            }
+                        }
+                    }
+                }
+
+                Dictionary<int, int> jvVanWn = new Dictionary<int, int>();
+                foreach (JaarlijksVerlof item in wn.JaarlijksVerlof)
+                {
+                    jvVanWn[item.Jaar] = item.AantalDagen;
+                }
+
+                foreach (VerlofAanvraag item in wn.Verlofaanvragen)
+                {
+
+
+                    // al gebruikte verlofdagen berekenen (zie boven)
+                    // aparte methode maken
+
+
+                }
+
+                foreach (KeyValuePair<DateTime, bool> kvp in periode)
+                {
+                    if (kvp.Value)
+                    {
+                        try
+                        {
+                            jvVanWn[kvp.Key.Year]--;
+                        }
+                        catch (Exception)
+                        {
+                            throw new Exception(String.Format("Uw verlofdagen voor het jaar {0} zijn nog onbekend, val het hr-team hiervoor lastig.", kvp.Key.Year));
+                        }
+
+                        if (jvVanWn[kvp.Key.Year] < 0)
+                        {
+                            throw new Exception(String.Format("U heeft te weinig verlofdagen in {0} voor deze verlofaanvraag.", kvp.Key.Year));
+                        }
+                    }
+                }
+
+                wn.Verlofaanvragen.Add(va);
+                va.Toestand = Aanvraagstatus.Ingediend;
                 db.SaveChanges();
-                return Aanvraagstatus.Ingediend;
             }
-            throw new Exception("Er liep iets fout in de methode IndienenVerlofaanvraag in DAL");
+        }
+
+        private bool OverlappendePeriode(VerlofAanvraag va1, VerlofAanvraag va2)
+        {
+            TimeSpan span1 = va1.EindDatum - va1.StartDatum;
+            TimeSpan span2 = va2.EindDatum - va2.StartDatum;
+
+            for (int i = 0; i <= span1.Days; i++)
+            {
+                for (int j = 0; j <= span2.Days; j++)
+                {
+                    if (va1.StartDatum.AddDays(i).Date == va2.StartDatum.AddDays(j).Date)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         /*****************************************************************************************

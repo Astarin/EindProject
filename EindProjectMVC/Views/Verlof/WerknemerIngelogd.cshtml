@@ -18,7 +18,7 @@
                                                     <div class="form-group">
                                                         @Html.LabelFor(a => aanvraag.StartDatum, new { @class = "col-sm-2 control-label" })
                                                         <div class="col-sm-10">
-                                                            @Html.TextBoxFor(a => aanvraag.StartDatum, DateTime.Now.AddDays(14).ToShortDateString())
+                                                            @Html.TextBoxFor(a => aanvraag.StartDatum, DateTime.Now.AddDays(15).ToShortDateString())
                                                             @Html.ValidationMessageFor(a => aanvraag.StartDatum)
                                                         </div>
                                                     </div>
@@ -26,7 +26,7 @@
                                                     <div class="form-group">
                                                         @Html.LabelFor(a => aanvraag.EindDatum, new { @class = "col-sm-2 control-label" })
                                                         <div class="col-sm-10">
-                                                            @Html.TextBoxFor(a => aanvraag.EindDatum, DateTime.Now.AddDays(14).ToShortDateString())
+                                                            @Html.TextBoxFor(a => aanvraag.EindDatum, DateTime.Now.AddDays(15).ToShortDateString())
                                                             @Html.ValidationMessageFor(a => aanvraag.EindDatum)
                                                         </div>
                                                     </div>
