@@ -117,6 +117,11 @@ namespace EindProjectMVC.Controllers
 
         public ActionResult HrTeamToevoegen(Team team)
         {
+            if (team.Naam == null)
+            {
+                return View();
+            }
+
             if (team.Naam != String.Empty && team.Naam != null)
             {
                 methode.VoegTeamToeAanDb(team);
