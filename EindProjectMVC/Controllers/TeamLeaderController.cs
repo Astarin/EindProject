@@ -9,6 +9,7 @@ using EindProjectMVC.Models;
 
 namespace EindProjectMVC.Controllers
 {
+    [Autorisatie(RolOmschrijving = "Teamleader")]
     public class TeamLeaderController : Controller
     {
         //

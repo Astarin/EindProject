@@ -30,28 +30,9 @@ namespace EindProjectBusinessModels
 
         [Required(ErrorMessage = "Je moet een geboortedatum opgegeven")]
         [DataType(DataType.Date)]
-        public DateTime Geboortedatum
-        {
-            get
-            {
-                return geboortedatum;
-            }
-            set
-            {
-                // werknemers moeten minstens 16 jaar oud zijn!
-                DateTime minDate = DateTime.Now.AddYears(-16);
-                if (value <= minDate)
-                {
-                    // geboortedatum is ok en werknemer kan/mag opgeslagen worden
-                    geboortedatum = value;
-                }
-                else
-                {
-                    // geboortedatum is niet ok
-                    throw new Exception("Werknemers moeten minstens 16 jaar oud zijn.");
-                }
-            }
-        }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime Geboortedatum { get; set; }
+
 
         [Required(ErrorMessage = "Je moet een adres opgegeven")]
         [DataType(DataType.Text)]
@@ -96,6 +77,7 @@ namespace EindProjectBusinessModels
             {
                 if (this.Team == null) return false;
                 return this.Team.Naam.ToUpper() == "HR";
+                
             }
         }
 

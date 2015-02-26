@@ -5,9 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using EindProjectMVC.Models;
+
 
 namespace EindProjectMVC.Controllers
 {
+    [Autorisatie(RolOmschrijving = "Hr")]
     public class HRController : Controller
     {
         DalMethodes methode = new DalMethodes();
@@ -16,12 +19,18 @@ namespace EindProjectMVC.Controllers
         // GET: /HR/
         public ActionResult Index()
         {
+           
             return View();
         }
 
+         
         public ActionResult HrNieuweWerknemer(Werknemer werknemer, string team)
         {
-            
+            //eerst laten staan handeld rechten af!
+            //if (!LoginMethode.HeeftRechten(Rol.Hr))
+            //{
+            //    return RedirectToAction("Index", "Login");
+            //}
             //dropdownlijst opvullen
             NieuweTeamslijstAanmaken();
 
@@ -43,7 +52,7 @@ namespace EindProjectMVC.Controllers
                         {
                             ViewBag.ErrorMsg = "De usernaam bestaat reeds. De nieuwe werknemer is niet toegevoegd. ";
                         }
-                       
+
                     }
                 }
                 catch (Exception exc)
@@ -199,10 +208,6 @@ namespace EindProjectMVC.Controllers
 
                     Werknemer wn = methode.VraagWerknemerOp(Teamleden);
                     methode.BeheerTeamVerantwoordelijke(wn);
-
-
-
-
 
                     alleteams = methode.OpvragenAlleTeams().ToList();
                     ViewBag.AlleTeams = alleteams;

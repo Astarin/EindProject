@@ -54,14 +54,12 @@ namespace EindProjectMVC
             // TO DO
             // Als startdatum verlof = vandaag EN verlof nog niet goedgekeurd => goedkeuren die handel!
             //
-
-
             // overlopen van alle verlofaanvragen
             // indien status = ingediend => goedkeuren => saven
             using (DbEindproject db = new DbEindproject())
             {
                 List<VerlofAanvraag> aanvragen = (from va in db.Verlofaanvragen
-                                                 where va.StartDatum == DateTime.Today
+                                                 where va.StartDatum <= DateTime.Today
                                                  && va.Toestand == Aanvraagstatus.Ingediend
                                                  select va).ToList();
 
@@ -73,7 +71,7 @@ namespace EindProjectMVC
                     aanvraag.Toestand = Aanvraagstatus.Goedgekeurd;
                 }
                 db.SaveChanges();
-                
+                Debug.WriteLine("OK");
 
             }
 
