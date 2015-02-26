@@ -1,4 +1,5 @@
 ﻿@model EindProjectBusinessModels.Werknemer
+@using EindProjectBusinessModels
 
 @{
     ViewBag.Title = "WerknemerIngelogd";
@@ -35,47 +36,98 @@
 
 }
 
-<h4>Overzicht Verlofaanvragen</h4>
+@{
+    JaarlijksVerlof jv = (from j in @Model.JaarlijksVerlof
+                          where j.Jaar == DateTime.Now.Year
+                          select j).FirstOrDefault();
 
-<table class="sortable table table-striped">
-    <thead>
-        <tr>
-            <td><b>aanvraagdatum</b></td>
-            <td><b>startdatum</b></td>
-            <td><b>einddatum</b></td>
-            <td colspan="2"><b>toestand</b></td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var x in Model.Verlofaanvragen)
-        {
-            EindProjectBusinessModels.VerlofAanvraag aanvraag = x as EindProjectBusinessModels.VerlofAanvraag;
+    int gv = (from v in @Model.Verlofaanvragen
+              where v.StartDatum.Year == DateTime.Now.Year
+              && v.Toestand == Aanvraagstatus.Goedgekeurd
+              select v.EffectiefAantalVerlofdagen).Sum();
+
+    int di = (from v in @Model.Verlofaanvragen
+              where v.StartDatum.Year == DateTime.Now.Year
+              && v.Toestand == Aanvraagstatus.Ingediend
+              select v.EffectiefAantalVerlofdagen).Sum();
+
+    int rd = jv.AantalDagen - gv - di;
+
+    <h4>Saldo Verlofaanvragen</h4>
+    <div>
+        <table class="sortable table table-striped">
+            <thead>
+                <tr>
+                    <td><b>Jaarlijks Verlof</b></td>
+                    <td><b>Goedgekeurd Verlof</b></td>
+                    <td><b>Dagen ingediend</b></td>
+                    <td><b>Resterende dagen</b></td>
+                </tr>
+            </thead>
             <tr>
-                <td>@aanvraag.AanvraagDatum.ToShortDateString()</td>
-                <td>@aanvraag.StartDatum.ToShortDateString()</td>
-                <td>@aanvraag.EindDatum.ToShortDateString()</td>
-                <td>@aanvraag.Toestand</td>
-                <td>
-                    @if ((aanvraag.Toestand == EindProjectBusinessModels.Aanvraagstatus.Goedgekeurd
-                    || aanvraag.Toestand == EindProjectBusinessModels.Aanvraagstatus.Ingediend)
-                    && aanvraag.StartDatum > DateTime.Now)
-                    {
-                        @Html.ActionLink("Annuleren", "VerlofAnnuleren", new { aanvraagID = aanvraag.Id }, FormMethod.Post)
+                <td>@jv.AantalDagen dagen</td>
+                <td>@gv</td>
+                <td>@di</td>
+                <td>@rd</td>
+            </tr>
+        </table>
+    </div>
+}
 
-                        @*using (Html.BeginForm("VerlofAnnuleren", "Verlof", FormMethod.Post))
-                        {
-                            <input type="hidden" value="@Model.PersoneelsNr" name="persNr" />
-                            <input type="hidden" value="@aanvraag.Id" name="aanvraagId" />
-                            <input type="submit" value="Annuleren" name="btnAnnuleren" class="btn btn-default" />
-                        }*@
-                    }
+<h4>Overzicht Verlofaanvragen</h4>
+@using (Html.BeginForm("VerlofIndienen", "Verlof", FormMethod.Get))
+{
+    <table class="sortable table table-striped">
+        <thead>
+            <tr>
+                <td>Filteren op</td>
+                <td>@Html.TextBox("txtFilterStartDatum")</td>
+                <td>@Html.TextBox("txtFilterEindDatum")</td>
+                <td>@Html.DropDownList("ddlStatus")</td>
+                <td>
+                    <input type="submit" value="Filter toepassen" name="btnSubmit" class="btn btn-default" />
                 </td>
             </tr>
-        }
-    </tbody>
+            <tr>
+                <td><b>aanvraagdatum</b></td>
+                <td><b>startdatum</b></td>
+                <td><b>einddatum</b></td>
+                <td colspan="2"><b>toestand</b></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var x in Model.Verlofaanvragen)
+            {
+                EindProjectBusinessModels.VerlofAanvraag aanvraag = x as EindProjectBusinessModels.VerlofAanvraag;
+                if (((List<String>)@ViewBag.Status).Contains(aanvraag.Toestand.ToString()))
+                {
+                    <tr>
+                        <td>@aanvraag.AanvraagDatum.ToShortDateString()</td>
+                        <td>@aanvraag.StartDatum.ToShortDateString()</td>
+                        <td>@aanvraag.EindDatum.ToShortDateString()</td>
+                        <td>@aanvraag.Toestand</td>
+                        <td>
+                            @if ((aanvraag.Toestand == EindProjectBusinessModels.Aanvraagstatus.Goedgekeurd
+                    || aanvraag.Toestand == EindProjectBusinessModels.Aanvraagstatus.Ingediend)
+                    && aanvraag.StartDatum > DateTime.Now)
+                            {
+                                @Html.ActionLink("Annuleren", "VerlofAnnuleren", new { aanvraagID = aanvraag.Id }, FormMethod.Post)
 
-</table>
+                                @*using (Html.BeginForm("VerlofAnnuleren", "Verlof", FormMethod.Post))
+                                    {
+                                        <input type="hidden" value="@Model.PersoneelsNr" name="persNr" />
+                                        <input type="hidden" value="@aanvraag.Id" name="aanvraagId" />
+                                        <input type="submit" value="Annuleren" name="btnAnnuleren" class="btn btn-default" />
+                                    }*@
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
 
+    </table>
+}
 
 
 @section Scripts{

@@ -860,5 +860,17 @@ namespace EindProjectDAL
                 }
             }
         }
+
+        /************** 7. Algemene serviceroutines *******************/
+
+        public List<String> GeefListAanvraagstatus()
+        {
+            List<String> lijst = new List<string>();
+            foreach (var item in Enum.GetValues(typeof(Aanvraagstatus)))
+            {
+                lijst.Add(item.ToString());
+            }
+            return lijst;
+        }
     }
 }

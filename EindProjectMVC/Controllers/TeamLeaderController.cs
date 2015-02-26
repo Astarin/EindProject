@@ -85,13 +85,13 @@ namespace EindProjectMVC.Controllers
                 // ofwel is ErrorMsg ingevuld, ofwel bevat startdate een geldige datum.
                 if (String.IsNullOrEmpty(ErrorMsg))
                 {
-                Team team = ((Werknemer)Session["currentUser"]).Team;
-                werknemers = dal.GeefTeamleden(team);
+                    Team team = ((Werknemer)Session["currentUser"]).Team;
+                    werknemers = dal.GeefTeamleden(team);
                     VulBehandeldDoorVelden(werknemers);
                     List<String> GeldigeStatussen = new List<string>();
                     if (String.IsNullOrEmpty(ddlStatus))
                     {
-                        GeldigeStatussen = GeefListAanvraagstatus();
+                        GeldigeStatussen = dal.GeefListAanvraagstatus();
                     }
                     else
                     {
@@ -100,7 +100,7 @@ namespace EindProjectMVC.Controllers
                     ViewBag.Status = GeldigeStatussen;
                     ViewBag.StartDatum = startDt;
                     ViewBag.EindDatum = EindDt;
-                Session["werknemer"] = werknemers;
+                    Session["werknemer"] = werknemers;
                     return View("InfoForAllWerknemers");
                 }
                 else
@@ -131,16 +131,6 @@ namespace EindProjectMVC.Controllers
                 return View(werknemers[0]);
             }
         }
-
-        private List<String> GeefListAanvraagstatus()
-        {
-            List<String> lijst = new List<string>();
-            foreach (var item in Enum.GetValues(typeof(Aanvraagstatus)))
-            {
-                lijst.Add(item.ToString());
-            }
-            return lijst;
-            }
 
         private void VulBehandeldDoorVelden(List<Werknemer> werknemers)
         {
