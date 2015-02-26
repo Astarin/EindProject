@@ -443,7 +443,7 @@ namespace EindProjectDAL
 
                 if (va.EindDatum < va.StartDatum)
                 {
-                    throw new Exception("De einddatum moet voor de begindatum komen.");
+                    throw new Exception("De einddatum moet na de begindatum komen.");
                 }
                 if (va.StartDatum < DateTime.Now.AddDays(14))
                 {
@@ -625,6 +625,197 @@ namespace EindProjectDAL
             }
 
             return true;
+        }
+
+        // als VerlofAanvraag al in DB zit
+        private bool VerlofDagAangerekend(DateTime dag)
+        {
+            if (dag.DayOfWeek == DayOfWeek.Saturday || dag.DayOfWeek == DayOfWeek.Sunday)
+            {
+                return false;
+            }
+
+            using (DbEindproject db = new DbEindproject())
+            {
+                List<CollectieveSluiting> sluitDagen = (from s in db.Sluitingsdagen
+                                                        select s).ToList<CollectieveSluiting>();
+
+                foreach (CollectieveSluiting item in sluitDagen)
+                {
+                    VerlofAanvraag sluitDag = new VerlofAanvraag();
+
+                    if (item is CollectiefVerlof)
+                    {
+                        CollectiefVerlof colver = item as CollectiefVerlof;
+                        sluitDag = new VerlofAanvraag { StartDatum = colver.StartDatum, EindDatum = colver.EindDatum };
+                    }
+                    else if (item is Feestdag)
+                    {
+                        sluitDag = new VerlofAanvraag { StartDatum = item.StartDatum, EindDatum = item.StartDatum };
+                    }
+
+                    if (OverlappendePeriode(sluitDag, new VerlofAanvraag { StartDatum = dag, EindDatum = dag }))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        public int GebruikteVerlofDagenVoorJaar(Werknemer wn, int jaar)
+        {
+            List<VerlofAanvraag> aanvragen = (from v in wn.Verlofaanvragen
+                                              where v.Toestand == Aanvraagstatus.Ingediend
+                                              || v.Toestand == Aanvraagstatus.Goedgekeurd
+                                              select v).ToList<VerlofAanvraag>();
+
+            int returnInt = 0;
+
+            foreach (VerlofAanvraag item in aanvragen)
+            {
+                if (item.StartDatum.Year == jaar)
+                {
+                    if (item.EindDatum.Year == jaar)
+                    {
+                        returnInt += item.EffectiefAantalVerlofdagen;
+                    }
+                    else
+                    {
+                        TimeSpan span = new DateTime(item.StartDatum.Year, 12, 31) - item.StartDatum;
+                        for (int i = 0; i <= span.Days; i++)
+                        {
+                            if (item.StartDatum.AddDays(i).Year == jaar)
+                            {
+                                if (VerlofDagAangerekend(item.StartDatum.AddDays(i)))
+                                {
+                                    returnInt++;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (item.EindDatum.Year == jaar)
+                {
+                    TimeSpan span = item.EindDatum - new DateTime(jaar, 01, 01);
+
+                    for (int i = 0; i <= span.Days; i++)
+                    {
+                        if (new DateTime(jaar, 01, 01).AddDays(i).Year == jaar)
+                        {
+                            if (VerlofDagAangerekend(new DateTime(jaar, 01, 01).AddDays(i)))
+                            {
+                                returnInt++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return returnInt;
+        }
+
+        public int GebruikteVerlofDagenVoorJaarIngediend(Werknemer wn, int jaar)
+        {
+            List<VerlofAanvraag> aanvragen = (from v in wn.Verlofaanvragen
+                                              where v.Toestand == Aanvraagstatus.Ingediend
+                                              select v).ToList<VerlofAanvraag>();
+
+            int returnInt = 0;
+
+            foreach (VerlofAanvraag item in aanvragen)
+            {
+                if (item.StartDatum.Year == jaar)
+                {
+                    if (item.EindDatum.Year == jaar)
+                    {
+                        returnInt += item.EffectiefAantalVerlofdagen;
+                    }
+                    else
+                    {
+                        TimeSpan span = new DateTime(item.StartDatum.Year, 12, 31) - item.StartDatum;
+                        for (int i = 0; i <= span.Days; i++)
+                        {
+                            if (item.StartDatum.AddDays(i).Year == jaar)
+                            {
+                                if (VerlofDagAangerekend(item.StartDatum.AddDays(i)))
+                                {
+                                    returnInt++;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (item.EindDatum.Year == jaar)
+                {
+                    TimeSpan span = item.EindDatum - new DateTime(jaar, 01, 01);
+
+                    for (int i = 0; i <= span.Days; i++)
+                    {
+                        if (new DateTime(jaar, 01, 01).AddDays(i).Year == jaar)
+                        {
+                            if (VerlofDagAangerekend(new DateTime(jaar, 01, 01).AddDays(i)))
+                            {
+                                returnInt++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return returnInt;
+        }
+
+        public int GebruikteVerlofDagenVoorJaarGoedgekeurd(Werknemer wn, int jaar)
+        {
+            List<VerlofAanvraag> aanvragen = (from v in wn.Verlofaanvragen
+                                              where v.Toestand == Aanvraagstatus.Goedgekeurd
+                                              select v).ToList<VerlofAanvraag>();
+
+            int returnInt = 0;
+
+            foreach (VerlofAanvraag item in aanvragen)
+            {
+                if (item.StartDatum.Year == jaar)
+                {
+                    if (item.EindDatum.Year == jaar)
+                    {
+                        returnInt += item.EffectiefAantalVerlofdagen;
+                    }
+                    else
+                    {
+                        TimeSpan span = new DateTime(item.StartDatum.Year, 12, 31) - item.StartDatum;
+                        for (int i = 0; i <= span.Days; i++)
+                        {
+                            if (item.StartDatum.AddDays(i).Year == jaar)
+                            {
+                                if (VerlofDagAangerekend(item.StartDatum.AddDays(i)))
+                                {
+                                    returnInt++;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (item.EindDatum.Year == jaar)
+                {
+                    TimeSpan span = item.EindDatum - new DateTime(jaar, 01, 01);
+
+                    for (int i = 0; i <= span.Days; i++)
+                    {
+                        if (new DateTime(jaar,01,01).AddDays(i).Year == jaar)
+                        {
+                            if (VerlofDagAangerekend(new DateTime(jaar, 01, 01).AddDays(i)))
+                            {
+                                returnInt++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return returnInt;
         }
 
         private bool OverlappendePeriode(VerlofAanvraag va1, VerlofAanvraag va2)
