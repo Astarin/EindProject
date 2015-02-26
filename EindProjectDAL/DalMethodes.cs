@@ -94,7 +94,6 @@ namespace EindProjectDAL
 
                 return (Werknemer)wn;
             }
-
         }
         /******************************************
         * 1.1.2. b. Opvragen van alle werknemers *
@@ -105,7 +104,6 @@ namespace EindProjectDAL
         {
             return VraagWerknemerOp(string.Empty, string.Empty, string.Empty);
         }
-
 
         /*********************************
         * 1.1.3. Wijzigen van werknemers *
@@ -172,7 +170,6 @@ namespace EindProjectDAL
                 }
             }
         }
-
 
         /********************************************
          * 1.2.2. Beheren van teamverantwoordelijken *
@@ -257,8 +254,6 @@ namespace EindProjectDAL
             }
         }
 
-
-
         /**********************************************
          * Hulpmethode Heeft Team al een teamleader ? *
          **********************************************
@@ -312,17 +307,64 @@ namespace EindProjectDAL
          *****************************
          * David 15/02/15            *
         *****************************/
-        public List<Team> OpvragenTeams(string code, string teamnaam, string teamleader)
+        public List<TeamViewModel> OpvragenTeamsVolledig(int code, string teamnaam, string teamleader)
         {
-            //  De medewerker geeft 0, 1 of meer van volgende criteria op:
-            //   - Gedeelte van teamnaam
-            //   - Gedeelte van naam van teamverantwoordelijke
-            //   - Code
-            // Het systeem toont de gegevens (code; naam; nummer, naam en voornaam teamverantwoordelijke;
-            // nummer naam en voornaam van alle werknemers die tot het team behoren ) van de teams die aan
-            // alle opgegeven criteria voldoen.  De gegevens zijn gesorteerd op teamnaam.  Binnen een team
-            // zijn de gegevens van de werknemers gesorteerd op naam en voornaam van de werknemers.
-            return null;
+            using (DbEindproject db = new DbEindproject())
+            {
+                List<TeamViewModel> teamlijst = new List<TeamViewModel>();
+                 if (code == 0 && string.IsNullOrEmpty(teamleader) && string.IsNullOrEmpty(teamnaam))
+                {
+                    foreach (Team team in OpvragenAlleTeams())
+                    {
+                        teamlijst.Add(new TeamViewModel { Team = team });
+                    }
+                    teamlijst = VulTeamViewModel(teamlijst);
+                }
+                if (code != 0) // code  is niet 0 dus er word enkel op code gezocht.
+                {
+                    teamlijst = (from t in db.Teams
+                                 where t.Code == code
+                                 orderby t.Naam
+                                 select new TeamViewModel{Team= t}).ToList<TeamViewModel>();
+                    teamlijst = VulTeamViewModel(teamlijst);
+                }
+                else // geen code opgegeven dus er word op naam gezocht
+                {
+                    teamlijst = (from t in db.Teams
+                                 where t.Naam.ToUpper().Contains( teamnaam.ToUpper())
+                                 orderby t.Naam
+                                 select new TeamViewModel { Team = t }).ToList<TeamViewModel>();
+                    teamlijst = VulTeamViewModel(teamlijst);
+
+                    if (!string.IsNullOrEmpty(teamleader)) // als er een teamleader is opgegeven word hierop verder gefilterd
+                    {
+                        if (teamlijst.Count ==0)
+                        {
+                            foreach (Team team in OpvragenAlleTeams())
+                            {
+                                teamlijst.Add(new TeamViewModel { Team = team });
+                            }
+                            teamlijst = VulTeamViewModel(teamlijst);
+                           
+                        }
+                        teamlijst = (from lst in teamlijst
+                                     where lst.Werknemer.Naam.ToUpper().Contains(teamleader.ToUpper())
+                                     orderby lst.Werknemer.Naam
+                                     select lst).ToList<TeamViewModel>();
+                        return teamlijst;
+                    }
+                }
+                return teamlijst;
+            }
+            //return null;
+        }
+        private List<TeamViewModel> VulTeamViewModel(List<TeamViewModel> teamlijst)
+        {
+            foreach (TeamViewModel team in teamlijst)
+            {
+                team.Werknemer = GeefTeamLeader(team.Team);
+            }
+            return teamlijst;
         }
 
 
@@ -335,27 +377,23 @@ namespace EindProjectDAL
         {
             using (DbEindproject db = new DbEindproject())
             {
-                var wn = from w in db.Werknemers
+                Werknemer wn = (from w in db.Werknemers
                          where w.Team.Code == team.Code
-                         select w;
+                         select w).FirstOrDefault();
                 // Zijn er nog werknemers die tot dit team behoren?
                 // Zo ja, team blijft bestaan
                 if (wn != null)
                 {
-                    throw new Exception("Er bestaan nog werknemers in dit team.");
+                    throw new TeamHeeftWerknemerException("Er bestaan nog werknemers in dit team.");
                 }
                 else
                 {
-                    try
-                    {
-                        // Als er geen werknermers meer tot het team behoren, kan het gerust verwijdert worden
-                        db.Teams.Remove(team);
+                    // team terug uit db halen
+                    //Team teaminDb = GeefTeamMetCode(team.Code);
+                    db.Teams.Attach(team);
+                    db.Teams.Remove(team);
                         db.SaveChanges();
-                    }
-                    catch
-                    {
-                        throw;
-                    }
+                    
                 }
             }
         }
@@ -443,7 +481,7 @@ namespace EindProjectDAL
 
                 if (va.EindDatum < va.StartDatum)
                 {
-                    throw new Exception("De einddatum moet voor de begindatum komen.");
+                    throw new Exception("De einddatum moet na de begindatum komen.");
                 }
                 if (va.StartDatum < DateTime.Now.AddDays(14))
                 {
@@ -627,6 +665,197 @@ namespace EindProjectDAL
             return true;
         }
 
+        // als VerlofAanvraag al in DB zit
+        private bool VerlofDagAangerekend(DateTime dag)
+        {
+            if (dag.DayOfWeek == DayOfWeek.Saturday || dag.DayOfWeek == DayOfWeek.Sunday)
+            {
+                return false;
+            }
+
+            using (DbEindproject db = new DbEindproject())
+            {
+                List<CollectieveSluiting> sluitDagen = (from s in db.Sluitingsdagen
+                                                        select s).ToList<CollectieveSluiting>();
+
+                foreach (CollectieveSluiting item in sluitDagen)
+                {
+                    VerlofAanvraag sluitDag = new VerlofAanvraag();
+
+                    if (item is CollectiefVerlof)
+                    {
+                        CollectiefVerlof colver = item as CollectiefVerlof;
+                        sluitDag = new VerlofAanvraag { StartDatum = colver.StartDatum, EindDatum = colver.EindDatum };
+                    }
+                    else if (item is Feestdag)
+                    {
+                        sluitDag = new VerlofAanvraag { StartDatum = item.StartDatum, EindDatum = item.StartDatum };
+                    }
+
+                    if (OverlappendePeriode(sluitDag, new VerlofAanvraag { StartDatum = dag, EindDatum = dag }))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        public int GebruikteVerlofDagenVoorJaar(Werknemer wn, int jaar)
+        {
+            List<VerlofAanvraag> aanvragen = (from v in wn.Verlofaanvragen
+                                              where v.Toestand == Aanvraagstatus.Ingediend
+                                              || v.Toestand == Aanvraagstatus.Goedgekeurd
+                                              select v).ToList<VerlofAanvraag>();
+
+            int returnInt = 0;
+
+            foreach (VerlofAanvraag item in aanvragen)
+            {
+                if (item.StartDatum.Year == jaar)
+                {
+                    if (item.EindDatum.Year == jaar)
+                    {
+                        returnInt += item.EffectiefAantalVerlofdagen;
+                    }
+                    else
+                    {
+                        TimeSpan span = new DateTime(item.StartDatum.Year, 12, 31) - item.StartDatum;
+                        for (int i = 0; i <= span.Days; i++)
+                        {
+                            if (item.StartDatum.AddDays(i).Year == jaar)
+                            {
+                                if (VerlofDagAangerekend(item.StartDatum.AddDays(i)))
+                                {
+                                    returnInt++;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (item.EindDatum.Year == jaar)
+                {
+                    TimeSpan span = item.EindDatum - new DateTime(jaar, 01, 01);
+
+                    for (int i = 0; i <= span.Days; i++)
+                    {
+                        if (new DateTime(jaar, 01, 01).AddDays(i).Year == jaar)
+                        {
+                            if (VerlofDagAangerekend(new DateTime(jaar, 01, 01).AddDays(i)))
+                            {
+                                returnInt++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return returnInt;
+        }
+
+        public int GebruikteVerlofDagenVoorJaarIngediend(Werknemer wn, int jaar)
+        {
+            List<VerlofAanvraag> aanvragen = (from v in wn.Verlofaanvragen
+                                              where v.Toestand == Aanvraagstatus.Ingediend
+                                              select v).ToList<VerlofAanvraag>();
+
+            int returnInt = 0;
+
+            foreach (VerlofAanvraag item in aanvragen)
+            {
+                if (item.StartDatum.Year == jaar)
+                {
+                    if (item.EindDatum.Year == jaar)
+                    {
+                        returnInt += item.EffectiefAantalVerlofdagen;
+                    }
+                    else
+                    {
+                        TimeSpan span = new DateTime(item.StartDatum.Year, 12, 31) - item.StartDatum;
+                        for (int i = 0; i <= span.Days; i++)
+                        {
+                            if (item.StartDatum.AddDays(i).Year == jaar)
+                            {
+                                if (VerlofDagAangerekend(item.StartDatum.AddDays(i)))
+                                {
+                                    returnInt++;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (item.EindDatum.Year == jaar)
+                {
+                    TimeSpan span = item.EindDatum - new DateTime(jaar, 01, 01);
+
+                    for (int i = 0; i <= span.Days; i++)
+                    {
+                        if (new DateTime(jaar, 01, 01).AddDays(i).Year == jaar)
+                        {
+                            if (VerlofDagAangerekend(new DateTime(jaar, 01, 01).AddDays(i)))
+                            {
+                                returnInt++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return returnInt;
+        }
+
+        public int GebruikteVerlofDagenVoorJaarGoedgekeurd(Werknemer wn, int jaar)
+        {
+            List<VerlofAanvraag> aanvragen = (from v in wn.Verlofaanvragen
+                                              where v.Toestand == Aanvraagstatus.Goedgekeurd
+                                              select v).ToList<VerlofAanvraag>();
+
+            int returnInt = 0;
+
+            foreach (VerlofAanvraag item in aanvragen)
+            {
+                if (item.StartDatum.Year == jaar)
+                {
+                    if (item.EindDatum.Year == jaar)
+                    {
+                        returnInt += item.EffectiefAantalVerlofdagen;
+                    }
+                    else
+                    {
+                        TimeSpan span = new DateTime(item.StartDatum.Year, 12, 31) - item.StartDatum;
+                        for (int i = 0; i <= span.Days; i++)
+                        {
+                            if (item.StartDatum.AddDays(i).Year == jaar)
+                            {
+                                if (VerlofDagAangerekend(item.StartDatum.AddDays(i)))
+                                {
+                                    returnInt++;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (item.EindDatum.Year == jaar)
+                {
+                    TimeSpan span = item.EindDatum - new DateTime(jaar, 01, 01);
+
+                    for (int i = 0; i <= span.Days; i++)
+                    {
+                        if (new DateTime(jaar,01,01).AddDays(i).Year == jaar)
+                        {
+                            if (VerlofDagAangerekend(new DateTime(jaar, 01, 01).AddDays(i)))
+                            {
+                                returnInt++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return returnInt;
+        }
+
         private bool OverlappendePeriode(VerlofAanvraag va1, VerlofAanvraag va2)
         {
             TimeSpan span1 = va1.EindDatum - va1.StartDatum;
@@ -686,6 +915,7 @@ namespace EindProjectDAL
                 db.SaveChanges();
             }
         }
+
         public void WijzigBehandeldDoorVerlofaanvraag(VerlofAanvraag verlofaanvraag, Werknemer werknemer)
         {
             using (DbEindproject db = new DbEindproject())

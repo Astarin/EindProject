@@ -67,7 +67,7 @@ namespace EindProjectMVC.Controllers
                 }
                 catch (Exception exc)
                 {
-                    ViewBag.ErrorMsg = exc.Message;
+                    ViewBag.Error = exc.Message;
                 }
             }
 
@@ -79,6 +79,8 @@ namespace EindProjectMVC.Controllers
 
             PrepareFilterDatumVeldenInViewBag(txtFilterStartDatum, txtFilterEindDatum);
             PrepareStatusInViewBag(ddlStatus);
+
+            ViewBag.ErrorMsg = ViewBag.Error;
 
             // Om de gegevens te refreshen
             wn = methode.VraagWerknemerOp(wn.PersoneelsNr.ToString());
