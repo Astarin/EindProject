@@ -31,6 +31,7 @@ namespace EindProjectMVC.Controllers
                 Session["currentUser"] = inlogger;
                 return RedirectToAction("Index", "Home");
             }
+            ViewBag.ErrorMsg = "De combinatie wachtwoord en usernaam is niet gevonden.";
             return View("Index");
 
         }
