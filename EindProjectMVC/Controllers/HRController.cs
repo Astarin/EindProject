@@ -19,11 +19,10 @@ namespace EindProjectMVC.Controllers
         // GET: /HR/
         public ActionResult Index()
         {
-           
+
             return View();
         }
 
-         
         public ActionResult HrNieuweWerknemer(Werknemer werknemer, string team)
         {
             //eerst laten staan handeld rechten af!
@@ -71,10 +70,11 @@ namespace EindProjectMVC.Controllers
             List<Werknemer> werknemers = methode.VraagAlleWerknemersOp();
             return View(werknemers);
         }
+
         public ActionResult HrZoekWerknemer(string personeelsNr, string werknemerNaam, string werknemerVoorNaam)
         {
             List<Werknemer> werknemers = methode.VraagWerknemerOp(personeelsNr, werknemerNaam, werknemerVoorNaam);
-            
+
             return View("HrSelecteerWerknemer", werknemers);
         }
 
@@ -126,6 +126,7 @@ namespace EindProjectMVC.Controllers
             if (team.Naam != String.Empty && team.Naam != null)
             {
                 methode.VoegTeamToeAanDb(team);
+                ViewBag.OkMsg = "Het team is toegevoegd.";
             }
             else
             {
@@ -227,6 +228,43 @@ namespace EindProjectMVC.Controllers
                 }
         }
 
+        public ActionResult HRGeefLijstTeams(string code, string teamNaam, string leiderNaam)
+        {
+            List<TeamViewModel> viewList = new List<TeamViewModel>();
+            if (string.IsNullOrEmpty(code))
+            {
+                code = "0";
+            }
+            viewList = methode.OpvragenTeamsVolledig(int.Parse(code), teamNaam, leiderNaam);
+            return View(viewList);
+        }
+        public ActionResult VerwijderTeam(string teamCode)
+        {
+            try
+            {
+                Team team = methode.GeefTeamMetCode(int.Parse(teamCode));
+                if (team == null)
+                {
+                    ViewBag.ErrorMsg = string.Format("Er is geen team met de opgegeve code: {0} gevonden", teamCode);
+                    return View("HrGeefLijstTeams");
+                }
+                Werknemer werknemer = methode.GeefTeamLeader(team);
+                if (werknemer == null)
+                {
+                    methode.VerwijderTeam(team);
+                    ViewBag.OkMsg = string.Format("Het team: {0} is succesvol verwijderd.",team.Naam);
+                }
+            }
+            catch (TeamHeeftWerknemerException exc)
+            {
+                ViewBag.ErrorMsg = "Team is niet verwijderd: " + exc.Message;
+            }
+
+            return View("HrGeefLijstTeams");
+        }
+
+
+
         private void NieuweTeamslijstAanmaken()
         {
             if (TeamsNieuweWerknemer == null)
@@ -262,5 +300,7 @@ namespace EindProjectMVC.Controllers
                 return true;
             }
         }
+
+
     }
 }

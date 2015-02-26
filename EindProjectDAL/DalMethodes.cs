@@ -94,7 +94,6 @@ namespace EindProjectDAL
 
                 return (Werknemer)wn;
             }
-
         }
         /******************************************
         * 1.1.2. b. Opvragen van alle werknemers *
@@ -105,7 +104,6 @@ namespace EindProjectDAL
         {
             return VraagWerknemerOp(string.Empty, string.Empty, string.Empty);
         }
-
 
         /*********************************
         * 1.1.3. Wijzigen van werknemers *
@@ -172,7 +170,6 @@ namespace EindProjectDAL
                 }
             }
         }
-
 
         /********************************************
          * 1.2.2. Beheren van teamverantwoordelijken *
@@ -254,8 +251,6 @@ namespace EindProjectDAL
             }
         }
 
-
-
         /**********************************************
          * Hulpmethode Heeft Team al een teamleader ? *
          **********************************************
@@ -309,17 +304,64 @@ namespace EindProjectDAL
          *****************************
          * David 15/02/15            *
         *****************************/
-        public List<Team> OpvragenTeams(string code, string teamnaam, string teamleader)
+        public List<TeamViewModel> OpvragenTeamsVolledig(int code, string teamnaam, string teamleader)
         {
-            //  De medewerker geeft 0, 1 of meer van volgende criteria op:
-            //   - Gedeelte van teamnaam
-            //   - Gedeelte van naam van teamverantwoordelijke
-            //   - Code
-            // Het systeem toont de gegevens (code; naam; nummer, naam en voornaam teamverantwoordelijke;
-            // nummer naam en voornaam van alle werknemers die tot het team behoren ) van de teams die aan
-            // alle opgegeven criteria voldoen.  De gegevens zijn gesorteerd op teamnaam.  Binnen een team
-            // zijn de gegevens van de werknemers gesorteerd op naam en voornaam van de werknemers.
-            return null;
+            using (DbEindproject db = new DbEindproject())
+            {
+                List<TeamViewModel> teamlijst = new List<TeamViewModel>();
+                 if (code == 0 && string.IsNullOrEmpty(teamleader) && string.IsNullOrEmpty(teamnaam))
+                {
+                    foreach (Team team in OpvragenAlleTeams())
+                    {
+                        teamlijst.Add(new TeamViewModel { Team = team });
+                    }
+                    teamlijst = VulTeamViewModel(teamlijst);
+                }
+                if (code != 0) // code  is niet 0 dus er word enkel op code gezocht.
+                {
+                    teamlijst = (from t in db.Teams
+                                 where t.Code == code
+                                 orderby t.Naam
+                                 select new TeamViewModel{Team= t}).ToList<TeamViewModel>();
+                    teamlijst = VulTeamViewModel(teamlijst);
+                }
+                else // geen code opgegeven dus er word op naam gezocht
+                {
+                    teamlijst = (from t in db.Teams
+                                 where t.Naam.ToUpper().Contains( teamnaam.ToUpper())
+                                 orderby t.Naam
+                                 select new TeamViewModel { Team = t }).ToList<TeamViewModel>();
+                    teamlijst = VulTeamViewModel(teamlijst);
+
+                    if (!string.IsNullOrEmpty(teamleader)) // als er een teamleader is opgegeven word hierop verder gefilterd
+                    {
+                        if (teamlijst.Count ==0)
+                        {
+                            foreach (Team team in OpvragenAlleTeams())
+                            {
+                                teamlijst.Add(new TeamViewModel { Team = team });
+                            }
+                            teamlijst = VulTeamViewModel(teamlijst);
+                           
+                        }
+                        teamlijst = (from lst in teamlijst
+                                     where lst.Werknemer.Naam.ToUpper().Contains(teamleader.ToUpper())
+                                     orderby lst.Werknemer.Naam
+                                     select lst).ToList<TeamViewModel>();
+                        return teamlijst;
+                    }
+                }
+                return teamlijst;
+            }
+            //return null;
+        }
+        private List<TeamViewModel> VulTeamViewModel(List<TeamViewModel> teamlijst)
+        {
+            foreach (TeamViewModel team in teamlijst)
+            {
+                team.Werknemer = GeefTeamLeader(team.Team);
+            }
+            return teamlijst;
         }
 
 
@@ -332,27 +374,23 @@ namespace EindProjectDAL
         {
             using (DbEindproject db = new DbEindproject())
             {
-                var wn = from w in db.Werknemers
+                Werknemer wn = (from w in db.Werknemers
                          where w.Team.Code == team.Code
-                         select w;
+                         select w).FirstOrDefault();
                 // Zijn er nog werknemers die tot dit team behoren?
                 // Zo ja, team blijft bestaan
                 if (wn != null)
                 {
-                    throw new Exception("Er bestaan nog werknemers in dit team.");
+                    throw new TeamHeeftWerknemerException("Er bestaan nog werknemers in dit team.");
                 }
                 else
                 {
-                    try
-                    {
-                        // Als er geen werknermers meer tot het team behoren, kan het gerust verwijdert worden
-                        db.Teams.Remove(team);
+                    // team terug uit db halen
+                    //Team teaminDb = GeefTeamMetCode(team.Code);
+                    db.Teams.Attach(team);
+                    db.Teams.Remove(team);
                         db.SaveChanges();
-                    }
-                    catch
-                    {
-                        throw;
-                    }
+                    
                 }
             }
         }
@@ -604,6 +642,7 @@ namespace EindProjectDAL
                 db.SaveChanges();
             }
         }
+
         public void WijzigBehandeldDoorVerlofaanvraag(VerlofAanvraag verlofaanvraag, Werknemer werknemer)
         {
             using (DbEindproject db = new DbEindproject())
