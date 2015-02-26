@@ -74,6 +74,7 @@ namespace EindProjectMVC.Controllers
         public ActionResult HrZoekWerknemer(string personeelsNr, string werknemerNaam, string werknemerVoorNaam)
         {
             List<Werknemer> werknemers = methode.VraagWerknemerOp(personeelsNr, werknemerNaam, werknemerVoorNaam);
+            
             return View("HrSelecteerWerknemer", werknemers);
         }
 
