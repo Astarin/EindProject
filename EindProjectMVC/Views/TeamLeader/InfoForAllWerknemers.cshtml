@@ -6,13 +6,53 @@
 
 @Html.Partial("_TitelEnError")
 @Html.AntiForgeryToken()
+<div>
+    <h4>Actieve filter:</h4>
+    <table>
+        <tr>
+            <td><b>Status =</b></td>
+            <td>
+                @{
+                    foreach (String item in @ViewBag.Status)
+                    {
+                        @item;
+                    @Html.Raw("&nbsp");
+                    }
+                }
+            </td>
+            <td><b>Startdatum =</b></td>
+            <td>
+                @{
+                    if (((DateTime)@ViewBag.StartDatum) != DateTime.MinValue)
+                    {
+                        @Html.Raw(((DateTime)@ViewBag.StartDatum).ToShortDateString())
+                    }
+                    else
+                    {
+                        @Html.Raw("niet gefilterd")
+                    }
+                }
+            </td>
+            <td><b>Einddatum  =</b></td>
+            <td>
+                @{
+                    if (((DateTime)@ViewBag.EindDatum) != DateTime.MaxValue)
+                    {
+                        @Html.Raw(((DateTime)@ViewBag.EindDatum).ToShortDateString());
+                    }
+                    else
+                    {
+                        @Html.Raw("niet gefilterd")
+                    }
+                }
+            </td>
+        </tr>
+    </table>
+</div>
 <table class="table">
     <tr>
         <th>
             @Html.Label("Aanvrager")
-        </th>
-        <th>
-            @Html.Label("Nr")
         </th>
         <th>
             @Html.Label("StartDatum")
@@ -48,9 +88,6 @@
                         @Html.DisplayFor(modelItem => item.Voornaam)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => v.Id)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => v.StartDatum)
                     </td>
                     <td>
@@ -75,7 +112,7 @@
     }
 </table>
 <br />
-@using (@Html.BeginForm("Index","TeamLeader"))
+@using (@Html.BeginForm("Index", "TeamLeader"))
 {
-    <input type="submit" name="btnSubmit" value="Selecteer andere werknemer" />
+    <input type="submit" name="btnSubmit" value="Nieuwe selectie" />
 }

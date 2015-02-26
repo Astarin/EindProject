@@ -10,7 +10,13 @@
         }
     }
     <label class="label-danger">@errorMsg.ToString()</label>
-
+    @{
+        if (ViewBag.OkMsg != null)
+        {
+            string okMsg = (string)ViewBag.OkMsg;
+            <label class="label-info">@okMsg.ToString()</label>
+        }
+    }
 </div>
 
 

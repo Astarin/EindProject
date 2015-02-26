@@ -1,0 +1,66 @@
+﻿@model IEnumerable<EindProjectDAL.TeamViewModel>
+
+    @{
+        ViewBag.Title = "Lijst van teams";
+    }
+     @Html.Partial("_TitelEnError")
+
+    @using (Html.BeginForm("HRGeefLijstTeams", "HR", new { @class = "form-inline" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="row" title="Zoek team op:">
+            <div class="form-group col-md-3">
+                <label for="code">Team code: </label>
+                <input type="number" class="form-control" id="code" name="code" placeholder="1">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="teamNaam">Teamnaam: </label>
+                <input type="text" class="form-control" id="teamNaam" name="teamNaam" placeholder="naam team">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="leiderNaam">Naam: </label>
+                <input type="text" class="form-control" id="leiderNaam" name="leiderNaam" placeholder="naam teamleider">
+                <button type="submit" class="btn btn-default" name="btnZoekWerknemer">Zoek Team</button>
+            </div>
+        </div>
+    }
+
+    <div class="table table-striped ">
+        <table class="table-hover sortable">
+            <tr>
+                <th ></th>
+                <th>Code</th>
+                <th>Teamnaam</th>
+                <th>Teamverantwoordelijke</th>
+            </tr>
+
+           
+                @if (Model != null)
+{
+
+    foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |*@
+
+                @Html.ActionLink("Verwijderen", "VerwijderTeam", new { teamCode = item.Team.Code })
+                @*@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Team.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Team.Naam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Werknemer.Naam)
+            </td>
+        </tr>
+    }
+
+}
+         
+
+            </table>
+        </div>
