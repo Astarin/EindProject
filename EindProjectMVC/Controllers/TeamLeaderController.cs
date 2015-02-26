@@ -9,6 +9,7 @@ using EindProjectMVC.Models;
 
 namespace EindProjectMVC.Controllers
 {
+    [Autorisatie(RolOmschrijving = "Teamleader")]
     public class TeamLeaderController : Controller
     {
         //
@@ -84,8 +85,8 @@ namespace EindProjectMVC.Controllers
                 // ofwel is ErrorMsg ingevuld, ofwel bevat startdate een geldige datum.
                 if (String.IsNullOrEmpty(ErrorMsg))
                 {
-                    Team team = ((Werknemer)Session["currentUser"]).Team;
-                    werknemers = dal.GeefTeamleden(team);
+                Team team = ((Werknemer)Session["currentUser"]).Team;
+                werknemers = dal.GeefTeamleden(team);
                     VulBehandeldDoorVelden(werknemers);
                     List<String> GeldigeStatussen = new List<string>();
                     if (String.IsNullOrEmpty(ddlStatus))
@@ -99,7 +100,7 @@ namespace EindProjectMVC.Controllers
                     ViewBag.Status = GeldigeStatussen;
                     ViewBag.StartDatum = startDt;
                     ViewBag.EindDatum = EindDt;
-                    Session["werknemer"] = werknemers;
+                Session["werknemer"] = werknemers;
                     return View("InfoForAllWerknemers");
                 }
                 else
@@ -139,7 +140,7 @@ namespace EindProjectMVC.Controllers
                 lijst.Add(item.ToString());
             }
             return lijst;
-        }
+            }
 
         private void VulBehandeldDoorVelden(List<Werknemer> werknemers)
         {

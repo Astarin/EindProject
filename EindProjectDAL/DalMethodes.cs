@@ -835,7 +835,7 @@ namespace EindProjectDAL
         {
             using (DbEindproject db = new DbEindproject())
             {
-                Werknemer werknemer = (from w in db.Werknemers.Include(w => w.JaarlijksVerlof).Include(w => w.Verlofaanvragen)
+                Werknemer werknemer = (from w in db.Werknemers.Include(w => w.JaarlijksVerlof).Include(w => w.Verlofaanvragen).Include("Team")
                                        where w.UserName == username
                                        && w.Paswoord == paswoord
                                        select w).FirstOrDefault();
