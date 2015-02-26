@@ -186,29 +186,32 @@ namespace EindProjectDAL
              * Huidige teamleader teamleader af maken en
              * geselecteerde werknemer teamleader maken
             */
-            Team theTeam = werknemer.Team;
-            using (DbEindproject db = new DbEindproject())
+            if (werknemer != null)
             {
-                Werknemer huidigTL = (from wn in db.Werknemers.Include(wn => wn.Team)
-                                      where wn.Team.Code == theTeam.Code
-                                         && wn.TeamLeader
-                                      select wn).FirstOrDefault();
-                if (huidigTL != null)
+                Team theTeam = werknemer.Team;
+                using (DbEindproject db = new DbEindproject())
                 {
-                    huidigTL.TeamLeader = false;
-                }
-                try
-                {
-                    Werknemer wn = (from w in db.Werknemers.Include(w => w.Team)
-                                    where w.PersoneelsNr == werknemer.PersoneelsNr
-                                    select w).FirstOrDefault();
+                    Werknemer huidigTL = (from wn in db.Werknemers.Include(wn => wn.Team)
+                                          where wn.Team.Code == theTeam.Code
+                                             && wn.TeamLeader
+                                          select wn).FirstOrDefault();
+                    if (huidigTL != null)
+                    {
+                        huidigTL.TeamLeader = false;
+                    }
+                    try
+                    {
+                        Werknemer wn = (from w in db.Werknemers.Include(w => w.Team)
+                                        where w.PersoneelsNr == werknemer.PersoneelsNr
+                                        select w).FirstOrDefault();
 
-                    wn.TeamLeader = true;
-                    db.SaveChanges();
-                }
-                catch
-                {
-                    throw;
+                        wn.TeamLeader = true;
+                        db.SaveChanges();
+                    }
+                    catch
+                    {
+                        throw;
+                    }
                 }
             }
         }
