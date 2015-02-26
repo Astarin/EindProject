@@ -156,7 +156,15 @@ namespace EindProjectMVC.Controllers
         {
             // Verlofaanvraag v is een gedeeltelijk ingevulde verlofaanvraag om de parameters
             // uit de form door te geven (id en RedenVoorAfkeuren)
-            Werknemer werknemer = WijzigStatusVerlofAanvraag(v, Aanvraagstatus.Goedgekeurd);
+            Werknemer werknemer;
+            try
+            {
+                werknemer = WijzigStatusVerlofAanvraag(v, Aanvraagstatus.Goedgekeurd);
+            }
+            catch (System.Net.Mail.SmtpException nmse)
+            {
+                return View("MailError",nmse);
+            }
             return View("InfoForWerknemer", werknemer);
         }
 
@@ -164,7 +172,15 @@ namespace EindProjectMVC.Controllers
         {
             // Verlofaanvraag v is een gedeeltelijk ingevulde verlofaanvraag om de parameters
             // uit de form door te geven (id en RedenVoorAfkeuren)
-            Werknemer werknemer = WijzigStatusVerlofAanvraag(v, Aanvraagstatus.Afgekeurd);
+            Werknemer werknemer;
+            try
+            {
+                werknemer = WijzigStatusVerlofAanvraag(v, Aanvraagstatus.Afgekeurd);
+            }
+            catch (System.Net.Mail.SmtpException nmse)
+            {
+                return View("MailError",nmse);
+            }
             return View("InfoForWerknemer", werknemer);
         }
 
@@ -228,7 +244,14 @@ namespace EindProjectMVC.Controllers
                         List<Werknemer> werknemers = new List<Werknemer>();
                         werknemers.Add(werknemer);
                         Session["werknemer"] = werknemers;
-                        dal.StuurMail(teamLeader, werknemer, vA);
+                        try
+                        {
+                            dal.StuurMail(teamLeader, werknemer, vA);
+                        }
+                        catch
+                        {
+                            throw;
+                        }
                     }
                     else
                     {
