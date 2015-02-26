@@ -127,6 +127,7 @@ namespace EindProjectMVC.Controllers
                     werknemer = dal.VraagWerknemerOp(ddlTeamLeden.ToString());
                 }
                 werknemers.Add(werknemer);
+                VulBehandeldDoorVelden(werknemers);
                 Session["werknemer"] = werknemers;
                 return View(werknemers[0]);
             }
