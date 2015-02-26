@@ -45,7 +45,7 @@
                     <th>Adres</th>
                     <th>Postcode</th>
                     <th>Verlof aanvragen</th>
-                    <th>Verlofdagen per jaar</th>
+                    <th>Verlofdagen voor dit jaar</th>
                 </tr>
             </thead>
             <tbody>
@@ -77,10 +77,10 @@
                             @Html.DisplayFor(modelItem => werkn.Postcode)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => werkn.Verlofaanvragen.Count)
+                            @Html.DisplayFor(modelItem => werkn.Verlofaanvragen.Count);
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => werkn.JaarlijksVerlof.Count)
+                            @Html.DisplayFor(modelItem => werkn.JaarlijksVerlof.Where(x => x.Jaar == DateTime.Now.Year).FirstOrDefault().AantalDagen);
                         </td>
                     </tr>
                 }
