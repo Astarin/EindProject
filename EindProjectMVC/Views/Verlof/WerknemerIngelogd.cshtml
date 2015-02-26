@@ -99,7 +99,9 @@
             @foreach (var x in Model.Verlofaanvragen)
             {
                 EindProjectBusinessModels.VerlofAanvraag aanvraag = x as EindProjectBusinessModels.VerlofAanvraag;
-                if (((List<String>)@ViewBag.Status).Contains(aanvraag.Toestand.ToString()))
+                if (((List<String>)@ViewBag.Status).Contains(aanvraag.Toestand.ToString())
+                     && aanvraag.StartDatum >= (DateTime)@ViewBag.startDt
+                     && aanvraag.EindDatum <= (DateTime)@ViewBag.eindDt)
                 {
                     <tr>
                         <td>@aanvraag.AanvraagDatum.ToShortDateString()</td>
