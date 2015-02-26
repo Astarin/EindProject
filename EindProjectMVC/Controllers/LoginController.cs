@@ -16,20 +16,9 @@ namespace EindProjectMVC.Controllers
         // GET: /Login/
         public ActionResult Index()
         {
-            //DalMethodes Dal = new DalMethodes();
-
-            //List<Werknemer> wnList = Dal.VraagAlleWerknemersOp();
-            //var qry = from w in wnList
-            //          select new SelectListItem
-            //          {
-            //              Text = String.Format("{0} {1} {2}", w.PersoneelsNr.ToString(), w.Naam, w.Voornaam),
-            //              Value = w.PersoneelsNr.ToString()
-            //          };
-            ////ViewBag.ddlTeamLeden = new SelectList(wnList, "PersoneelsNr", "PersoneelsNr");
-            //ViewBag.ddlTeamLeden = qry.ToList();
             if (Session["currentUser"] != null)
             {
-                return RedirectToRoute("LoggedIn");
+                return RedirectToAction("Index", "Home");
             }
             return View();
         }
@@ -44,6 +33,11 @@ namespace EindProjectMVC.Controllers
             }
             return View("Index");
 
+        }
+        public ActionResult LogOut()
+        {
+            Session["currentUser"] = null;
+            return View("Index");
         }
     }
 }

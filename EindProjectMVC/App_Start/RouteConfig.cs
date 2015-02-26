@@ -19,6 +19,12 @@ namespace EindProjectMVC
                 defaults: new { controller = "Login", action = "Index", id = UrlParameter.Optional }
             );
 
+            routes.MapRoute(
+                name: "GoHome",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+            );
+
 
             //route waar ingelogde werknemers gebruik van maken.
             routes.MapRoute(

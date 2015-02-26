@@ -96,6 +96,7 @@ namespace EindProjectBusinessModels
             {
                 if (this.Team == null) return false;
                 return this.Team.Naam.ToUpper() == "HR";
+                
             }
         }
 

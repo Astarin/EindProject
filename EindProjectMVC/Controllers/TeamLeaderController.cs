@@ -5,9 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using EindProjectDAL;
 using EindProjectBusinessModels;
+using EindProjectMVC.Models;
 
 namespace EindProjectMVC.Controllers
 {
+    [Autorisatie(RolOmschrijving = "Teamleader")]
     public class TeamLeaderController : Controller
     {
         //
