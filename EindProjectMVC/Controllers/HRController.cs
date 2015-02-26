@@ -200,10 +200,6 @@ namespace EindProjectMVC.Controllers
                     Werknemer wn = methode.VraagWerknemerOp(Teamleden);
                     methode.BeheerTeamVerantwoordelijke(wn);
 
-
-
-
-
                     alleteams = methode.OpvragenAlleTeams().ToList();
                     ViewBag.AlleTeams = alleteams;
                     return View(tmpTeam);
