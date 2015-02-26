@@ -74,6 +74,7 @@ namespace EindProjectMVC.Controllers
         public ActionResult HrZoekWerknemer(string personeelsNr, string werknemerNaam, string werknemerVoorNaam)
         {
             List<Werknemer> werknemers = methode.VraagWerknemerOp(personeelsNr, werknemerNaam, werknemerVoorNaam);
+            
             return View("HrSelecteerWerknemer", werknemers);
         }
 
@@ -117,6 +118,11 @@ namespace EindProjectMVC.Controllers
 
         public ActionResult HrTeamToevoegen(Team team)
         {
+            if (team.Naam == null)
+            {
+                return View();
+            }
+
             if (team.Naam != String.Empty && team.Naam != null)
             {
                 methode.VoegTeamToeAanDb(team);

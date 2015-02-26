@@ -72,7 +72,7 @@ namespace EindProjectDAL
         {
             using (DbEindproject db = new DbEindproject())
             {
-                List<Werknemer> wnLijst = (from w in db.Werknemers.Include(w => w.Team).Include(w => w.Verlofaanvragen)
+                List<Werknemer> wnLijst = (from w in db.Werknemers.Include(w => w.Team).Include(w => w.Verlofaanvragen).Include(w => w.JaarlijksVerlof)
                                            where w.Naam.Contains(naam)
                                            && w.Voornaam.Contains(voornaam)
                                            && w.PersoneelsNr.ToString().Contains(personeelsNr)
@@ -862,6 +862,18 @@ namespace EindProjectDAL
                     return true;
                 }
             }
+        }
+
+        /************** 7. Algemene serviceroutines *******************/
+
+        public List<String> GeefListAanvraagstatus()
+        {
+            List<String> lijst = new List<string>();
+            foreach (var item in Enum.GetValues(typeof(Aanvraagstatus)))
+            {
+                lijst.Add(item.ToString());
+            }
+            return lijst;
         }
     }
 }

@@ -33,13 +33,13 @@ namespace EindProjectMVC.Controllers
             }
         }
 
-        public ActionResult VerlofIndienen(VerlofAanvraag aanvraag, string btnSubmit)
+        public ActionResult VerlofIndienen(VerlofAanvraag aanvraag, string btnSubmit, string ddlStatus, String txtFilterStartDatum, String txtFilterEindDatum)
         {
             DalMethodes methode = new DalMethodes();
 
             Werknemer wn = (Werknemer)Session["currentUser"];
 
-            if (btnSubmit != null)
+            if (btnSubmit != null && btnSubmit == "Verlof Aanvragen")
             {
                 try
                 {
@@ -77,13 +77,15 @@ namespace EindProjectMVC.Controllers
                 methode.SetGelezen(item, true);
             }
 
+            PrepareFilterDatumVeldenInViewBag(txtFilterStartDatum, txtFilterEindDatum);
+            PrepareStatusInViewBag(ddlStatus);
+
             // Om de gegevens te refreshen
             wn = methode.VraagWerknemerOp(wn.PersoneelsNr.ToString());
-
             return View("WerknemerIngelogd", wn);
         }
 
-        public ActionResult VerlofAnnuleren(string aanvraagId)
+        public ActionResult VerlofAnnuleren(string aanvraagId, string ddlStatus, String txtFilterStartDatum, String txtFilterEindDatum)
         {
             DalMethodes methode = new DalMethodes();
             Werknemer wn = (Werknemer)Session["currentUser"];
@@ -106,8 +108,72 @@ namespace EindProjectMVC.Controllers
 
             VerlofAanvraag vA = wn.Verlofaanvragen.Find(x => x.Id.ToString() == aanvraagId);
             methode.StuurMail(wn, methode.GeefTeamLeader(wn.Team), vA);
+
+            PrepareFilterDatumVeldenInViewBag(txtFilterStartDatum, txtFilterEindDatum);
+            PrepareStatusInViewBag(ddlStatus);
+
             return View("WerknemerIngelogd", wn);
 
+        }
+
+        private void PrepareStatusInViewBag(String ddlStatus)
+        {
+            DalMethodes methode = new DalMethodes();
+
+            // maak de lijst van statussen die in de dropdownlist voor de filter moeten getoond worden.
+            List<String> statusLijst = new List<string>();
+            statusLijst.Add("");
+            foreach (var item in Enum.GetValues(typeof(Aanvraagstatus)))
+            {
+                statusLijst.Add(item.ToString());
+            }
+            SelectList sl = new SelectList(statusLijst);
+            ViewBag.ddlStatus = sl;
+
+            // Maak lijst van statussen voor verlofaanvragen die zichtbaar moeten zijn in 
+            // de lijst van verlofaanvragen in de view
+            List<String> GeldigeStatussen = new List<string>();
+            if (String.IsNullOrEmpty(ddlStatus))
+            {
+                GeldigeStatussen = methode.GeefListAanvraagstatus();
+            }
+            else
+            {
+                GeldigeStatussen.Add(ddlStatus);
+            }
+            ViewBag.Status = GeldigeStatussen;
+        }
+
+        private void PrepareFilterDatumVeldenInViewBag(string txtStartDatum, string txtEindDatum)
+        {
+            DateTime startDt;
+            DateTime eindDt;
+            String ErrorMsg = String.Empty;
+            if (String.IsNullOrEmpty(txtStartDatum))
+            {
+                // geen startdatum opgegeven - niets in het veld ingegeven
+                startDt = DateTime.MinValue;
+            }
+            else if (!DateTime.TryParse(txtStartDatum, out startDt))
+            {
+                ErrorMsg += "Geef een geldige startdatum in of maak het veld leeg." + Environment.NewLine;
+            }
+            // ofwel is ErrorMsg ingevuld, ofwel bevat startDt een geldige datum.
+            if (String.IsNullOrEmpty(txtEindDatum))
+            {
+                // geen startdatum opgegeven - niets in het veld ingegeven
+                eindDt = DateTime.MaxValue;
+            }
+            else if (!DateTime.TryParse(txtEindDatum, out eindDt))
+            {
+                ErrorMsg += "Geef een geldige eindDatum in of maak het veld leeg." + Environment.NewLine;
+            }
+            // ofwel is ErrorMsg ingevuld, ofwel bevat eindDt een geldige datum.
+
+            // laad velden in ViewBag
+            ViewBag.ErrorMsg = ErrorMsg;
+            ViewBag.startDt = startDt;
+            ViewBag.eindDt = eindDt;
         }
     }
 }
