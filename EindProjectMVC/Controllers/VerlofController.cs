@@ -41,13 +41,35 @@ namespace EindProjectMVC.Controllers
 
             if (btnSubmit != null)
             {
-                methode.IndienenVerlofaanvraag(wn, aanvraag);
+                try
+                {
+                    methode.IndienenVerlofaanvraag(wn, aanvraag);
 
-                // Om de gegevens te refreshen
-                wn = methode.VraagWerknemerOp(wn.PersoneelsNr.ToString());
+                    // Om de gegevens te refreshen
+                    wn = methode.VraagWerknemerOp(wn.PersoneelsNr.ToString());
+
+                    // ********************************************************************************
+                    // TO DO invullen van BehandeldDoor moet in de methode VraagWerknemerOp gebeuren !
+                    using (DbEindproject db = new DbEindproject())
+                    {
+                        foreach (VerlofAanvraag item in wn.Verlofaanvragen)
+                        {
+                            item.BehandeldDoor = (from a in db.Verlofaanvragen
+                                                  where a.Id == item.Id
+                                                  select a.BehandeldDoor).FirstOrDefault();
+                        }
+                    }
+                    // ********************************************************************************
+
+                    VerlofAanvraag vA = wn.Verlofaanvragen.Find(x => x.Id == aanvraag.Id);
+                    methode.StuurMail(wn, methode.GeefTeamLeader(wn.Team), vA);
+
+                }
+                catch (Exception exc)
+                {
+                    ViewBag.ErrorMsg = exc.Message;
+                }
             }
-
-
 
             // De werknemer heeft de gewijzigde toestanden van zijn verlofaanvragen gezien
             foreach (VerlofAanvraag item in ((Werknemer)Session["currentUser"]).Verlofaanvragen)
@@ -55,18 +77,18 @@ namespace EindProjectMVC.Controllers
                 methode.SetGelezen(item, true);
             }
 
+            // Om de gegevens te refreshen
+            wn = methode.VraagWerknemerOp(wn.PersoneelsNr.ToString());
+
             return View("WerknemerIngelogd", wn);
         }
 
-        public ActionResult VerlofAnnuleren(string aanvraagId, string btnAnnuleren, string persNr)
+        public ActionResult VerlofAnnuleren(string aanvraagId)
         {
             DalMethodes methode = new DalMethodes();
             Werknemer wn = (Werknemer)Session["currentUser"];
 
-            if (btnAnnuleren != null)
-            {
-                methode.AnnuleerVerlofAanvraag(aanvraagId);
-            }
+            methode.AnnuleerVerlofAanvraag(aanvraagId);
 
             wn = methode.VraagWerknemerOp(wn.PersoneelsNr.ToString());
             // ********************************************************************************
@@ -82,32 +104,10 @@ namespace EindProjectMVC.Controllers
             }
             // ********************************************************************************
 
-            VerlofAanvraag vA = wn.Verlofaanvragen.Find( x => x.Id.ToString() == aanvraagId);
+            VerlofAanvraag vA = wn.Verlofaanvragen.Find(x => x.Id.ToString() == aanvraagId);
             methode.StuurMail(wn, methode.GeefTeamLeader(wn.Team), vA);
             return View("WerknemerIngelogd", wn);
 
-        }
-
-        public ActionResult Sort(string sortBy)
-        {
-            DalMethodes methode = new DalMethodes();
-
-            switch (sortBy)
-            {
-                case "a":
-
-
-
-                    break;
-                default:
-                    break;
-            }
-
-
-
-            Werknemer wn = (Werknemer)Session["currentUser"];
-            wn = methode.VraagWerknemerOp(wn.PersoneelsNr.ToString());
-            return View("WerknemerIngelogd", wn);
         }
     }
 }

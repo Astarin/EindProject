@@ -14,7 +14,7 @@ namespace EindProjectMVC.Controllers
     {
         //
         // GET: /TeamLeader/
-        public ActionResult Index()
+        public ActionResult Index(String ErrorMsg)
         {
             DalMethodes Dal = new DalMethodes();
             Werknemer teamLeader;
@@ -38,22 +38,75 @@ namespace EindProjectMVC.Controllers
                           Text = String.Format("{0} {1} {2}", w.PersoneelsNr.ToString(), w.Naam, w.Voornaam),
                           Value = w.PersoneelsNr.ToString()
                       };
-            //ViewBag.ddlTeamLeden = new SelectList(wnList, "PersoneelsNr", "PersoneelsNr");
             ViewBag.ddlTeamLeden = qry.ToList();
+            List<String> statusLijst = new List<string>();
+            statusLijst.Add("");
+            foreach (var item in Enum.GetValues(typeof(Aanvraagstatus)))
+            {
+                statusLijst.Add(item.ToString());
+            }
+            SelectList sl = new SelectList(statusLijst);
+            ViewBag.ddlStatus = sl;
+            if (String.IsNullOrEmpty(ErrorMsg)) { ViewBag.ErrorMsg = ""; }
+            else { ViewBag.ErrorMsg = ErrorMsg; }
             return View();
 
         }
 
-        public ActionResult InfoForWerknemer(int? ddlTeamLeden, VerlofAanvraag v, bool chkAlleWerknemers)
+        public ActionResult InfoForWerknemer(int? ddlTeamLeden, String ddlStatus, String btnSubmit, String txtStartDatum, String txtEindDatum)
         {
+            String ErrorMsg = "";
             DalMethodes dal = new DalMethodes();
-            Werknemer werknemer=null;
+            Werknemer werknemer = null;
             List<Werknemer> werknemers = new List<Werknemer>();
-            if (chkAlleWerknemers)
+            if (btnSubmit == "Toon verlofaanvragen")
             {
+                DateTime startDt;
+                DateTime EindDt;
+                if (String.IsNullOrEmpty(txtStartDatum))
+                {
+                    // geen startdatum opgegeven - niets in het veld ingegeven
+                    startDt = DateTime.MinValue;
+                }
+                else if (!DateTime.TryParse(txtStartDatum, out startDt))
+                {
+                    ErrorMsg = "Geef een geldige startdatum in of maak het veld leeg." + Environment.NewLine;
+                }
+                // ofwel is ErrorMsg ingevuld, ofwel bevat startdate een geldige datum.
+                if (String.IsNullOrEmpty(txtEindDatum))
+                {
+                    // geen startdatum opgegeven - niets in het veld ingegeven
+                    EindDt = DateTime.MaxValue;
+                }
+                else if (!DateTime.TryParse(txtEindDatum, out EindDt))
+                {
+                    ErrorMsg = "Geef een geldige txtEindDatum in of maak het veld leeg." + Environment.NewLine;
+                }
+                // ofwel is ErrorMsg ingevuld, ofwel bevat startdate een geldige datum.
+                if (String.IsNullOrEmpty(ErrorMsg))
+                {
                 Team team = ((Werknemer)Session["currentUser"]).Team;
                 werknemers = dal.GeefTeamleden(team);
+                    VulBehandeldDoorVelden(werknemers);
+                    List<String> GeldigeStatussen = new List<string>();
+                    if (String.IsNullOrEmpty(ddlStatus))
+                    {
+                        GeldigeStatussen = GeefListAanvraagstatus();
+                    }
+                    else
+                    {
+                        GeldigeStatussen.Add(ddlStatus);
+                    }
+                    ViewBag.Status = GeldigeStatussen;
+                    ViewBag.StartDatum = startDt;
+                    ViewBag.EindDatum = EindDt;
                 Session["werknemer"] = werknemers;
+                    return View("InfoForAllWerknemers");
+                }
+                else
+                {
+                    return RedirectToAction("Index", new { ErrorMsg = ErrorMsg });
+                }
             }
             else
             {
@@ -74,7 +127,23 @@ namespace EindProjectMVC.Controllers
                     werknemer = dal.VraagWerknemerOp(ddlTeamLeden.ToString());
                 }
                 werknemers.Add(werknemer);
+                Session["werknemer"] = werknemers;
+                return View(werknemers[0]);
             }
+        }
+
+        private List<String> GeefListAanvraagstatus()
+        {
+            List<String> lijst = new List<string>();
+            foreach (var item in Enum.GetValues(typeof(Aanvraagstatus)))
+            {
+                lijst.Add(item.ToString());
+            }
+            return lijst;
+            }
+
+        private void VulBehandeldDoorVelden(List<Werknemer> werknemers)
+        {
             // ********************************************************************************
             // TO DO invullen van BehandeldDoor moet in de methode VraagWerknemerOp gebeuren !
             using (DbEindproject db = new DbEindproject())
@@ -90,16 +159,6 @@ namespace EindProjectMVC.Controllers
                 }
             }
             // ********************************************************************************
-            Session["werknemer"] = werknemers;
-            
-            if (chkAlleWerknemers)
-            {
-                return View("InfoForAllWerknemers");
-            }
-            else
-            {
-                return View(werknemers[0]);
-            }
         }
 
         public ActionResult GoedkeurenStatusVerlofAanvraag(VerlofAanvraag v)

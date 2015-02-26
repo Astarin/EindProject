@@ -38,36 +38,44 @@
     {
         foreach (VerlofAanvraag v in item.Verlofaanvragen)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Naam)
-                    @Html.DisplayFor(modelItem => item.Voornaam)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => v.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => v.StartDatum)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => v.EindDatum)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => v.AanvraagDatum)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => v.Toestand)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => v.BehandelDatum)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => v.BehandeldDoor.Naam)
-                    @Html.DisplayFor(modelItem => v.BehandeldDoor.Voornaam)
-                </td>
-            </tr>
+            if (((List<String>)@ViewBag.Status).Contains(v.Toestand.ToString())
+                && v.StartDatum >= (DateTime)@ViewBag.StartDatum
+                && v.EindDatum <= (DateTime)@ViewBag.EindDatum)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Naam)
+                        @Html.DisplayFor(modelItem => item.Voornaam)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.StartDatum)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.EindDatum)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.AanvraagDatum)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.Toestand)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.BehandelDatum)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.BehandeldDoor.Naam)
+                        @Html.DisplayFor(modelItem => v.BehandeldDoor.Voornaam)
+                    </td>
+                </tr>
+            }
         }
     }
 </table>
 <br />
-@Html.ActionLink("Selecteer andere werknemer", "Index")
+@using (@Html.BeginForm("Index","TeamLeader"))
+{
+    <input type="submit" name="btnSubmit" value="Selecteer andere werknemer" />
+}
