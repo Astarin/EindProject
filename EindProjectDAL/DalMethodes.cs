@@ -186,29 +186,32 @@ namespace EindProjectDAL
              * Huidige teamleader teamleader af maken en
              * geselecteerde werknemer teamleader maken
             */
-            Team theTeam = werknemer.Team;
-            using (DbEindproject db = new DbEindproject())
+            if (werknemer != null)
             {
-                Werknemer huidigTL = (from wn in db.Werknemers.Include(wn => wn.Team)
-                                      where wn.Team.Code == theTeam.Code
-                                         && wn.TeamLeader
-                                      select wn).FirstOrDefault();
-                if (huidigTL != null)
+                Team theTeam = werknemer.Team;
+                using (DbEindproject db = new DbEindproject())
                 {
-                    huidigTL.TeamLeader = false;
-                }
-                try
-                {
-                    Werknemer wn = (from w in db.Werknemers.Include(w => w.Team)
-                                    where w.PersoneelsNr == werknemer.PersoneelsNr
-                                    select w).FirstOrDefault();
+                    Werknemer huidigTL = (from wn in db.Werknemers.Include(wn => wn.Team)
+                                          where wn.Team.Code == theTeam.Code
+                                             && wn.TeamLeader
+                                          select wn).FirstOrDefault();
+                    if (huidigTL != null)
+                    {
+                        huidigTL.TeamLeader = false;
+                    }
+                    try
+                    {
+                        Werknemer wn = (from w in db.Werknemers.Include(w => w.Team)
+                                        where w.PersoneelsNr == werknemer.PersoneelsNr
+                                        select w).FirstOrDefault();
 
-                    wn.TeamLeader = true;
-                    db.SaveChanges();
-                }
-                catch
-                {
-                    throw;
+                        wn.TeamLeader = true;
+                        db.SaveChanges();
+                    }
+                    catch
+                    {
+                        throw;
+                    }
                 }
             }
         }
@@ -509,20 +512,49 @@ namespace EindProjectDAL
                     jvVanWn[item.Jaar] = item.AantalDagen;
                 }
 
-                foreach (VerlofAanvraag item in wn.Verlofaanvragen)
+                //foreach (KeyValuePair<int, int> item in jvVanWn)
+                //{
+                //    int dagenVoorDitJaar = item.Value;
+
+                //    int alGebruikteDagenDitJaar = (from v in wn.Verlofaanvragen
+                //                                   where v.Toestand == Aanvraagstatus.Ingediend
+                //                                   || v.Toestand == Aanvraagstatus.Goedgekeurd
+                //                                   select v.EffectiefAantalVerlofdagen).Sum();
+
+                //    dagenVoorDitJaar -= alGebruikteDagenDitJaar;
+                //    jvVanWn[item.Key] = dagenVoorDitJaar;
+                //}
+
+                for (int i = 0; i < jvVanWn.Count; i++)
                 {
+                    List<VerlofAanvraag> aanvragen = (from v in wn.Verlofaanvragen
+                                                      where (v.Toestand == Aanvraagstatus.Ingediend
+                                                      || v.Toestand == Aanvraagstatus.Goedgekeurd)
+                                                      select v).ToList<VerlofAanvraag>();
 
+                    foreach (VerlofAanvraag item in aanvragen)
+                    {
+                        TimeSpan itemSpan = item.EindDatum - item.StartDatum;
 
-                    // al gebruikte verlofdagen berekenen (zie boven)
-                    // aparte methode maken
-
-
+                        for (int j = 0; j <= itemSpan.Days; j++)
+                        {
+                            if (item.StartDatum.AddDays(j).Year == jvVanWn.ElementAt(i).Key)
+                            {
+                                if (VerlofDagNodigVoorDag(wn, item.StartDatum.AddDays(j)))
+                                {
+                                    jvVanWn[jvVanWn.ElementAt(i).Key]--;
+                                }
+                            }
+                        }
+                    }
                 }
 
+                int dagenVoorAanvraag = 0;
                 foreach (KeyValuePair<DateTime, bool> kvp in periode)
                 {
                     if (kvp.Value)
                     {
+                        dagenVoorAanvraag++;
                         try
                         {
                             jvVanWn[kvp.Key.Year]--;
@@ -539,10 +571,60 @@ namespace EindProjectDAL
                     }
                 }
 
+                va.EffectiefAantalVerlofdagen = dagenVoorAanvraag;
                 wn.Verlofaanvragen.Add(va);
                 va.Toestand = Aanvraagstatus.Ingediend;
                 db.SaveChanges();
             }
+        }
+
+        private bool VerlofDagNodigVoorDag(Werknemer wn, DateTime dag)
+        {
+            if (dag.DayOfWeek == DayOfWeek.Saturday || dag.DayOfWeek == DayOfWeek.Sunday)
+            {
+                return false;
+            }
+
+            List<VerlofAanvraag> tmp = (from v in wn.Verlofaanvragen
+                                        where v.Toestand == Aanvraagstatus.Ingediend
+                                        || v.Toestand == Aanvraagstatus.Goedgekeurd
+                                        select v).ToList<VerlofAanvraag>();
+
+            foreach (VerlofAanvraag item in tmp)
+            {
+                if (OverlappendePeriode(item, new VerlofAanvraag { StartDatum = dag, EindDatum = dag }))
+                {
+                    return false;
+                }
+            }
+
+            using (DbEindproject db = new DbEindproject())
+            {
+                List<CollectieveSluiting> sluitDagen = (from s in db.Sluitingsdagen
+                                                        select s).ToList<CollectieveSluiting>();
+
+                foreach (CollectieveSluiting item in sluitDagen)
+                {
+                    VerlofAanvraag sluitDag = new VerlofAanvraag();
+
+                    if (item is CollectiefVerlof)
+                    {
+                        CollectiefVerlof colver = item as CollectiefVerlof;
+                        sluitDag = new VerlofAanvraag { StartDatum = colver.StartDatum, EindDatum = colver.EindDatum };
+                    }
+                    else if (item is Feestdag)
+                    {
+                        sluitDag = new VerlofAanvraag { StartDatum = item.StartDatum, EindDatum = item.StartDatum };
+                    }
+
+                    if (OverlappendePeriode(sluitDag, new VerlofAanvraag { StartDatum = dag, EindDatum = dag }))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
 
         private bool OverlappendePeriode(VerlofAanvraag va1, VerlofAanvraag va2)
