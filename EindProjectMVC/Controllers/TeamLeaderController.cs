@@ -90,7 +90,7 @@ namespace EindProjectMVC.Controllers
                     List<String> GeldigeStatussen = new List<string>();
                     if (String.IsNullOrEmpty(ddlStatus))
                     {
-                        GeldigeStatussen = GeefListAanvraagstatus();
+                        GeldigeStatussen = dal.GeefListAanvraagstatus();
                     }
                     else
                     {
@@ -129,16 +129,6 @@ namespace EindProjectMVC.Controllers
                 Session["werknemer"] = werknemers;
                 return View(werknemers[0]);
             }
-        }
-
-        private List<String> GeefListAanvraagstatus()
-        {
-            List<String> lijst = new List<string>();
-            foreach (var item in Enum.GetValues(typeof(Aanvraagstatus)))
-            {
-                lijst.Add(item.ToString());
-            }
-            return lijst;
         }
 
         private void VulBehandeldDoorVelden(List<Werknemer> werknemers)
