@@ -33,7 +33,7 @@ namespace EindProjectMVC.Controllers
             }
         }
 
-        public ActionResult VerlofIndienen(VerlofAanvraag aanvraag, string btnSubmit, string ddlStatus)
+        public ActionResult VerlofIndienen(VerlofAanvraag aanvraag, string btnSubmit, string ddlStatus, String txtFilterStartDatum, String txtFilterEindDatum)
         {
             DalMethodes methode = new DalMethodes();
 
@@ -77,6 +77,7 @@ namespace EindProjectMVC.Controllers
                 methode.SetGelezen(item, true);
             }
 
+            PrepareFilterDatumVeldenInViewBag(txtFilterStartDatum, txtFilterEindDatum);
             PrepareStatusInViewBag(ddlStatus);
 
             // Om de gegevens te refreshen
@@ -84,7 +85,7 @@ namespace EindProjectMVC.Controllers
             return View("WerknemerIngelogd", wn);
         }
 
-        public ActionResult VerlofAnnuleren(string aanvraagId, string ddlStatus)
+        public ActionResult VerlofAnnuleren(string aanvraagId, string ddlStatus, String txtFilterStartDatum, String txtFilterEindDatum)
         {
             DalMethodes methode = new DalMethodes();
             Werknemer wn = (Werknemer)Session["currentUser"];
@@ -108,6 +109,7 @@ namespace EindProjectMVC.Controllers
             VerlofAanvraag vA = wn.Verlofaanvragen.Find(x => x.Id.ToString() == aanvraagId);
             methode.StuurMail(wn, methode.GeefTeamLeader(wn.Team), vA);
 
+            PrepareFilterDatumVeldenInViewBag(txtFilterStartDatum, txtFilterEindDatum);
             PrepareStatusInViewBag(ddlStatus);
 
             return View("WerknemerIngelogd", wn);
@@ -140,7 +142,38 @@ namespace EindProjectMVC.Controllers
                 GeldigeStatussen.Add(ddlStatus);
             }
             ViewBag.Status = GeldigeStatussen;
+        }
 
+        private void PrepareFilterDatumVeldenInViewBag(string txtStartDatum, string txtEindDatum)
+        {
+            DateTime startDt;
+            DateTime eindDt;
+            String ErrorMsg = String.Empty;
+            if (String.IsNullOrEmpty(txtStartDatum))
+            {
+                // geen startdatum opgegeven - niets in het veld ingegeven
+                startDt = DateTime.MinValue;
+            }
+            else if (!DateTime.TryParse(txtStartDatum, out startDt))
+            {
+                ErrorMsg += "Geef een geldige startdatum in of maak het veld leeg." + Environment.NewLine;
+            }
+            // ofwel is ErrorMsg ingevuld, ofwel bevat startDt een geldige datum.
+            if (String.IsNullOrEmpty(txtEindDatum))
+            {
+                // geen startdatum opgegeven - niets in het veld ingegeven
+                eindDt = DateTime.MaxValue;
+            }
+            else if (!DateTime.TryParse(txtEindDatum, out eindDt))
+            {
+                ErrorMsg += "Geef een geldige eindDatum in of maak het veld leeg." + Environment.NewLine;
+            }
+            // ofwel is ErrorMsg ingevuld, ofwel bevat eindDt een geldige datum.
+
+            // laad velden in ViewBag
+            ViewBag.ErrorMsg = ErrorMsg;
+            ViewBag.startDt = startDt;
+            ViewBag.eindDt = eindDt;
         }
     }
 }

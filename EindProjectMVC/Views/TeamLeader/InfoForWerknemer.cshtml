@@ -1,7 +1,7 @@
 ﻿@model EindProjectBusinessModels.Werknemer
 @using EindProjectBusinessModels
 @{
-    ViewBag.Title = "InfoForWerknemer";
+    ViewBag.Title = "Verlofaanvragen voor " + @Model.VolledigeNaam;
 }
 
 @Html.Partial("_TitelEnError")
@@ -11,9 +11,6 @@
         <th>
         </th>
         <th>
-        </th>
-        <th>
-            @Html.Label("Nr")
         </th>
         <th>
             @Html.Label("StartDatum")
@@ -41,23 +38,19 @@
             <td>
                 @using (Html.BeginForm("GoedkeurenStatusVerlofAanvraag", "TeamLeader"))
                 {
-                    <br />
                     <input type="hidden" name="RedenVoorAfkeuren" value="" />
                     <input type="hidden" name="Id" value="@item.Id" />
                     <input type="submit" value="Goedkeuren" @Html.Raw((@item.Toestand == Aanvraagstatus.Ingediend) ? "" : "hidden") />
                 }
             </td>
             <td>
-                <p @Html.Raw((@item.Toestand == Aanvraagstatus.Ingediend) ? "" : "hidden")>Reden voor afkeuren</p>
                 @using (Html.BeginForm("AfkeurenStatusVerlofAanvraag", "TeamLeader"))
                 {
+                    <input type="submit" value="Afkeuren" @Html.Raw((@item.Toestand == Aanvraagstatus.Ingediend) ? "" : "hidden") />
+                    <p @Html.Raw((@item.Toestand == Aanvraagstatus.Ingediend) ? "" : "hidden")>Reden voor afkeuren</p>
                     <input type="text" name="RedenVoorAfkeuren" value="@item.RedenVoorAfkeuren" @Html.Raw((@item.Toestand == Aanvraagstatus.Ingediend) ? "" : "hidden") />
                     <input type="hidden" name="Id" value="@item.Id" />
-                    <input type="submit" value="Afkeuren" @Html.Raw((@item.Toestand == Aanvraagstatus.Ingediend) ? "" : "hidden") />
                 }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StartDatum)

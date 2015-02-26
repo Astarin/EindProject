@@ -80,7 +80,7 @@ namespace EindProjectMVC.Controllers
                 }
                 else if (!DateTime.TryParse(txtEindDatum, out EindDt))
                 {
-                    ErrorMsg = "Geef een geldige txtEindDatum in of maak het veld leeg." + Environment.NewLine;
+                    ErrorMsg = "Geef een geldige eindDatum in of maak het veld leeg." + Environment.NewLine;
                 }
                 // ofwel is ErrorMsg ingevuld, ofwel bevat startdate een geldige datum.
                 if (String.IsNullOrEmpty(ErrorMsg))
@@ -127,6 +127,7 @@ namespace EindProjectMVC.Controllers
                     werknemer = dal.VraagWerknemerOp(ddlTeamLeden.ToString());
                 }
                 werknemers.Add(werknemer);
+                VulBehandeldDoorVelden(werknemers);
                 Session["werknemer"] = werknemers;
                 return View(werknemers[0]);
             }
