@@ -12,31 +12,31 @@
 <h4>Verlofaanvraag indienen</h4>
 @using (Html.BeginForm("VerlofIndienen", "Verlof", FormMethod.Post))
 {
-    @Html.Hidden("PersoneelsNr", @Model.PersoneelsNr);
+    @Html.Hidden("PersoneelsNr", @Model.PersoneelsNr)
 
                                                      EindProjectBusinessModels.VerlofAanvraag aanvraag = new EindProjectBusinessModels.VerlofAanvraag();
 
-    <div class="form-group">
-        @Html.LabelFor(a => aanvraag.StartDatum, new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-10">
-            @Html.TextBoxFor(a => aanvraag.StartDatum, DateTime.Now.AddDays(15).ToShortDateString())
-            @Html.ValidationMessageFor(a => aanvraag.StartDatum)
-        </div>
-    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(a => aanvraag.StartDatum, new { @class = "col-sm-2 control-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(a => aanvraag.StartDatum, DateTime.Now.AddDays(15).ToShortDateString())
+                                                            @Html.ValidationMessageFor(a => aanvraag.StartDatum)
+                                                        </div>
+                                                    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(a => aanvraag.EindDatum, new { @class = "col-sm-2 control-label" })
-        <div class="col-sm-10">
-            @Html.TextBoxFor(a => aanvraag.EindDatum, DateTime.Now.AddDays(15).ToShortDateString())
-            @Html.ValidationMessageFor(a => aanvraag.EindDatum)
-        </div>
-    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(a => aanvraag.EindDatum, new { @class = "col-sm-2 control-label" })
+                                                        <div class="col-sm-10">
+                                                            @Html.TextBoxFor(a => aanvraag.EindDatum, DateTime.Now.AddDays(15).ToShortDateString())
+                                                            @Html.ValidationMessageFor(a => aanvraag.EindDatum)
+                                                        </div>
+                                                    </div>
 
-    <input type="submit" value="Verlof Aanvragen" name="btnSubmit" class="btn btn-default" />
+                                                    <input type="submit" value="Verlof Aanvragen" name="btnSubmit" class="btn btn-default" />
 
 }
 
-@{
+@*@{
     JaarlijksVerlof jv = (from j in @Model.JaarlijksVerlof
                           where j.Jaar == DateTime.Now.Year
                           select j).FirstOrDefault();
@@ -51,28 +51,49 @@
               && v.Toestand == Aanvraagstatus.Ingediend
               select v.EffectiefAantalVerlofdagen).Sum();
 
-    int rd = jv.AantalDagen - gv - di;
+    int rd = jv.AantalDagen - gv - di;*@
 
     <h4>Saldo Verlofaanvragen</h4>
     <div>
         <table class="sortable table table-striped">
             <thead>
                 <tr>
+                <td><b>Jaar</b></td>
                     <td><b>Jaarlijks Verlof</b></td>
                     <td><b>Goedgekeurd Verlof</b></td>
                     <td><b>Dagen ingediend</b></td>
                     <td><b>Resterende dagen</b></td>
                 </tr>
             </thead>
-            <tr>
+        @*<tr>
                 <td>@jv.AantalDagen dagen</td>
                 <td>@gv</td>
                 <td>@di</td>
                 <td>@rd</td>
+            </tr>*@
+        @foreach (JaarlijksVerlof item in Model.JaarlijksVerlof)
+        {
+            
+            // hier worden ze per jaar opgevraagd
+            int tmprd = new EindProjectDAL.DalMethodes().GebruikteVerlofDagenVoorJaar(Model, item.Jaar);
+            int tmpdi = new EindProjectDAL.DalMethodes().GebruikteVerlofDagenVoorJaarIngediend(Model, item.Jaar);
+            int tmpgv = new EindProjectDAL.DalMethodes().GebruikteVerlofDagenVoorJaarGoedgekeurd(Model, item.Jaar);
+            
+
+            <tr>
+                <td>@item.Jaar</td>
+                <td>@item.AantalDagen</td>
+                <td>@tmpgv</td>
+                <td>@tmpdi</td>
+                <td>@(item.AantalDagen-tmpgv)</td>
             </tr>
+        }
+
+
+
         </table>
     </div>
-}
+@* } *@
 
 <h4>Overzicht Verlofaanvragen</h4>
 @using (Html.BeginForm("VerlofIndienen", "Verlof", FormMethod.Get))
@@ -103,27 +124,27 @@
                      && aanvraag.StartDatum >= (DateTime)@ViewBag.startDt
                      && aanvraag.EindDatum <= (DateTime)@ViewBag.eindDt)
                 {
-                <tr>
-                    <td>@aanvraag.AanvraagDatum.ToShortDateString()</td>
-                    <td>@aanvraag.StartDatum.ToShortDateString()</td>
-                    <td>@aanvraag.EindDatum.ToShortDateString()</td>
-                    <td>@aanvraag.Toestand</td>
-                    <td>
-                        @if ((aanvraag.Toestand == EindProjectBusinessModels.Aanvraagstatus.Goedgekeurd
+                    <tr>
+                        <td>@aanvraag.AanvraagDatum.ToShortDateString()</td>
+                        <td>@aanvraag.StartDatum.ToShortDateString()</td>
+                        <td>@aanvraag.EindDatum.ToShortDateString()</td>
+                        <td>@aanvraag.Toestand</td>
+                        <td>
+                            @if ((aanvraag.Toestand == EindProjectBusinessModels.Aanvraagstatus.Goedgekeurd
                     || aanvraag.Toestand == EindProjectBusinessModels.Aanvraagstatus.Ingediend)
                     && aanvraag.StartDatum > DateTime.Now)
                             {
-                            @Html.ActionLink("Annuleren", "VerlofAnnuleren", new { aanvraagID = aanvraag.Id }, FormMethod.Post)
+                                @Html.ActionLink("Annuleren", "VerlofAnnuleren", new { aanvraagID = aanvraag.Id }, FormMethod.Post)
 
-                            @*using (Html.BeginForm("VerlofAnnuleren", "Verlof", FormMethod.Post))
-                                {
-                                    <input type="hidden" value="@Model.PersoneelsNr" name="persNr" />
-                                    <input type="hidden" value="@aanvraag.Id" name="aanvraagId" />
-                                    <input type="submit" value="Annuleren" name="btnAnnuleren" class="btn btn-default" />
-                                }*@
+                                @*using (Html.BeginForm("VerlofAnnuleren", "Verlof", FormMethod.Post))
+                                    {
+                                        <input type="hidden" value="@Model.PersoneelsNr" name="persNr" />
+                                        <input type="hidden" value="@aanvraag.Id" name="aanvraagId" />
+                                        <input type="submit" value="Annuleren" name="btnAnnuleren" class="btn btn-default" />
+                                    }*@
                             }
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
                 }
             }
         </tbody>
