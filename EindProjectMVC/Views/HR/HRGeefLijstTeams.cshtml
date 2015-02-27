@@ -44,7 +44,9 @@
             <td>
                 @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |*@
 
-                @Html.ActionLink("Verwijderen", "VerwijderTeam", new { teamCode = item.Team.Code })
+                <a href="/HR/VerwijderTeam?teamCode=@item.Team.Code"  onclick="test()">Verwijderen</a>
+                @*@Html.ActionLink("Verwijderen", "VerwijderTeam", routeValues: new { teamCode = item.Team.Code }, htmlAttributes: new { id = "verwijderbtn" })*@
+                @*@Html.ActionLink("Logout", "LogOut", "Login", routeValues: null, htmlAttributes: new { @class = "glyphicon glyphicon-off" })*@
                 @*@Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
             </td>
             <td>
@@ -54,7 +56,7 @@
                 @Html.DisplayFor(modelItem => item.Team.Naam)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Werknemer.Naam)
+                @Html.DisplayFor(modelItem => item.Werknemer.VolledigeNaam)
             </td>
         </tr>
     }
@@ -63,4 +65,8 @@
          
 
             </table>
+
+
         </div>
+                     
+                      
