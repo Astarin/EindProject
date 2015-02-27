@@ -85,7 +85,7 @@
                 <td>@item.AantalDagen</td>
                 <td>@tmpgv</td>
                 <td>@tmpdi</td>
-                <td>@(item.AantalDagen-tmpdi-tmpgv)</td>
+                <td>@(item.AantalDagen - tmpdi - tmpgv)</td>
             </tr>
         }
 
@@ -101,6 +101,14 @@
     <table class="sortable table table-striped">
         <thead>
             <tr>
+                <td><b>aanvraagdatum</b></td>
+                <td><b>startdatum</b></td>
+                <td><b>einddatum</b></td>
+                <td colspan="2"><b>toestand</b></td>
+            </tr>
+        </thead>
+        <thead>
+            <tr>
                 <td>Filteren op</td>
                 <td>@Html.TextBox("txtFilterStartDatum")</td>
                 <td>@Html.TextBox("txtFilterEindDatum")</td>
@@ -109,13 +117,8 @@
                     <input type="submit" value="Filter toepassen" name="btnSubmit" class="btn btn-default" />
                 </td>
             </tr>
-            <tr>
-                <td><b>aanvraagdatum</b></td>
-                <td><b>startdatum</b></td>
-                <td><b>einddatum</b></td>
-                <td colspan="2"><b>toestand</b></td>
-            </tr>
         </thead>
+
         <tbody>
             @foreach (var x in Model.Verlofaanvragen)
             {
