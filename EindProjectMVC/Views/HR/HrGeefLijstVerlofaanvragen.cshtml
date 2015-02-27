@@ -1,5 +1,5 @@
 ﻿@model EindProjectBusinessModels.Werknemer
-@using EindProjectBusinessModels
+@using EindProjectBusinessModels;
 
 @{
     ViewBag.Title = "Lijst Verlofaanvragen alle werknemers";
@@ -43,16 +43,18 @@
             <td><input type="submit" value="Filter toepassen" name="btnSubmit" class="btn btn-default" /></td>
         }
     </tr>
-    @foreach (Werknemer item in (List<Werknemer>)Session["werknemer"])
-    {
+    @foreach (Werknemer item in (List<Werknemer>)Session["werknemer"])    { 
+    
         foreach (VerlofAanvraag v in item.Verlofaanvragen)
         {
             if (v.StartDatum >= (DateTime)@ViewBag.StartDatum && v.EindDatum <= (DateTime)@ViewBag.EindDatum)
             {
                 String wn = @ViewBag.ddlWerknemer;
                 Werknemer w = ((Werknemer)@ViewBag.ddlWerknemer);
+                
+                /*
                 if (wn == String.Empty || w.VolledigeNaam == item.VolledigeNaam)
-                {
+                { 
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.Naam)
@@ -77,8 +79,9 @@
                             @Html.DisplayFor(modelItem => v.BehandeldDoor.Naam)
                             @Html.DisplayFor(modelItem => v.BehandeldDoor.Voornaam)
                         </td>
-                    </tr>
+                    </tr> 
                 }
+                */
            }
         }
     }
