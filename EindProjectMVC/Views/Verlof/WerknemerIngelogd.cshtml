@@ -14,25 +14,25 @@
 {
     @Html.Hidden("PersoneelsNr", @Model.PersoneelsNr)
 
-                                                     EindProjectBusinessModels.VerlofAanvraag aanvraag = new EindProjectBusinessModels.VerlofAanvraag();
+    EindProjectBusinessModels.VerlofAanvraag aanvraag = new EindProjectBusinessModels.VerlofAanvraag();
 
-                                                    <div class="form-group">
-                                                        @Html.LabelFor(a => aanvraag.StartDatum, new { @class = "col-sm-2 control-label" })
-                                                        <div class="col-sm-10">
-                                                            @Html.TextBoxFor(a => aanvraag.StartDatum, DateTime.Now.AddDays(15).ToShortDateString())
-                                                            @Html.ValidationMessageFor(a => aanvraag.StartDatum)
-                                                        </div>
-                                                    </div>
+    <div class="form-group">
+        @Html.LabelFor(a => aanvraag.StartDatum, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(a => aanvraag.StartDatum, DateTime.Now.AddDays(15).ToShortDateString())
+            @Html.ValidationMessageFor(a => aanvraag.StartDatum)
+        </div>
+    </div>
 
-                                                    <div class="form-group">
-                                                        @Html.LabelFor(a => aanvraag.EindDatum, new { @class = "col-sm-2 control-label" })
-                                                        <div class="col-sm-10">
-                                                            @Html.TextBoxFor(a => aanvraag.EindDatum, DateTime.Now.AddDays(15).ToShortDateString())
-                                                            @Html.ValidationMessageFor(a => aanvraag.EindDatum)
-                                                        </div>
-                                                    </div>
+    <div class="form-group">
+        @Html.LabelFor(a => aanvraag.EindDatum, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(a => aanvraag.EindDatum, DateTime.Now.AddDays(15).ToShortDateString())
+            @Html.ValidationMessageFor(a => aanvraag.EindDatum)
+        </div>
+    </div>
 
-                                                    <input type="submit" value="Verlof Aanvragen" name="btnSubmit" class="btn btn-default" />
+    <input type="submit" value="Verlof Aanvragen" name="btnSubmit" class="btn btn-default" />
 
 }
 
@@ -53,18 +53,18 @@
 
     int rd = jv.AantalDagen - gv - di;*@
 
-    <h4>Saldo Verlofaanvragen</h4>
-    <div>
-        <table class="sortable table table-striped">
-            <thead>
-                <tr>
+<h4>Saldo Verlofaanvragen</h4>
+<div>
+    <table class="sortable table table-striped">
+        <thead>
+            <tr>
                 <td><b>Jaar</b></td>
-                    <td><b>Jaarlijks Verlof</b></td>
-                    <td><b>Goedgekeurd Verlof</b></td>
-                    <td><b>Dagen ingediend</b></td>
-                    <td><b>Resterende dagen</b></td>
-                </tr>
-            </thead>
+                <td><b>Jaarlijks Verlof</b></td>
+                <td><b>Goedgekeurd Verlof</b></td>
+                <td><b>Dagen ingediend</b></td>
+                <td><b>Resterende dagen</b></td>
+            </tr>
+        </thead>
         @*<tr>
                 <td>@jv.AantalDagen dagen</td>
                 <td>@gv</td>
@@ -73,26 +73,26 @@
             </tr>*@
         @foreach (JaarlijksVerlof item in Model.JaarlijksVerlof)
         {
-            
+
             // hier worden ze per jaar opgevraagd
             int tmprd = new EindProjectDAL.DalMethodes().GebruikteVerlofDagenVoorJaar(Model, item.Jaar);
             int tmpdi = new EindProjectDAL.DalMethodes().GebruikteVerlofDagenVoorJaarIngediend(Model, item.Jaar);
             int tmpgv = new EindProjectDAL.DalMethodes().GebruikteVerlofDagenVoorJaarGoedgekeurd(Model, item.Jaar);
-            
+
 
             <tr>
                 <td>@item.Jaar</td>
                 <td>@item.AantalDagen</td>
                 <td>@tmpgv</td>
                 <td>@tmpdi</td>
-                <td>@(item.AantalDagen-tmpgv)</td>
+                <td>@(item.AantalDagen-tmpdi-tmpgv)</td>
             </tr>
         }
 
 
 
-        </table>
-    </div>
+    </table>
+</div>
 @* } *@
 
 <h4>Overzicht Verlofaanvragen</h4>
