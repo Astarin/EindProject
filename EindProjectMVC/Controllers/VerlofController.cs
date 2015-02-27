@@ -62,8 +62,14 @@ namespace EindProjectMVC.Controllers
                     // ********************************************************************************
 
                     VerlofAanvraag vA = wn.Verlofaanvragen.Find(x => x.Id == aanvraag.Id);
-                    methode.StuurMail(wn, methode.GeefTeamLeader(wn.Team), vA);
-
+                    try
+                    {
+                        methode.StuurMail(wn, methode.GeefTeamLeader(wn.Team), vA);
+                    }
+                    catch (System.Net.Mail.SmtpException nmse)
+                    {
+                        return View("MailError", nmse);
+                    }
                 }
                 catch (Exception exc)
                 {
@@ -109,7 +115,14 @@ namespace EindProjectMVC.Controllers
             // ********************************************************************************
 
             VerlofAanvraag vA = wn.Verlofaanvragen.Find(x => x.Id.ToString() == aanvraagId);
-            methode.StuurMail(wn, methode.GeefTeamLeader(wn.Team), vA);
+            try
+            {
+                methode.StuurMail(wn, methode.GeefTeamLeader(wn.Team), vA);
+            }
+            catch (System.Net.Mail.SmtpException nmse)
+            {
+                return View("MailError", nmse);
+            }
 
             PrepareFilterDatumVeldenInViewBag(txtFilterStartDatum, txtFilterEindDatum);
             PrepareStatusInViewBag(ddlStatus);
