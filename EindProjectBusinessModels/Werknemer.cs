@@ -30,7 +30,7 @@ namespace EindProjectBusinessModels
 
         [Required(ErrorMessage = "Je moet een geboortedatum opgegeven")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Geboortedatum { get; set; }
 
 
@@ -47,7 +47,7 @@ namespace EindProjectBusinessModels
         public string Gemeente { get; set; }
 
         [ScaffoldColumn(false)] // word niet opgevraagd in auto generated creates.
-        //  public Dictionary<int, int> VerlofDagenPerJaar { get; set; }
+        //public Dictionary<int, int> VerlofDagenPerJaar { get; set; }
         public List<JaarlijksVerlof> JaarlijksVerlof { get; set; }
         [Required]
 
@@ -86,6 +86,7 @@ namespace EindProjectBusinessModels
             Verlofaanvragen = new List<VerlofAanvraag>();
             // VerlofDagenPerJaar = new Dictionary<int, int>();
             JaarlijksVerlof = new List<JaarlijksVerlof>();
+            //Geboortedatum = DateTime.Today;
         }
 
         [NotMapped]

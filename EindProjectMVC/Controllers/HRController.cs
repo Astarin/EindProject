@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using EindProjectMVC.Models;
+using System.Data.Entity.Infrastructure;
 
 
 namespace EindProjectMVC.Controllers
@@ -46,23 +47,28 @@ namespace EindProjectMVC.Controllers
                         if (!methode.IsUserNameInGebruik(werknemer.UserName))
                         {
                             methode.VoegWerknemerToeAanDb(werknemer, int.Parse(team));
+                            ViewBag.OkMsg = string.Format("De werkenemer: {0} is succevol aangemaakt", werknemer.Naam);
                         }
                         else
                         {
                             ViewBag.ErrorMsg = "De usernaam bestaat reeds. De nieuwe werknemer is niet toegevoegd. ";
                         }
-
                     }
+                    return View();
+                }
+                catch (DbUpdateException)
+                {
+                    ViewBag.ErrorMsg = "Er is een fout opgetreden de datum is mogelijk niet goed ingevuld.";
+                    //throw; //todo iet met de exc.Message
                 }
                 catch (Exception exc)
                 {
                     ViewBag.ErrorMsg = "Er is een fout opgetreden de bewerking is niet uitgevoerd.";
-                    throw; //todo iet met de exc.Message
+                    //throw; //todo iet met de exc.Message
                 }
-
             }
-
             return View();
+
         }
 
         public ActionResult HrSelecteerWerknemer()
@@ -88,6 +94,7 @@ namespace EindProjectMVC.Controllers
                 //TODO ERROR
             }
             Werknemer werknemer = methode.VraagWerknemerOp(werknemerId.ToString()); // geef de 0 en normaal enige terug
+            
             return View(werknemer);
         }
         [HttpPost]
@@ -100,11 +107,17 @@ namespace EindProjectMVC.Controllers
                 {
                     //Werkt niet werknemer word niet aangepast? Dal Methode OK?
                     methode.WijzigWerknemerProperty(werknemer, int.Parse(team));
+                    ViewBag.OkMsg = string.Format("De werknemer: {0} is aangepast.", werknemer.Naam);
                 }
                 else
                 {
                     ViewBag.ErrorMsg = "Kan {0} geen teamleader maken. Er bestaat reeds een teamleader.";
                 }
+            }
+            catch (DbUpdateException)
+            {
+                ViewBag.ErrorMsg = "Er is een fout opgetreden de datum is mogelijk niet goed ingevuld.";
+                //throw; //todo iet met de exc.Message
             }
             catch (Exception exc)
             {
@@ -230,14 +243,26 @@ namespace EindProjectMVC.Controllers
 
         public ActionResult HRGeefLijstTeams(string code, string teamNaam, string leiderNaam)
         {
-            List<TeamViewModel> viewList = new List<TeamViewModel>();
+            List<TeamViewModel> viewList;
+            if (string.IsNullOrEmpty(code) && string.IsNullOrEmpty(teamNaam) && string.IsNullOrEmpty(leiderNaam))
+            { // geen parameters opgegeven volledige lijst tonen
+                viewList = methode.OpvragenAlleTeamsVolledig();
+
+                return View(viewList);
+            }
+
             if (string.IsNullOrEmpty(code))
             {
                 code = "0";
             }
             viewList = methode.OpvragenTeamsVolledig(int.Parse(code), teamNaam, leiderNaam);
+            if (viewList.Count == 0 && string.IsNullOrEmpty(teamNaam) && string.IsNullOrEmpty(leiderNaam))
+            {
+                viewList = methode.OpvragenTeamsVolledig(0, "", "");
+            }
             return View(viewList);
         }
+
         public ActionResult VerwijderTeam(string teamCode)
         {
             try
@@ -252,18 +277,19 @@ namespace EindProjectMVC.Controllers
                 if (werknemer == null)
                 {
                     methode.VerwijderTeam(team);
-                    ViewBag.OkMsg = string.Format("Het team: {0} is succesvol verwijderd.",team.Naam);
+                    ViewBag.OkMsg = string.Format("Het team: {0} is succesvol verwijderd.", team.Naam);
+                }
+                else
+                {
+                    ViewBag.ErrorMsg = string.Format("Er is geen team verwijderd, het team heeft nog een teamleider.", teamCode);
                 }
             }
-            catch (TeamHeeftWerknemerException exc)
+            catch(TeamHeeftWerknemerException)
             {
-                ViewBag.ErrorMsg = "Team is niet verwijderd: " + exc.Message;
+                ViewBag.ErrorMsg = string.Format("Team is niet verwijderd: Er zijn nog werknemers toegewezen aan het team");
             }
-
             return View("HrGeefLijstTeams");
         }
-
-
 
         private void NieuweTeamslijstAanmaken()
         {
