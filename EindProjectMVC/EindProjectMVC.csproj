@@ -259,6 +259,7 @@
     <Content Include="Views\Shared\_HrDropdownMenu.cshtml" />
     <Content Include="Views\HR\HRGeefLijstTeams.cshtml" />
     <Content Include="Views\Shared\MailError.cshtml" />
+    <Content Include="Views\HR\HrGeefLijstVerlofaanvragen.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

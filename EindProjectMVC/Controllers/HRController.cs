@@ -252,7 +252,7 @@ namespace EindProjectMVC.Controllers
                 if (werknemer == null)
                 {
                     methode.VerwijderTeam(team);
-                    ViewBag.OkMsg = string.Format("Het team: {0} is succesvol verwijderd.",team.Naam);
+                    ViewBag.OkMsg = string.Format("Het team: {0} is succesvol verwijderd.", team.Naam);
                 }
             }
             catch (TeamHeeftWerknemerException exc)
@@ -301,6 +301,88 @@ namespace EindProjectMVC.Controllers
             }
         }
 
+        public ActionResult HrGeefLijstVerlofaanvragen(int? ddlWerknemers, String btnSubmit, String txtStartDatum, String txtEindDatum)
+        {
+            String ErrorMsg = "";
+            DalMethodes dal = new DalMethodes();
+            List<Werknemer> werknemers = new List<Werknemer>();
+            DateTime startDt;
+            DateTime EindDt;
+            if (ddlWerknemers == null)
+            {
+                ViewBag.ddlWerknemer = String.Empty;
+            }
+            else
+            {
+                ViewBag.ddlWerknemer = dal.VraagWerknemerOp(ddlWerknemers.ToString());
+            }
+            if (String.IsNullOrEmpty(txtStartDatum))
+            {
+                // geen startdatum opgegeven - niets in het veld ingegeven
+                startDt = DateTime.MinValue;
+            }
+            else if (!DateTime.TryParse(txtStartDatum, out startDt))
+            {
+                ErrorMsg = "Geef een geldige startdatum in of maak het veld leeg." + Environment.NewLine;
+            }
+            // ofwel is ErrorMsg ingevuld, ofwel bevat startdate een geldige datum.
+            if (String.IsNullOrEmpty(txtEindDatum))
+            {
+                // geen startdatum opgegeven - niets in het veld ingegeven
+                EindDt = DateTime.MaxValue;
+            }
+            else if (!DateTime.TryParse(txtEindDatum, out EindDt))
+            {
+                ErrorMsg = "Geef een geldige eindDatum in of maak het veld leeg." + Environment.NewLine;
+            }
+            // ofwel is ErrorMsg ingevuld, ofwel bevat startdate een geldige datum.
+            if (String.IsNullOrEmpty(ErrorMsg))
+            {
+                werknemers = dal.VraagAlleWerknemersOp();
 
+                var qry = from w in werknemers
+                          select new SelectListItem
+                          {
+                              Text = String.Format("{0} {1} {2}", w.PersoneelsNr.ToString(), w.Naam, w.Voornaam),
+                              Value = w.PersoneelsNr.ToString()
+                          };
+                VulBehandeldDoorVelden(werknemers);
+                ViewBag.ddlWerknemers = qry.ToList();
+            }
+
+            //List<String> GeldigeStatussen = new List<string>();
+            //if (String.IsNullOrEmpty(ddlWerknemers))
+            //{
+            //    GeldigeStatussen = dal.GeefListAanvraagstatus();
+            //}
+            //else
+            //{
+            //    GeldigeStatussen.Add(ddlWerknemers);
+            //}
+            //ViewBag.Status = GeldigeStatussen;
+            ViewBag.StartDatum = startDt;
+            ViewBag.EindDatum = EindDt;
+            Session["werknemer"] = werknemers;
+            return View();
+        }
+
+        private void VulBehandeldDoorVelden(List<Werknemer> werknemers)
+        {
+            // ********************************************************************************
+            // TO DO invullen van BehandeldDoor moet in de methode VraagWerknemerOp gebeuren !
+            using (DbEindproject db = new DbEindproject())
+            {
+                foreach (Werknemer w in werknemers)
+                {
+                    foreach (VerlofAanvraag item in w.Verlofaanvragen)
+                    {
+                        item.BehandeldDoor = (from aanvraag in db.Verlofaanvragen
+                                              where aanvraag.Id == item.Id
+                                              select aanvraag.BehandeldDoor).FirstOrDefault();
+                    }
+                }
+            }
+            // ********************************************************************************
+        }
     }
 }

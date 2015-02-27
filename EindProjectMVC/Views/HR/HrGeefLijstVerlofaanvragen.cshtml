@@ -1,0 +1,85 @@
+﻿@model EindProjectBusinessModels.Werknemer
+@using EindProjectBusinessModels
+
+@{
+    ViewBag.Title = "Lijst Verlofaanvragen alle werknemers";
+}
+
+@Html.Partial("_TitelEnError")
+@Html.AntiForgeryToken()
+<table class="table">
+    <tr>
+        <th>
+            @Html.Label("Aanvrager")
+        </th>
+        <th>
+            @Html.Label("StartDatum")
+        </th>
+        <th>
+            @Html.Label("EindDatum")
+        </th>
+        <th>
+            @Html.Label("AanvraagDatum")
+        </th>
+        <th>
+            @Html.Label("Toestand")
+        </th>
+        <th>
+            @Html.Label("Behandeld op")
+        </th>
+        <th>
+            @Html.Label("Behandeld door")
+        </th>
+    </tr>
+    <tr>
+        @using(@Html.BeginForm())
+        {
+            <td></td>
+            <td>@Html.TextBox("txtStartDatum")</td>
+            <td>@Html.TextBox("txtEindDatum")</td>
+            <td></td>
+            <td>@Html.DropDownList("ddlWerknemers")</td>
+            <td></td>
+            <td><input type="submit" value="Filter toepassen" name="btnSubmit" class="btn btn-default" /></td>
+        }
+    </tr>
+    @foreach (Werknemer item in (List<Werknemer>)Session["werknemer"])
+    {
+        foreach (VerlofAanvraag v in item.Verlofaanvragen)
+        {
+            if (v.StartDatum >= (DateTime)@ViewBag.StartDatum && v.EindDatum <= (DateTime)@ViewBag.EindDatum)
+            {
+                String wn = @ViewBag.ddlWerknemer;
+                Werknemer w = ((Werknemer)@ViewBag.ddlWerknemer);
+                if (wn == String.Empty || w.VolledigeNaam == item.VolledigeNaam)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Naam)
+                            @Html.DisplayFor(modelItem => item.Voornaam)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => v.StartDatum)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => v.EindDatum)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => v.AanvraagDatum)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => v.Toestand)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => v.BehandelDatum)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => v.BehandeldDoor.Naam)
+                            @Html.DisplayFor(modelItem => v.BehandeldDoor.Voornaam)
+                        </td>
+                    </tr>
+                }
+           }
+        }
+    }
+</table>
