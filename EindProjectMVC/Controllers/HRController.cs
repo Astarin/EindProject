@@ -161,8 +161,7 @@ namespace EindProjectMVC.Controllers
                 }
                 catch (Exception e)
                 {
-                    ViewBag.ErrorMsg = "Er is een fout opgetreden.";
-                    ViewBag.Error = e.Message; // mag dit weg?
+                    ViewBag.ErrorMsg = e.Message;
                 }
             }
 

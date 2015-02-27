@@ -39,6 +39,14 @@ namespace EindProjectMVC.Controllers
 
             Werknemer wn = (Werknemer)Session["currentUser"];
 
+            wn = methode.VraagWerknemerOp(wn.PersoneelsNr.ToString());
+
+            // De werknemer heeft de gewijzigde toestanden van zijn verlofaanvragen gezien
+            foreach (VerlofAanvraag item in wn.Verlofaanvragen)
+            {
+                methode.SetGelezen(item, true);
+            }
+
             if (btnSubmit != null && btnSubmit == "Verlof Aanvragen")
             {
                 try
@@ -75,12 +83,6 @@ namespace EindProjectMVC.Controllers
                 {
                     ViewBag.Error = exc.Message;
                 }
-            }
-
-            // De werknemer heeft de gewijzigde toestanden van zijn verlofaanvragen gezien
-            foreach (VerlofAanvraag item in ((Werknemer)Session["currentUser"]).Verlofaanvragen)
-            {
-                methode.SetGelezen(item, true);
             }
 
             PrepareFilterDatumVeldenInViewBag(txtFilterStartDatum, txtFilterEindDatum);
