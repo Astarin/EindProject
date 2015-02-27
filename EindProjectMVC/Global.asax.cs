@@ -43,7 +43,7 @@ namespace EindProjectMVC
                 string.Empty,
                 null,
                 Cache.NoAbsoluteExpiration,
-                TimeSpan.FromMinutes(15),
+                TimeSpan.FromMinutes(3),
                 CacheItemPriority.NotRemovable,
                 new CacheItemRemovedCallback(CheckVerlofAanvragen));
         }

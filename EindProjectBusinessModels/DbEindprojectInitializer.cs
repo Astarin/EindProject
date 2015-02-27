@@ -610,8 +610,10 @@ namespace EindProjectBusinessModels
             // StartDatum = new DateTime(2015, 08, 12),
             // EindDatum = new DateTime(2015, 08, 19),
             // Toestand = Aanvraagstatus.Ingediend
-            smurf8.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 02), new DateTime(2015, 02, 25), new DateTime(2015, 02, 13), Aanvraagstatus.Ingediend, null, null ));
-            smurf16.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 02), new DateTime(2015, 02, 26), new DateTime(2015, 02, 13), Aanvraagstatus.Ingediend, null, null));
+            smurf8.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 02), new DateTime(2015, 02, 27), new DateTime(2015, 02, 27), Aanvraagstatus.Ingediend, null, null ));
+            smurf8.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 02), new DateTime(2015, 03, 03), new DateTime(2015, 03, 03), Aanvraagstatus.Ingediend, null, null));
+            smurf8.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 02), new DateTime(2015, 03, 06), new DateTime(2015, 03, 06), Aanvraagstatus.Ingediend, null, null));
+            smurf16.Verlofaanvragen.Add(MaakVerlofAanvraag(new DateTime(2015, 02, 02), new DateTime(2015, 03, 02), new DateTime(2015, 03, 06), Aanvraagstatus.Ingediend, null, null));
 
             db.SaveChanges();
 
