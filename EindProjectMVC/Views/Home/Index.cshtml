@@ -21,7 +21,8 @@
 
 <div class="row">
 
-    @{
+    @* Boodschap als aanvragen van status gewijzigd zijn (mag weg, er wordt een mail gestuurd *@
+    @*@{
         bool tmpbool = false;
         foreach (EindProjectBusinessModels.VerlofAanvraag va in Model.Verlofaanvragen)
         {
@@ -42,7 +43,7 @@
             </div>
         }
 
-    }
+    }*@
 
 
     @if (Model.IsHr)

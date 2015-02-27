@@ -307,6 +307,19 @@ namespace EindProjectDAL
          *****************************
          * David 15/02/15            *
         *****************************/
+         public List<TeamViewModel> OpvragenAlleTeamsVolledig()
+        {
+            using (DbEindproject db = new DbEindproject())
+            {
+                 List<TeamViewModel> teamlijst = new List<TeamViewModel>();
+                teamlijst = (from t in db.Teams
+                                 orderby t.Naam
+                                 select new TeamViewModel{Team= t}).ToList<TeamViewModel>();
+                teamlijst = VulTeamViewModel(teamlijst);
+                return teamlijst;
+            }
+        }
+
         public List<TeamViewModel> OpvragenTeamsVolledig(int code, string teamnaam, string teamleader)
         {
             using (DbEindproject db = new DbEindproject())
@@ -338,7 +351,7 @@ namespace EindProjectDAL
 
                     if (!string.IsNullOrEmpty(teamleader)) // als er een teamleader is opgegeven word hierop verder gefilterd
                     {
-                        if (teamlijst.Count ==0)
+                        if (teamlijst.Count == 0)
                         {
                             foreach (Team team in OpvragenAlleTeams())
                             {
@@ -347,6 +360,7 @@ namespace EindProjectDAL
                             teamlijst = VulTeamViewModel(teamlijst);
                            
                         }
+                        teamlijst = VulTeamViewModel(teamlijst);
                         teamlijst = (from lst in teamlijst
                                      where lst.Werknemer.Naam.ToUpper().Contains(teamleader.ToUpper())
                                      orderby lst.Werknemer.Naam
@@ -360,9 +374,15 @@ namespace EindProjectDAL
         }
         private List<TeamViewModel> VulTeamViewModel(List<TeamViewModel> teamlijst)
         {
+            Werknemer tmpwerkn;
             foreach (TeamViewModel team in teamlijst)
             {
-                team.Werknemer = GeefTeamLeader(team.Team);
+                tmpwerkn = GeefTeamLeader(team.Team);
+                if (tmpwerkn == null)
+                {
+                    tmpwerkn = new Werknemer{Naam=""};
+                }
+                team.Werknemer = tmpwerkn;
             }
             return teamlijst;
         }

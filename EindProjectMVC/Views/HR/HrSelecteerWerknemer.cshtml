@@ -77,10 +77,10 @@
                             @Html.DisplayFor(modelItem => werkn.Postcode)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => werkn.Verlofaanvragen.Count);
+                            @Html.DisplayFor(modelItem => werkn.Verlofaanvragen.Count)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => werkn.JaarlijksVerlof.Where(x => x.Jaar == DateTime.Now.Year).FirstOrDefault().AantalDagen);
+                            @Html.DisplayFor(modelItem => werkn.JaarlijksVerlof.Where(x => x.Jaar == DateTime.Now.Year).FirstOrDefault().AantalDagen)
                         </td>
                     </tr>
                 }
